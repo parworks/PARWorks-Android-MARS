@@ -17,12 +17,12 @@ import com.parworks.mars.utils.User;
 public class TemporarySiteSyncMethods {
 	private static final String TAG = TemporarySiteSyncMethods.class.getName();
 	
-	private static void syncSite(final ARSite site, Context context) {
+	private static void syncSite(final ARSite site, final Context context) {
 		ARListener<SiteInfo> getSiteInfoListener = new ARListener<SiteInfo>() {
 
 			@Override
 			public void handleResponse(SiteInfo info) {
-				SitesContentHelper helper = new SitesContentHelper(Mars.getAppContext());
+				SitesContentHelper helper = new SitesContentHelper(context);
 				helper.storeSite(site.getSiteId(), info);
 				
 			}

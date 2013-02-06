@@ -12,6 +12,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -25,10 +26,10 @@ public class SitesContentProvider extends ContentProvider {
 	private static final int SITES = 10;
 	private static final int SITES_ID = 20;
 	
-	private static final String AUTHORITY = "com.parworks.mars.contentprovider";
+	private static final String AUTHORITY = "com.parworks.mars.model.providers.SitesContentProvider";
 	
 	private static final String BASE_PATH = "sites";
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+	public static final Uri ALL_SITES_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "sites";
 	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
@@ -39,7 +40,7 @@ public class SitesContentProvider extends ContentProvider {
 	
 	static {
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH, SITES);
-		sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", SITES_ID);
+		sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/*", SITES_ID);
 	}
 
 	@Override
@@ -81,9 +82,6 @@ public class SitesContentProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 		Log.d(TAG,"Insert in contentProvider");
 		Set<String> keys = values.keySet();
-		for(String s : keys) {
-			Log.d(TAG, "Insert: key: " + s + " value: " + values.getAsString(s));
-		}
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase sqlDB = database.getWritableDatabase();
 		int rowsDeleted = 0;
@@ -91,8 +89,13 @@ public class SitesContentProvider extends ContentProvider {
 		switch (uriType) {
 		case SITES:
 			Log.d(TAG,"CASE OVERLAYS");
-			id = sqlDB.insert(SiteInfoTable.TABLE_SITES, null, values);
-			Log.d(TAG,"The id after inserting was: " + id);
+			try {
+				id = sqlDB.insertOrThrow(SiteInfoTable.TABLE_SITES, null, values);
+				Log.d(TAG,"Inserted site: " + values.getAsString("siteId"));
+			} catch(SQLiteConstraintException exception) {
+				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
+			}
+			
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -111,21 +114,19 @@ public class SitesContentProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
 			String sortOrder) {
-		Log.d(TAG, "query:" + selection);
-		for(int i=0;i<projection.length;++i) {
-			Log.d(TAG, "query: projection: " + projection[i]);
-		}
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		checkColumns(projection);
 		queryBuilder.setTables(SiteInfoTable.TABLE_SITES);
 		  int uriType = sURIMatcher.match(uri);
 		    switch (uriType) {
 		    case SITES:
+		      Log.d(TAG, "Query was SITES: this is unimplemented");
 		      break;
 		    case SITES_ID:
+		    	Log.d(TAG, "Query was SITES_ID with id: " + uri.getLastPathSegment());
 		      // Adding the ID to the original query
 		      queryBuilder.appendWhere(SiteInfoTable.COLUMN_SITE_ID + "="
-		          + uri.getLastPathSegment());
+		          + "'"+ uri.getLastPathSegment() +"'");
 		      break;
 		    default:
 		      throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -136,8 +137,12 @@ public class SitesContentProvider extends ContentProvider {
 		        selectionArgs, null, null, sortOrder);
 		    // Make sure that potential listeners are getting notified
 		    cursor.setNotificationUri(getContext().getContentResolver(), uri);
-
+		    cursor.moveToFirst();
 		    return cursor;
+	}
+	
+	public static Uri getSiteUri(String siteId) {
+		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH + "/" + siteId);
 	}
 
 	@Override
