@@ -37,6 +37,8 @@ public class SitesSyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
 		
+		TemporarySiteSyncMethods.syncUserSites(mContext);
+		
 	}
 	
 
