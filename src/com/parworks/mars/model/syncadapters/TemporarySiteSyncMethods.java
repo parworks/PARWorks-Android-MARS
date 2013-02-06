@@ -17,7 +17,7 @@ import com.parworks.mars.utils.User;
 public class TemporarySiteSyncMethods {
 	private static final String TAG = TemporarySiteSyncMethods.class.getName();
 	
-	public static void syncSite(final ARSite site, Context context) {
+	private static void syncSite(final ARSite site, Context context) {
 		ARListener<SiteInfo> getSiteInfoListener = new ARListener<SiteInfo>() {
 
 			@Override
