@@ -31,7 +31,7 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_explore);
-		TemporarySiteSyncMethods.syncUserSites(this);
+	//	TemporarySiteSyncMethods.syncUserSites(this);
 		
 		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
 		
