@@ -20,7 +20,9 @@ import android.widget.TextView;
 
 public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>{
 	
-	private String mSiteId = "FirstSiteLatLon";
+	private String mSiteId;
+	
+	public static final String SITE_ID_ARGUMENT_KEY = "siteIdKey";
 	
 	public static final String TAG = ExploreActivity.class.getName();
 	
@@ -31,13 +33,15 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 		setContentView(R.layout.activity_explore);
 		TemporarySiteSyncMethods.syncUserSites(this);
 		
+		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
+		
 		getLoaderManager().initLoader(0, null, this);
 		
 		ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
 		ImageLoader imageLoader = new ImageLoader(this);
 		
-		String url = "http://www.thefaeriesandangelsmagazine.com/resources/VEN-virtual-enterprise-network-business-opportunities-small-fish_id799929_size485.jpg?timestamp=1267988673507";
-		imageLoader.DisplayImage(url, this, mapView);
+		//String url = "http://lstat.kuleuven.be/research/lsd/lsd2006/auditorium_small.jpg";
+	//	imageLoader.DisplayImage(url, this, mapView);
 	}
 	
 	
@@ -71,6 +75,9 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 		String siteName = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_NAME));
 		TextView nameTextView = (TextView) findViewById(R.id.textViewSiteName);
 		nameTextView.setText(siteName);
+		String siteDesc = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_DESC));
+		TextView addressTextView = (TextView) findViewById(R.id.textViewSiteAddress);
+		addressTextView.setText(siteDesc);
 	}
 
 }
