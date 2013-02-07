@@ -4,6 +4,7 @@ import com.parworks.mars.R;
 import com.parworks.mars.model.databasetables.SiteInfoTable;
 import com.parworks.mars.model.providers.SitesContentProvider;
 import com.parworks.mars.model.syncadapters.TemporarySiteSyncMethods;
+import com.parworks.mars.staticmaps.utils.ImageLoader;
 import com.parworks.mars.utils.User;
 
 import android.app.Activity;
@@ -31,6 +32,12 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 		TemporarySiteSyncMethods.syncUserSites(this);
 		
 		getLoaderManager().initLoader(0, null, this);
+		
+		ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
+		ImageLoader imageLoader = new ImageLoader(this);
+		
+		String url = "http://www.thefaeriesandangelsmagazine.com/resources/VEN-virtual-enterprise-network-business-opportunities-small-fish_id799929_size485.jpg?timestamp=1267988673507";
+		imageLoader.DisplayImage(url, this, mapView);
 	}
 	
 	
