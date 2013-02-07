@@ -21,12 +21,12 @@
         android:theme="@style/AppTheme" >
         
         <activity
-            android:name="com.parworks.mars.view.exploreactivity.ExploreActivity"
+            android:name="com.parworks.mars.view.siteexplorer.ExploreActivity"
             android:label="@string/app_name" >
         </activity>
         
         <activity
-            android:name="com.parworks.mars.view.exploreactivity.TestActivity"
+            android:name="com.parworks.mars.view.siteexplorer.TestActivity"
             android:label="@string/app_name" >
         </activity>
         
@@ -39,9 +39,15 @@
             </intent-filter>
         </activity>
 
-        <provider 
-            android:authorities="com.parworks.mars.model.providers.SitesContentProvider"
-            android:name="com.parworks.mars.model.providers.SitesContentProvider"
+        <provider             
+            android:name="com.parworks.mars.model.provider.SitesContentProvider"
+            android:authorities="com.parworks.mars.model.provider.sites"
+            android:exported="false" >
+        </provider>
+                
+        <provider
+            android:name="com.parworks.mars.model.provider.TrendingSitesContentProvider"
+            android:authorities="com.parworks.mars.model.provider.trending"
             android:exported="false" >
         </provider>
 
@@ -56,8 +62,9 @@
                 android:resource="@xml/authenticator" >
             </meta-data>
         </service>
+        
         <service
-            android:name="com.parworks.mars.model.syncadapters.MarsSyncAdapterService"
+            android:name="com.parworks.mars.model.sync.SiteSyncAdapterService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -67,12 +74,6 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-
-        <provider
-            android:name="com.parworks.mars.model.providers.TrendingSitesContentProvider"
-            android:authorities="com.parworks.mars.provider.trending" >
-        </provider>
         
     </application>
-
 </manifest>

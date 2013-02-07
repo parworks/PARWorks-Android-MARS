@@ -1,4 +1,4 @@
-package com.parworks.mars.model.databasetables;
+package com.parworks.mars.model.db;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;

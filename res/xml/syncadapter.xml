@@ -1,6 +1,8 @@
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.parworks.mars.contentprovider"
+    android:contentAuthority="com.parworks.mars.model.provider.sites"
     android:accountType="com.parworks.mars.account"  
-    android:userVisible="true"  
+    android:userVisible="true"
     android:supportsUploading="true"
+    android:allowParallelSyncs="true"
+    android:isAlwaysSyncable="true"
 />

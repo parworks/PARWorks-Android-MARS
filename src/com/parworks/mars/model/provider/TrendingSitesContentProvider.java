@@ -1,4 +1,4 @@
-package com.parworks.mars.model.providers;
+package com.parworks.mars.model.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-import com.parworks.mars.model.databasetables.DatabaseHelper;
-import com.parworks.mars.model.databasetables.TrendingSitesTable;
+import com.parworks.mars.model.db.DatabaseHelper;
+import com.parworks.mars.model.db.TrendingSitesTable;
 
 public class TrendingSitesContentProvider extends ContentProvider {
 
@@ -19,7 +19,7 @@ public class TrendingSitesContentProvider extends ContentProvider {
 
 	private DatabaseHelper dbHelper;
 
-	public static final String AUTHORITY = "com.parworks.mars.provider.trending";	
+	public static final String AUTHORITY = "com.parworks.mars.model.provider.trending";	
 	private static final String BASE_PATH = "trending";
 
 	private static final int TRENDING_SITES = 30;

@@ -1,4 +1,4 @@
-package com.parworks.mars.model.syncadapters;
+package com.parworks.mars.model.sync;
 
 import java.util.List;
 
@@ -18,18 +18,19 @@ import android.util.Log;
 
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.androidlibrary.response.SiteInfoOverview;
-import com.parworks.mars.model.databasetables.TrendingSitesTable;
-import com.parworks.mars.model.providers.TrendingSitesContentProvider;
+import com.parworks.mars.model.db.TrendingSitesTable;
+import com.parworks.mars.model.provider.SitesContentProvider;
+import com.parworks.mars.model.provider.TrendingSitesContentProvider;
 import com.parworks.mars.utils.User;
 
-public class MarsSyncAdapterService extends Service {
+public class SiteSyncAdapterService extends Service {
 
 	private static final String TAG = "MarsSyncAdapterService";
 
 	private static SyncAdapterImpl sSyncAdapter = null;
 	private static ContentResolver mContentResolver = null;
 
-	public MarsSyncAdapterService() {
+	public SiteSyncAdapterService() {
 		super();
 	}
 
@@ -44,7 +45,7 @@ public class MarsSyncAdapterService extends Service {
 		@Override
 		public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 			try {
-				MarsSyncAdapterService.performSync(mContext, account, extras, authority, provider, syncResult);
+				SiteSyncAdapterService.performSync(mContext, account, extras, authority, provider, syncResult);
 			} catch (OperationCanceledException e) {
 			}
 		}
@@ -65,8 +66,8 @@ public class MarsSyncAdapterService extends Service {
 
 	private static void performSync(Context context, Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult)
 			throws OperationCanceledException {
+		Log.i(TAG, "performSync: " + account.toString());
 		mContentResolver = context.getContentResolver();
-		
 
 		//		List<SiteInfoOverview> trendingSites = User.getARSites().getTrendingSites();
 		//		for(SiteInfoOverview site: trendingSites) {
@@ -78,12 +79,14 @@ public class MarsSyncAdapterService extends Service {
 
 		String siteId = extras.getString("siteId");
 		if (siteId != null) {
-			Log.i(TAG, "performSync: " + account.toString());
+			
 			Log.i(TAG, "performSync: " + authority + ", " + provider + ", " + syncResult);
 			SiteInfo site = User.getARSites().getExisting(siteId).getSiteInfo();
 			ContentValues cv = new ContentValues();
 			cv.put(TrendingSitesTable.COLUMN_SITE_ID, site.getId());
 			cv.put(TrendingSitesTable.COLUMN_DESC, site.getDescription());		
+			//context.getContentResolver().insert(SitesContentProvider..CONTENT_URI, cv);
+			context.getContentResolver().insert(SitesContentProvider.ALL_SITES_CONTENT_URI, cv);
 			context.getContentResolver().insert(TrendingSitesContentProvider.CONTENT_URI, cv);
 		}
 	}

@@ -1,4 +1,4 @@
-package com.parworks.mars.model.syncadapters;
+package com.parworks.mars.model.sync;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.parworks.androidlibrary.ar.ARSite;
 import com.parworks.androidlibrary.ar.ARSites;
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.Mars;
-import com.parworks.mars.model.providers.SitesContentHelper;
+import com.parworks.mars.model.provider.SitesContentHelper;
 import com.parworks.mars.utils.User;
 
 public class TemporarySiteSyncMethods {

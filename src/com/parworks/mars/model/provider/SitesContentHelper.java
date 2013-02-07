@@ -1,10 +1,10 @@
-package com.parworks.mars.model.providers;
+package com.parworks.mars.model.provider;
 
 import android.content.ContentValues;
 import android.content.Context;
 
 import com.parworks.androidlibrary.response.SiteInfo;
-import com.parworks.mars.model.databasetables.SiteInfoTable;
+import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.utils.SiteTags;
 
 public class SitesContentHelper {

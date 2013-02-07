@@ -1,8 +1,8 @@
-package com.parworks.mars.model.providers;
+package com.parworks.mars.model.provider;
 
 import android.content.ContentProvider;
 
-import com.parworks.mars.model.databasetables.DatabaseHelper;
+import com.parworks.mars.model.db.DatabaseHelper;
 
 public abstract class AbstractMarsContentProvider extends ContentProvider {
 	

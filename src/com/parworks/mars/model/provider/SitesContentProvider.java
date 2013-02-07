@@ -1,11 +1,11 @@
-package com.parworks.mars.model.providers;
+package com.parworks.mars.model.provider;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.parworks.mars.model.databasetables.DatabaseHelper;
-import com.parworks.mars.model.databasetables.SiteInfoTable;
+import com.parworks.mars.model.db.DatabaseHelper;
+import com.parworks.mars.model.db.SiteInfoTable;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -26,7 +26,7 @@ public class SitesContentProvider extends ContentProvider {
 	private static final int SITES = 10;
 	private static final int SITES_ID = 20;
 	
-	private static final String AUTHORITY = "com.parworks.mars.model.providers.SitesContentProvider";
+	public static final String AUTHORITY = "com.parworks.mars.model.provider.sites";
 	
 	private static final String BASE_PATH = "sites";
 	public static final Uri ALL_SITES_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
@@ -83,7 +83,6 @@ public class SitesContentProvider extends ContentProvider {
 		Log.d(TAG,"Insert in contentProvider");
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase sqlDB = database.getWritableDatabase();
-		int rowsDeleted = 0;
 		long id = 0;
 		switch (uriType) {
 		case SITES:

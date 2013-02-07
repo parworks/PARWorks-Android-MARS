@@ -1,10 +1,9 @@
 package com.parworks.mars;
 
-import com.parworks.mars.account.MarsAccountHelper;
-import com.parworks.mars.cache.BitmapCache;
-
 import android.app.Application;
 import android.content.Context;
+
+import com.parworks.mars.model.sync.SyncHelper;
 
 /**
  * The entry point of the app
@@ -21,7 +20,7 @@ public class Mars extends Application {
 		mApplicationContext = this;
 		
 		// initialize the account 
-		MarsAccountHelper.initAppAccount(this.getApplicationContext());
+		SyncHelper.initAppAccount(this.getApplicationContext());
 		
 		// initialize the db
 		

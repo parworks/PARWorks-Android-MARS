@@ -11,6 +11,13 @@ import android.os.Bundle;
 
 import com.parworks.mars.Test;
 
+/**
+ * This authenticator is not currently used, but 
+ * it must be kept to bind the account service 
+ * with Android.
+ * 
+ * @author yusun
+ */
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
 	private Context mContext;
@@ -23,13 +30,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	@Override
 	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, 
 			String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-System.out.println("GOD EXEC");
+
 		final Bundle result;  
 		final Intent intent;  
 
 		intent = new Intent(this.mContext, Test.class);
-		//intent.setAction("com.example.testaccountmanager.LOGIN");
-		//intent.putExtra(Constants.AUTHTOKEN_TYPE, authTokenType);  
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);  
 
 		result = new Bundle();  

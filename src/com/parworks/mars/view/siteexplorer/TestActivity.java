@@ -1,4 +1,4 @@
-package com.parworks.mars.view.exploreactivity;
+package com.parworks.mars.view.siteexplorer;
 
 import android.app.Activity;
 import android.content.Intent;

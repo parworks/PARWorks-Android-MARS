@@ -1,24 +1,23 @@
-package com.parworks.mars.view.exploreactivity;
+package com.parworks.mars.view.siteexplorer;
 
-import com.parworks.mars.R;
-import com.parworks.mars.model.databasetables.SiteInfoTable;
-import com.parworks.mars.model.providers.SitesContentProvider;
-import com.parworks.mars.model.syncadapters.TemporarySiteSyncMethods;
-import com.parworks.mars.staticmaps.utils.ImageLoader;
-import com.parworks.mars.utils.User;
 
-import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>{
+import com.parworks.mars.R;
+import com.parworks.mars.model.db.SiteInfoTable;
+import com.parworks.mars.model.provider.SitesContentProvider;
+import com.parworks.mars.model.sync.SyncHelper;
+import com.parworks.mars.utils.ImageLoader;
+
+public class ExploreActivity extends FragmentActivity implements LoaderCallbacks<Cursor>{
 	
 	private String mSiteId;
 	
@@ -35,7 +34,10 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 		
 		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
 		
-		getLoaderManager().initLoader(0, null, this);
+		// sync the site
+		SyncHelper.syncSite(mSiteId);
+		
+		getSupportLoaderManager().initLoader(0, null, this);
 		
 		ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
 		ImageLoader imageLoader = new ImageLoader(this);
@@ -57,15 +59,12 @@ public class ExploreActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(TAG,"onLoadFinished");
-		loadDataIntoUi(data);
-		
-		
+		loadDataIntoUi(data);		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(TAG,"onLoaderReset");
-		
+		Log.d(TAG,"onLoaderReset");		
 	}
 	
 	private void loadDataIntoUi(Cursor data) {

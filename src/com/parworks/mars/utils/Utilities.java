@@ -1,4 +1,4 @@
-package com.parworks.mars.staticmaps.utils;
+package com.parworks.mars.utils;
 
 import java.io.File;
 

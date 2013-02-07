@@ -1,5 +1,6 @@
 package com.parworks.mars;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,9 +14,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.parworks.mars.account.MarsAccountHelper;
-import com.parworks.mars.model.databasetables.TrendingSitesTable;
-import com.parworks.mars.model.providers.TrendingSitesContentProvider;
+import com.parworks.mars.model.db.TrendingSitesTable;
+import com.parworks.mars.model.provider.TrendingSitesContentProvider;
+import com.parworks.mars.model.sync.SyncHelper;
+import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 public class Test extends FragmentActivity implements
 LoaderManager.LoaderCallbacks<Cursor> {
@@ -32,12 +34,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		b1.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
-				MarsAccountHelper.sync("OptioLabs");
-//				ContentValues cv = new ContentValues();
-//				cv.put(TrendingSitesTable.COLUMN_SITE_ID, UUID.randomUUID().toString());
-//				cv.put(TrendingSitesTable.COLUMN_DESC, "test");
-//
-//				getContentResolver().insert(TrendingSitesContentProvider.CONTENT_URI, cv);
+				SyncHelper.syncSite("OptioLabs");
 			}
 		});
 
@@ -59,6 +56,10 @@ LoaderManager.LoaderCallbacks<Cursor> {
 					// Always close the cursor		
 					cursor.close();
 				}
+				
+				Intent i = new Intent(Test.this, ExploreActivity.class);
+				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "OptioLabs");
+				startActivity(i);
 			}				
 		});
 
