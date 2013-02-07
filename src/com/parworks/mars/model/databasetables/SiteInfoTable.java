@@ -52,6 +52,7 @@ public class SiteInfoTable {
 	protected static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE);
 	}
+	
 	protected static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 	    Log.w(SiteInfoTable.class.getName(), "Upgrading database from version "
 	            + oldVersion + " to " + newVersion
@@ -59,5 +60,4 @@ public class SiteInfoTable {
 	        database.execSQL("DROP TABLE IF EXISTS " + TABLE_SITES);
 	        onCreate(database);
 	}
-
 }

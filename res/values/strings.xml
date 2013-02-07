@@ -1,5 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PARWorks-Android-MARS</string>
+    <string name="app_name">MARS</string>
+    <string name="menu_trending">Trending</string>
+    <string name="menu_nearby">Nearby</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_technology">Technology</string>
+
+    <!-- Test -->
+    <string name="viewpager">ViewPager</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_site">SiteActivity</string>
 
 </resources>

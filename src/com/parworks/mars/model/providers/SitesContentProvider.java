@@ -81,7 +81,6 @@ public class SitesContentProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		Log.d(TAG,"Insert in contentProvider");
-		Set<String> keys = values.keySet();
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase sqlDB = database.getWritableDatabase();
 		int rowsDeleted = 0;
