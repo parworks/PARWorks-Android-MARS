@@ -3,8 +3,6 @@ package com.parworks.mars.view.siteexplorer;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -14,11 +12,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parworks.mars.R;
+import com.parworks.mars.cache.BitmapCache;
+import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.model.sync.SyncHelper;
@@ -48,26 +47,26 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 		getSupportLoaderManager().initLoader(0, null, this);
 		
 		ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
-		ImageLoader imageLoader = new ImageLoader(this);
+		//ImageLoader imageLoader = new ImageLoader(this);
 		
 		//String url = "http://lstat.kuleuven.be/research/lsd/lsd2006/auditorium_small.jpg";
 	//	imageLoader.DisplayImage(url, this, mapView);
 		
-		final ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
+		//final ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
 //		siteImageView.setScaleType(ScaleType.MATRIX);
-		BaseImageRetreiver baseImageRetreiver = new BaseImageRetreiver(this);
-		
-		int screenWidth = getDesiredImageViewWidth();
-		baseImageRetreiver.setImageViewToBaseImage(mSiteId, siteImageView, this,screenWidth, new ImageLoaderListener() {
-
-			@Override
-			public void imageLoaded() {
-				siteImageView.setVisibility(View.VISIBLE);
-				((ProgressBar)findViewById(R.id.progressBarSiteImage)).setVisibility(View.INVISIBLE);
-				
-			}
-			
-		});
+//		BaseImageRetreiver baseImageRetreiver = new BaseImageRetreiver(this);
+//		
+//		int screenWidth = getDesiredImageViewWidth();
+//		baseImageRetreiver.setImageViewToBaseImage(mSiteId, siteImageView, this,screenWidth, new ImageLoaderListener() {
+//
+//			@Override
+//			public void imageLoaded() {
+//				siteImageView.setVisibility(View.VISIBLE);
+//				((ProgressBar)findViewById(R.id.progressBarSiteImage)).setVisibility(View.INVISIBLE);
+//				
+//			}
+//			
+//		});
 	}
 	
 	private int getDesiredImageViewWidth() {
@@ -109,6 +108,19 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 		String siteDesc = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_DESC));
 		TextView addressTextView = (TextView) findViewById(R.id.textViewSiteAddress);
 		addressTextView.setText(siteDesc);
+		
+		// Ready to show the image
+		ImageView imageView = (ImageView) findViewById(R.id.imageViewSiteImage);
+		// retrieve the PosterImageURL
+		String posterImageUrl = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_POSTER_IMAGE_URL));
+		// get the Bitmap from cache
+		Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
+				BitmapCache.getImageKeyFromURL(posterImageUrl));
+		if (posterImageBitmap == null) {
+			Log.d(TAG, "Bitmap not found in cache, start to download it.");
+			new BitmapWorkerTask(posterImageUrl, imageView).execute();
+		} else {
+			imageView.setImageBitmap(posterImageBitmap);
+		}
 	}
-
 }

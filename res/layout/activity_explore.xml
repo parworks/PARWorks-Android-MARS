@@ -18,8 +18,7 @@
                 android:id="@+id/imageViewSiteImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:visibility="invisible"
+                android:layout_gravity="center_horizontal"                
                 android:src="@drawable/baseimage1" />
 
             <ProgressBar
@@ -27,7 +26,9 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" 
+                />
 
         </RelativeLayout>
 

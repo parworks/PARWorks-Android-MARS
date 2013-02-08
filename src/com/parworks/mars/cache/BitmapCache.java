@@ -3,7 +3,9 @@ package com.parworks.mars.cache;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.parworks.androidlibrary.utils.BitmapUtils;
 
@@ -107,19 +109,26 @@ public class BitmapCache {
 	 * @param url
 	 * @return bitmap
 	 */
-	public Bitmap downloadImage(String key, String url) {
+	public Bitmap downloadImage(String url) {
 		Bitmap bitmap = null;
 		try {
 			// download the image
 			BitmapUtils bitmapUtils = new BitmapUtils();
-			bitmap = bitmapUtils.getBitmap(key, BITMAP_SAMPLE);
+			bitmap = bitmapUtils.getBitmap(url, BITMAP_SAMPLE);
+			String key = getImageKeyFromURL(url);
 			// put into disk cache
 			mImageDiskCache.put(key, bitmap);
 			// put into mem cache
 			mMemoryCache.put(key, bitmap);
 		} catch (Exception e) {
-			Log.w(TAG, "Failed to download the image: " + key);
+			Log.w(TAG, "Failed to download the image: " + url);
 		}
 		return bitmap;
+	}
+	
+	public static String getImageKeyFromURL(String imageUrl) {
+		String key = imageUrl.substring(imageUrl.lastIndexOf("/") + 1, imageUrl.lastIndexOf("."));
+		key = key.replaceAll("-", "");
+		return key;
 	}
 }
