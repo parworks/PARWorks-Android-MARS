@@ -26,10 +26,6 @@ public class SyncHelper {
 		}
 	}
 	
-	public static void syncSiteInfo(String siteId) {
-		
-	}	
-	
 	public static void syncSite(String siteId) {
 		Bundle bundle = new Bundle();
 		bundle.putString("siteId", siteId);
