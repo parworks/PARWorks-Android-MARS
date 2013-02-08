@@ -12,7 +12,7 @@ public class TestActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = new Intent(this, ExploreActivity.class);
-		intent.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "Momsfridge");
+		intent.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "");
 		startActivity(intent);
 	}
 

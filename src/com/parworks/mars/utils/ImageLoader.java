@@ -51,9 +51,10 @@ public class ImageLoader
         	Bitmap bitmap = cache.get(url);
         	if(bitmapWidth != null) {
         		bitmap = Bitmap.createScaledBitmap(bitmap, bitmapWidth, calculateHeight(bitmapWidth,bitmap), true);
-        		listener.imageLoaded();
+        		
         	}
             imageView.setImageBitmap(bitmap);
+            listener.imageLoaded();
         } else
         {
             queuePhoto(url, activity, imageView,listener,bitmapWidth);
@@ -256,9 +257,10 @@ public class ImageLoader
             if (bitmap != null) {
 	        	if(width != null) {
 	        		bitmap = Bitmap.createScaledBitmap(bitmap, width, calculateHeight(width,bitmap), true);
-	        		listener.imageLoaded();
+	        		
 	        	}
 	        	imageView.setImageBitmap(bitmap);
+	        	listener.imageLoaded();
             }
         }
     }

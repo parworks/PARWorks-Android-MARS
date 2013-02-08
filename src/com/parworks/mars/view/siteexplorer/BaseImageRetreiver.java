@@ -13,19 +13,16 @@ import com.parworks.mars.utils.User;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class BaseImageRetreiver {
-	private Context mContext;
-	
-	public BaseImageRetreiver(Context context) {
-		mContext = context;
+	public interface BaseImageRetreiverListener {
+		public void firstBaseImageUrl(String url);
 	}
-	
-	public void setImageViewToBaseImage(String siteId, final ImageView imageView, final Activity activity,ImageLoaderListener listener) {
-		setImageViewToBaseImage(siteId,imageView,activity,null,listener);
-	}
-	public void setImageViewToBaseImage(String siteId, final ImageView imageView, final Activity activity, final Integer imageWidth,final ImageLoaderListener listener) {
+	public static final String TAG = BaseImageRetreiver.class.getName();
+
+	public static void getFirstBaseImageUrl(final String siteId, final BaseImageRetreiverListener listener) {
 		ARSites sites = new ARSites(User.getApiKey(),User.getSecretKey());
 		sites.getExisting(siteId, new ARListener<ARSite>() {
 			
@@ -36,9 +33,7 @@ public class BaseImageRetreiver {
 					@Override
 					public void handleResponse(List<BaseImageInfo> resp) {
 						if(resp.size() > 0 ) {
-							BaseImageInfo firstBaseImage = resp.get(0);
-							ImageLoader imageLoader = new ImageLoader(mContext);
-							imageLoader.DisplayImage(firstBaseImage.getFullSize(), activity, imageView,imageWidth,listener);
+							listener.firstBaseImageUrl(resp.get(0).getGallerySize());
 						}
 						
 					}
@@ -46,7 +41,7 @@ public class BaseImageRetreiver {
 					
 					@Override
 					public void handleError(Exception error) {
-						// TODO Auto-generated method stub
+						Log.e(TAG, "BaseImageRetreiver failed to get base images for site: " + siteId + ". " + error.getMessage());
 						
 					}
 				});
@@ -56,7 +51,7 @@ public class BaseImageRetreiver {
 			
 			@Override
 			public void handleError(Exception error) {
-				// TODO Auto-generated method stub
+				Log.e(TAG, "BaseImageRetreiver failed to find the site: " + siteId + ". " + error.getMessage());
 				
 			}
 		});
