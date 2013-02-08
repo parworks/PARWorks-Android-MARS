@@ -2,13 +2,20 @@ package com.parworks.mars.view.siteexplorer;
 
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.Display;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parworks.mars.R;
@@ -16,6 +23,7 @@ import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.utils.ImageLoader;
+import com.parworks.mars.utils.ImageLoader.ImageLoaderListener;
 
 public class ExploreActivity extends FragmentActivity implements LoaderCallbacks<Cursor>{
 	
@@ -44,6 +52,30 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 		
 		//String url = "http://lstat.kuleuven.be/research/lsd/lsd2006/auditorium_small.jpg";
 	//	imageLoader.DisplayImage(url, this, mapView);
+		
+		final ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
+//		siteImageView.setScaleType(ScaleType.MATRIX);
+		BaseImageRetreiver baseImageRetreiver = new BaseImageRetreiver(this);
+		
+		int screenWidth = getDesiredImageViewWidth();
+		baseImageRetreiver.setImageViewToBaseImage(mSiteId, siteImageView, this,screenWidth, new ImageLoaderListener() {
+
+			@Override
+			public void imageLoaded() {
+				siteImageView.setVisibility(View.VISIBLE);
+				((ProgressBar)findViewById(R.id.progressBarSiteImage)).setVisibility(View.INVISIBLE);
+				
+			}
+			
+		});
+	}
+	
+	private int getDesiredImageViewWidth() {
+		Display display = getWindowManager().getDefaultDisplay();
+//		Point size = new Point();
+//		display.getSize(size);
+//		int width = size.x;
+		return display.getWidth();
 	}
 	
 	

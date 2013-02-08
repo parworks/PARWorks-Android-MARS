@@ -23,6 +23,9 @@ import android.widget.ImageView;
 
 public class ImageLoader
 {
+	public interface ImageLoaderListener {
+		public void imageLoaded();
+	}
     public static String TAG = ImageLoader.class.getName();
     // the simplest in-memory cache implementation. This should be replaced with
     // something like SoftReference or BitmapOptions.inPurgeable(since 1.6)
@@ -36,27 +39,39 @@ public class ImageLoader
         cacheDir = Utilities.GetCacheDir(context);
     }
 
-    final int stub_id = R.drawable.map;
 
-    public void DisplayImage(String url, Activity activity, ImageView imageView)
+    public void DisplayImage(String url, Activity activity, ImageView imageView,ImageLoaderListener listener) {
+    	DisplayImage(url,activity,imageView,null,listener);
+    }
+    public void DisplayImage(String url, Activity activity, ImageView imageView, Integer bitmapWidth,ImageLoaderListener listener)
     {
         imageView.setTag(url);
         Log.i(TAG, url);
-        if (cache.containsKey(url))
-            imageView.setImageBitmap(cache.get(url));
-        else
+        if (cache.containsKey(url)) {
+        	Bitmap bitmap = cache.get(url);
+        	if(bitmapWidth != null) {
+        		bitmap = Bitmap.createScaledBitmap(bitmap, bitmapWidth, calculateHeight(bitmapWidth,bitmap), true);
+        		listener.imageLoaded();
+        	}
+            imageView.setImageBitmap(bitmap);
+        } else
         {
-            queuePhoto(url, activity, imageView);
-            imageView.setImageResource(stub_id);
+            queuePhoto(url, activity, imageView,listener,bitmapWidth);
         }
     }
 
-    private void queuePhoto(String url, Activity activity, ImageView imageView)
+    private int calculateHeight(Integer width,Bitmap bitmap) {
+		float startingWidth = bitmap.getWidth();
+		float startingHeight = bitmap.getHeight();
+		float widthHeightRatio = startingWidth/startingHeight;
+		return Math.round(width / widthHeightRatio);
+	}
+	private void queuePhoto(String url, Activity activity, ImageView imageView,ImageLoaderListener listener, Integer bitmapWidth)
     {
         // This ImageView may be used for other images before. So there may be
         // some old tasks in the queue. We need to discard them.
         photosQueue.Clean(imageView);
-        PhotoToLoad p = new PhotoToLoad(url, imageView);
+        PhotoToLoad p = new PhotoToLoad(url, imageView, listener, bitmapWidth);
         synchronized (photosQueue.photosToLoad)
         {
             photosQueue.photosToLoad.push(p);
@@ -86,8 +101,8 @@ public class ImageLoader
             Bitmap bitmap = null;
             InputStream is = new URL(url).openStream();
             OutputStream os = new FileOutputStream(f);
-            IOUtils.copy(is, os);
-          //  Utilities.CopyStream(is, os);
+//            IOUtils.copy(is, os);
+            Utilities.CopyStream(is, os);
             os.close();
             bitmap = decodeFile(f);
             return bitmap;
@@ -137,11 +152,15 @@ public class ImageLoader
     {
         public String url;
         public ImageView imageView;
+        public ImageLoaderListener listener;
+        public Integer width;
 
-        public PhotoToLoad(String u, ImageView i)
+        public PhotoToLoad(String u, ImageView i,ImageLoaderListener l, Integer w)
         {
             url = u;
             imageView = i;
+            listener = l;
+            width = w;
         }
     }
 
@@ -197,7 +216,7 @@ public class ImageLoader
                         Object tag = photoToLoad.imageView.getTag();
                         if (tag != null && ((String) tag).equals(photoToLoad.url))
                         {
-                            BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView);
+                            BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView,photoToLoad.listener,photoToLoad.width);
                             Activity a = (Activity) photoToLoad.imageView.getContext();
                             a.runOnUiThread(bd);
                         }
@@ -219,20 +238,28 @@ public class ImageLoader
     {
         Bitmap bitmap;
         ImageView imageView;
+        ImageLoaderListener listener;
+        Integer width;
 
-        public BitmapDisplayer(Bitmap b, ImageView i)
+        public BitmapDisplayer(Bitmap b, ImageView i, ImageLoaderListener l, Integer w)
         {
             bitmap = b;
             imageView = i;
+            listener = l;
+            width = w;
+            
         }
 
         public void run()
         {
             Log.i(TAG, "BitmapDisplayer run()");
-            if (bitmap != null)
-                imageView.setImageBitmap(bitmap);
-            else
-                imageView.setImageResource(stub_id);
+            if (bitmap != null) {
+	        	if(width != null) {
+	        		bitmap = Bitmap.createScaledBitmap(bitmap, width, calculateHeight(width,bitmap), true);
+	        		listener.imageLoaded();
+	        	}
+	        	imageView.setImageBitmap(bitmap);
+            }
         }
     }
 
