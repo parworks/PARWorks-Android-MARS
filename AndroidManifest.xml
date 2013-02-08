@@ -40,14 +40,8 @@
         </activity>
 
         <provider             
-            android:name="com.parworks.mars.model.provider.SitesContentProvider"
-            android:authorities="com.parworks.mars.model.provider.sites"
-            android:exported="false" >
-        </provider>
-                
-        <provider
-            android:name="com.parworks.mars.model.provider.TrendingSitesContentProvider"
-            android:authorities="com.parworks.mars.model.provider.trending"
+            android:name="com.parworks.mars.model.provider.MarsContentProvider"
+            android:authorities="com.parworks.mars.provider"
             android:exported="false" >
         </provider>
 
@@ -64,7 +58,7 @@
         </service>
         
         <service
-            android:name="com.parworks.mars.model.sync.SiteSyncAdapterService"
+            android:name="com.parworks.mars.model.sync.SyncAdapterService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />

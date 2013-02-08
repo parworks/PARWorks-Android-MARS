@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
-import com.parworks.mars.model.provider.SitesContentProvider;
+import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.utils.ImageLoader;
 
@@ -51,7 +51,7 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
 		String[] projection = SiteInfoTable.ALL_COLUMNS;
-		CursorLoader cursorLoader = new CursorLoader(this, SitesContentProvider.getSiteUri(mSiteId),projection,null,null,null);
+		CursorLoader cursorLoader = new CursorLoader(this, MarsContentProvider.getSiteUri(mSiteId),projection,null,null,null);
 		Log.d(TAG,"onCreateLoader");
 		return cursorLoader;
 	}

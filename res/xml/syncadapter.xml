@@ -1,5 +1,5 @@
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.parworks.mars.model.provider.sites"
+    android:contentAuthority="com.parworks.mars.provider"
     android:accountType="com.parworks.mars.account"  
     android:userVisible="true"
     android:supportsUploading="true"

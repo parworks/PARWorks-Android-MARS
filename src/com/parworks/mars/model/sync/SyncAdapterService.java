@@ -1,7 +1,5 @@
 package com.parworks.mars.model.sync;
 
-import java.util.List;
-
 import android.accounts.Account;
 import android.accounts.OperationCanceledException;
 import android.app.Service;
@@ -17,20 +15,19 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.parworks.androidlibrary.response.SiteInfo;
-import com.parworks.androidlibrary.response.SiteInfoOverview;
 import com.parworks.mars.model.db.TrendingSitesTable;
-import com.parworks.mars.model.provider.SitesContentProvider;
+import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.model.provider.TrendingSitesContentProvider;
 import com.parworks.mars.utils.User;
 
-public class SiteSyncAdapterService extends Service {
+public class SyncAdapterService extends Service {
 
 	private static final String TAG = "MarsSyncAdapterService";
 
 	private static SyncAdapterImpl sSyncAdapter = null;
 	private static ContentResolver mContentResolver = null;
 
-	public SiteSyncAdapterService() {
+	public SyncAdapterService() {
 		super();
 	}
 
@@ -45,7 +42,7 @@ public class SiteSyncAdapterService extends Service {
 		@Override
 		public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 			try {
-				SiteSyncAdapterService.performSync(mContext, account, extras, authority, provider, syncResult);
+				SyncAdapterService.performSync(mContext, account, extras, authority, provider, syncResult);
 			} catch (OperationCanceledException e) {
 			}
 		}
@@ -86,8 +83,8 @@ public class SiteSyncAdapterService extends Service {
 			cv.put(TrendingSitesTable.COLUMN_SITE_ID, site.getId());
 			cv.put(TrendingSitesTable.COLUMN_DESC, site.getDescription());		
 			//context.getContentResolver().insert(SitesContentProvider..CONTENT_URI, cv);
-			context.getContentResolver().insert(SitesContentProvider.ALL_SITES_CONTENT_URI, cv);
-			context.getContentResolver().insert(TrendingSitesContentProvider.CONTENT_URI, cv);
+			context.getContentResolver().insert(MarsContentProvider.ALL_SITES_CONTENT_URI, cv);
+			//context.getContentResolver().insert(TrendingSitesContentProvider.CONTENT_URI, cv);
 		}
 	}
 }

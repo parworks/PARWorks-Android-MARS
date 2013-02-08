@@ -30,7 +30,7 @@ public class SitesContentHelper {
 		values.put(SiteInfoTable.COLUMN_SITE_ID, info.getId());
 		values.put(SiteInfoTable.COLUMN_STATE, info.getSiteState().name());
 		values.put(SiteInfoTable.COLUMN_TAG_LIST, SiteTags.toJson(info.getTags()));
-		mContext.getContentResolver().insert(SitesContentProvider.ALL_SITES_CONTENT_URI, values);
+		mContext.getContentResolver().insert(MarsContentProvider.ALL_SITES_CONTENT_URI, values);
 	}
 
 }

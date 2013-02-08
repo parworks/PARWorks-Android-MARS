@@ -19,14 +19,14 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class SitesContentProvider extends ContentProvider {
+public class MarsContentProvider extends ContentProvider {
 	
 	private DatabaseHelper database;
 	
 	private static final int SITES = 10;
 	private static final int SITES_ID = 20;
 	
-	public static final String AUTHORITY = "com.parworks.mars.model.provider.sites";
+	public static final String AUTHORITY = "com.parworks.mars.provider";
 	
 	private static final String BASE_PATH = "sites";
 	public static final Uri ALL_SITES_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
@@ -36,7 +36,7 @@ public class SitesContentProvider extends ContentProvider {
 			+ "/sites";
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	
-	public static final String TAG = SitesContentProvider.class.getName();
+	public static final String TAG = MarsContentProvider.class.getName();
 	
 	static {
 		sURIMatcher.addURI(AUTHORITY, BASE_PATH, SITES);

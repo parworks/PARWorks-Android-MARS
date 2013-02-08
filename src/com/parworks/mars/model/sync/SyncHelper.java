@@ -6,7 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.parworks.mars.model.provider.SitesContentProvider;
+import com.parworks.mars.model.provider.MarsContentProvider;
 
 public class SyncHelper {
 
@@ -21,14 +21,14 @@ public class SyncHelper {
 		// call will not succeed anymore
 		if (accMgr.addAccountExplicitly(account, null, null)) {
 			// config sync service
-			ContentResolver.setIsSyncable(account, SitesContentProvider.AUTHORITY, 1);
-			ContentResolver.setSyncAutomatically(account, SitesContentProvider.AUTHORITY, true);
+			ContentResolver.setIsSyncable(account, MarsContentProvider.AUTHORITY, 1);
+			ContentResolver.setSyncAutomatically(account, MarsContentProvider.AUTHORITY, true);
 		}
 	}
 	
 	public static void syncSite(String siteId) {
 		Bundle bundle = new Bundle();
 		bundle.putString("siteId", siteId);
-		ContentResolver.requestSync(account, SitesContentProvider.AUTHORITY, bundle);
+		ContentResolver.requestSync(account, MarsContentProvider.AUTHORITY, bundle);
 	}
 }
