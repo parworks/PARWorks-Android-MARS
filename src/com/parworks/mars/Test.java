@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.parworks.mars.model.db.TrendingSitesTable;
-import com.parworks.mars.model.provider.TrendingSitesContentProvider;
+import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
@@ -34,7 +34,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		b1.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
-				SyncHelper.syncSite("OptioLabs");
+				SyncHelper.sync();
 			}
 		});
 
@@ -43,7 +43,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			@Override
 			public void onClick(View v) {
 				String[] projection = TrendingSitesTable.ALL_COLUMNS;
-				Cursor cursor = getContentResolver().query(TrendingSitesContentProvider.CONTENT_URI, 
+				Cursor cursor = getContentResolver().query(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES, 
 						projection, null, null,	null);
 
 				if (cursor != null) {
@@ -52,13 +52,13 @@ LoaderManager.LoaderCallbacks<Cursor> {
 						System.out.println("TESTCUROSR: " + cursor.getString(
 								cursor.getColumnIndex(TrendingSitesTable.COLUMN_SITE_ID)));
 						cursor.moveToNext();
-					}			
+					}
 					// Always close the cursor		
 					cursor.close();
 				}
 				
 				Intent i = new Intent(Test.this, ExploreActivity.class);
-				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "OptioLabs");
+				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "FirstSite");
 				startActivity(i);
 			}				
 		});
@@ -78,7 +78,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		lv.setAdapter(adapter);
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -86,26 +85,22 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		return true;
 	}
 
-
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = TrendingSitesTable.ALL_COLUMNS;
 		CursorLoader cursorLoader = new CursorLoader(this,
-				TrendingSitesContentProvider.CONTENT_URI, projection, null, null, null);
+				MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES, projection, null, null, null);
 		return cursorLoader;
 	}
 
-
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
-		// TODO Auto-generated method stub
 		adapter.swapCursor(data);
 	}
 
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
 		adapter.swapCursor(null);
 	}
 }

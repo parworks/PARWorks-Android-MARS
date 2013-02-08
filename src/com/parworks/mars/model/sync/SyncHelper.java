@@ -26,6 +26,19 @@ public class SyncHelper {
 		}
 	}
 	
+	/**
+	 * Trigger the sync for all the info that is not associated
+	 * with a context, such as trending sites, suggested tags.
+	 */
+	public static void sync() {
+		ContentResolver.requestSync(account, MarsContentProvider.AUTHORITY, new Bundle());
+	}
+	
+	/**
+	 * Trigger the sync for the given SiteInfo
+	 * 
+	 * @param siteId
+	 */
 	public static void syncSite(String siteId) {
 		Bundle bundle = new Bundle();
 		bundle.putString("siteId", siteId);
