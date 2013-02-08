@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		SiteInfoTable.onCreate(database);		
 		TrendingSitesTable.onCreate(database);
+		AugmentedImagesTable.onCreate(database);
 	}
 
 	@Override

@@ -47,7 +47,6 @@ public class TrendingSitesTable {
 
 	protected static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE);
-		System.out.println("YUSUN CREATE DB");
 	}
 
 	protected static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
