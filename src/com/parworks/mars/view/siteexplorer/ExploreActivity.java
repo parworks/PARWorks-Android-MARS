@@ -78,8 +78,12 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(TAG,"onLoaderReset");		
 	}
-	
-	private void loadAndSetImageBitmap(String url, final ImageView imageView) {
+
+	public interface SetImageBitmapListener {
+		public void onComplete();
+	}
+	private void loadAndSetImageBitmap(String url, final ImageView imageView,final SetImageBitmapListener listener) {
+
 		Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 				BitmapCache.getImageKeyFromURL(url));
 		if (posterImageBitmap == null) {
@@ -89,14 +93,14 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 				@Override
 				public void bitmapLoaded() {
 					setCorrectImageViewSize(imageView);
-					showSiteImageView();
+					listener.onComplete();
 					
 				}
 			}).execute();
 		} else {
 			imageView.setImageBitmap(posterImageBitmap);
 			setCorrectImageViewSize(imageView);
-			showSiteImageView();
+			listener.onComplete();
 		}
 	}
 	
@@ -131,10 +135,23 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 		TextView addressTextView = (TextView) findViewById(R.id.textViewSiteAddress);
 		addressTextView.setText(siteDesc);
 		
+		setSiteImageView(data);
+		setMapView(data);
+	}
+	private void setSiteImageView(Cursor data) {
 		// Ready to show the image
 		final ImageView imageView = (ImageView) findViewById(R.id.imageViewSiteImage);
 		// retrieve the PosterImageURL
 		String posterImageUrl = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_POSTER_IMAGE_URL));
+		
+		final SetImageBitmapListener listener = new SetImageBitmapListener() {
+			
+			@Override
+			public void onComplete() {
+				showSiteImageView();
+				
+			}
+		};
 		
 		if(posterImageUrl == null ) {
 			Log.d(TAG, "posterImageUrl was null. Using first base image.");
@@ -142,12 +159,39 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 				
 				@Override
 				public void firstBaseImageUrl(String url) {
-					loadAndSetImageBitmap(url,imageView);
+					loadAndSetImageBitmap(url,imageView,listener);
 					
 				}
 			});
 		} else {
-			loadAndSetImageBitmap(posterImageUrl,imageView);
+			loadAndSetImageBitmap(posterImageUrl,imageView,listener);
 		}
+	}
+	
+	private void showMapView() {
+		((ImageView)findViewById(R.id.imageViewMap)).setVisibility(View.VISIBLE);
+		((ProgressBar)findViewById(R.id.progressBarMapView)).setVisibility(View.INVISIBLE);
+	}
+
+	private void setMapView(Cursor data) {
+		String lat = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LAT));
+		String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
+		
+		String mapUrl = StaticGoogleMaps.getMapUrl(lat, lon, 400, 400);
+		if(mapUrl != null) {
+			ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
+			loadAndSetImageBitmap(mapUrl, mapView, new SetImageBitmapListener() {
+				
+				@Override
+				public void onComplete() {
+					showMapView();
+					
+				}
+			});
+			
+		}  else {
+			Log.e(TAG, "mapURL was null.");
+		}
+		
 	}
 }

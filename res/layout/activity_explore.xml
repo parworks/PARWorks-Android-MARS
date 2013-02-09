@@ -84,12 +84,27 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageViewMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/map" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageViewMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="invisible"
+                    android:src="@drawable/map" />
+
+                <ProgressBar
+                    android:id="@+id/progressBarMapView"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

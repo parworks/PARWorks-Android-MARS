@@ -7,9 +7,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.util.Log;
+
 
 
 public class StaticGoogleMaps {
+	
+	public static String TAG = StaticGoogleMaps.class.getName();
 	
 	private static int ZOOM_LEVEL = 16;  //level 0 shows entire earth, level 21+ shows individual buildings
 	
@@ -36,7 +40,7 @@ public class StaticGoogleMaps {
 			try {
 				url += "&" + pairs.getKey() + "=" + URLEncoder.encode(pairs.getValue(),"UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				//TODO 
+				Log.e(TAG,e.getMessage()); 
 			}
 			it.remove();
 		}
