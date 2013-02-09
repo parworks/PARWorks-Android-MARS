@@ -48,28 +48,6 @@ public class ExploreActivity extends FragmentActivity implements LoaderCallbacks
 		SyncHelper.syncSite(mSiteId);
 		
 		getSupportLoaderManager().initLoader(0, null, this);
-		
-		ImageView mapView = (ImageView) findViewById(R.id.imageViewMap);
-		//ImageLoader imageLoader = new ImageLoader(this);
-		
-		//String url = "http://lstat.kuleuven.be/research/lsd/lsd2006/auditorium_small.jpg";
-	//	imageLoader.DisplayImage(url, this, mapView);
-		
-		//final ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
-//		siteImageView.setScaleType(ScaleType.MATRIX);
-//		BaseImageRetreiver baseImageRetreiver = new BaseImageRetreiver(this);
-//		
-//		int screenWidth = getDesiredImageViewWidth();
-//		baseImageRetreiver.setImageViewToBaseImage(mSiteId, siteImageView, this,screenWidth, new ImageLoaderListener() {
-//
-//			@Override
-//			public void imageLoaded() {
-//				siteImageView.setVisibility(View.VISIBLE);
-//				((ProgressBar)findViewById(R.id.progressBarSiteImage)).setVisibility(View.INVISIBLE);
-//				
-//			}
-//			
-//		});
 	}
 	
 	private int getDesiredImageViewWidth() {
