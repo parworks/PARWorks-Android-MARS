@@ -16,11 +16,17 @@ import com.parworks.mars.R;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class TrendingSitesFragment extends Fragment {	
+/**
+ * The Trending view is based on a ViewPager,
+ * which contains a list of TrendingSiteFragment.
+ * 
+ * @author yusun
+ */
+public class TrendingFragment extends Fragment {	
 
 	private SlidingFragmentActivity mContext;	
 	
-	public TrendingSitesFragment(SlidingFragmentActivity context) {
+	public TrendingFragment(SlidingFragmentActivity context) {
 		super();
 		mContext = context;
 	}
@@ -31,7 +37,7 @@ public class TrendingSitesFragment extends Fragment {
 
 		ViewPager vp = new ViewPager(this.getActivity());
 		vp.setId("VP".hashCode());
-		vp.setAdapter(new ColorPagerAdapter(this.getActivity().getSupportFragmentManager()));
+		vp.setAdapter(new TrendingPagerAdapter(this.getActivity().getSupportFragmentManager()));
 
 		vp.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
@@ -62,7 +68,10 @@ public class TrendingSitesFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	}
 
-	public class ColorPagerAdapter extends FragmentPagerAdapter {
+	/**
+	 * Adapter for trending sites
+	 */
+	public class TrendingPagerAdapter extends FragmentPagerAdapter {
 		
 		private ArrayList<Fragment> mFragments;
 
@@ -74,11 +83,11 @@ public class TrendingSitesFragment extends Fragment {
 			R.color.black
 		};
 		
-		public ColorPagerAdapter(FragmentManager fm) {
+		public TrendingPagerAdapter(FragmentManager fm) {
 			super(fm);
 			mFragments = new ArrayList<Fragment>();
 			for (int color : COLORS)
-				mFragments.add(new ColorFragment(color));
+				mFragments.add(new TrendingSiteFragment(color));
 		}
 
 		@Override

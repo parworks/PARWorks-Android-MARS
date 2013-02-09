@@ -33,6 +33,11 @@
         <activity
             android:name="com.parworks.mars.Test"
             android:label="@string/title_activity_test" >
+        </activity>
+        
+        <activity
+            android:name="com.parworks.mars.MarsMainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -47,10 +52,8 @@
 
         <service android:name="com.parworks.mars.account.AuthenticatationService" >
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" >
-                </action>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" >
@@ -63,10 +66,10 @@
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
+                android:resource="@xml/syncadapter">
+            </meta-data>
         </service>
         
     </application>

@@ -14,8 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainMenuListFragment extends Fragment {
+	
+	private MarsMainActivity parentActivity;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// store the activity reference
+		parentActivity = (MarsMainActivity)(this.getActivity());
+		
+		// init menu view
 		View view = inflater.inflate(R.layout.sliding_menu, null);
 		
 		// init the main menu options with an adapter
@@ -30,10 +36,25 @@ public class MainMenuListFragment extends Fragment {
 		adapter.add(new MainMenuItem(getString(R.string.menu_technology), 
 				R.drawable.ic_menu_technology));		
 		lv.setAdapter(adapter);
+		
+		// config menu item click control
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO
+					int position, long id) {				
+				switch (position) {
+				case 0:
+					parentActivity.switchContent(MarsMainActivity.FRAGMENT_TRENDING);
+					break;
+				case 1:
+					parentActivity.switchContent(MarsMainActivity.FRAGMENT_NEARBY);
+					break;
+				case 2:
+					parentActivity.switchContent(MarsMainActivity.FRAGMENT_SEARCH);
+					break;
+				case 3:
+					parentActivity.switchContent(MarsMainActivity.FRAGMENT_TECHNOLOGY);
+					break;
+				}
 			}
 		});
 

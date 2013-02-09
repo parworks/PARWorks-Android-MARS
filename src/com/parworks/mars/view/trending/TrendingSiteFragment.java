@@ -9,15 +9,15 @@ import android.widget.RelativeLayout;
 
 import com.parworks.mars.R;
 
-public class ColorFragment extends Fragment {
+public class TrendingSiteFragment extends Fragment {
 	
 	private int mColorRes = -1;
 	
-	public ColorFragment() { 
+	public TrendingSiteFragment() { 
 		this(R.color.white);
 	}
 	
-	public ColorFragment(int colorRes) {
+	public TrendingSiteFragment(int colorRes) {
 		mColorRes = colorRes;
 		setRetainInstance(true);
 	}

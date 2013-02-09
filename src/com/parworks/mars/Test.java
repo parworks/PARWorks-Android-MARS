@@ -61,7 +61,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				}
 				
 				Intent i = new Intent(Test.this, ExploreActivity.class);
-				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "FirstSite");
+				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "OptioLabs");
 				startActivity(i);
 			}				
 		});
