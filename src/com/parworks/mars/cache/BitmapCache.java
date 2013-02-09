@@ -3,9 +3,7 @@ package com.parworks.mars.cache;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.parworks.androidlibrary.utils.BitmapUtils;
 
@@ -19,7 +17,7 @@ public class BitmapCache {
 
 	private static final String TAG = "BitmapCache";
 	/** Disk cache name */
-	private static final String DISK_CACHE_NAME = "MarsBitmapCache";
+	private static final String DISK_CACHE_NAME = "mars";
 	/** Bitmap sample */
 	private static final int BITMAP_SAMPLE = 1;
 	/** Disk cache size */
@@ -28,7 +26,7 @@ public class BitmapCache {
 	/** Memory Cache */
 	private LruCache<String, Bitmap> mMemoryCache;
 	/** Disk Cache */
-	private DiskLruImageCache mImageDiskCache;
+	private static DiskLruImageCache mImageDiskCache;
 	/** The singleton instance holder */
 	private static BitmapCache INSTANCE;
 
@@ -49,9 +47,13 @@ public class BitmapCache {
 		if (INSTANCE == null) {
 			INSTANCE = new BitmapCache(context);
 		}
+		// initialize disk cache
+		mImageDiskCache = new DiskLruImageCache(context, DISK_CACHE_NAME, DISK_CACHE_SIZE, 100);
+		Log.i(TAG, "Created disk cache at: " + mImageDiskCache.getCacheFolder().getAbsolutePath()
+				+ " with size: " + DISK_CACHE_SIZE);
 	}	
 
-	public BitmapCache(Context context) {
+	private BitmapCache(Context context) {
 		// Get memory class of this device, exceeding this amount 
 		// will throw an OutOfMemory exception
 		final int memClass = ((ActivityManager) context.getSystemService(
@@ -67,12 +69,7 @@ public class BitmapCache {
 				return bitmap.getRowBytes() * bitmap.getHeight();
 			}
 		};
-		Log.i(TAG, "Created mem cache with size: " + cacheSize);
-
-		// initialize disk cache
-		mImageDiskCache = new DiskLruImageCache(context, DISK_CACHE_NAME, DISK_CACHE_SIZE, 100);
-		Log.i(TAG, "Created disk cache at: " + mImageDiskCache.getCacheFolder().getAbsolutePath()
-				+ " with size: " + DISK_CACHE_SIZE);
+		Log.i(TAG, "Created mem cache with size: " + cacheSize);		
 	}
 
 	/**
@@ -82,7 +79,7 @@ public class BitmapCache {
 	 * disk cache will be looked. If still not found, null
 	 * will be returned.
 	 * <p>
-	 * Users can trigger {{@link #downloadImage(String, String)}
+	 * Users can trigger {@link #downloadImage(String, String)}
 	 * to download the bitmap with a given URL.
 	 * 
 	 * @param key the bitmap key to look for
@@ -119,7 +116,7 @@ public class BitmapCache {
 			// put into disk cache
 			mImageDiskCache.put(key, bitmap);
 			// put into mem cache
-			mMemoryCache.put(key, bitmap);
+			mMemoryCache.put(key, bitmap);	
 		} catch (Exception e) {
 			Log.w(TAG, "Failed to download the image: " + url);
 		}

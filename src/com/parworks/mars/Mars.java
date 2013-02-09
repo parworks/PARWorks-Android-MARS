@@ -26,7 +26,7 @@ public class Mars extends Application {
 		// initialize the db
 		
 		// initialize the bitmap cache system
-		BitmapCache.init(mApplicationContext);
+		BitmapCache.init(mApplicationContext.getApplicationContext());
 	}
 	
 	public static Context getAppContext() {

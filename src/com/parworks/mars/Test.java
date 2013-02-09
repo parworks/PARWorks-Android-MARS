@@ -34,7 +34,10 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		b1.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
-				SyncHelper.sync();
+//				SyncHelper.sync();
+				Intent i = new Intent(Test.this, ExploreActivity.class);
+				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, "NewBalanceDemo2");
+				startActivity(i);
 			}
 		});
 

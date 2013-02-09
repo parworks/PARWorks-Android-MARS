@@ -57,8 +57,7 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		// update the image view
-		if (result != null) {
-			System.out.println("Show the image" + result.getRowBytes() * result.getHeight());			
+		if (result != null) {	
 			imageView.setImageBitmap(result);
 			listener.bitmapLoaded();
 		} else {
