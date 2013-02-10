@@ -26,6 +26,9 @@ public class StaticGoogleMaps {
 		queryString.put("size", width+"x"+height);
 		queryString.put("sensor", ""+false);
 		
+		String markersString = "color:red|" +lat+","+lon;
+		queryString.put("markers",markersString);
+		
 		String url = appendQueryStringToUrl(BASE_URL,queryString);
 		return url;
 	}
