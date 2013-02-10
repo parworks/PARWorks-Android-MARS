@@ -11,15 +11,19 @@ import android.widget.TextView;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
+import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
 import com.parworks.mars.view.siteexplorer.SiteInfoLoader.SiteInfoLoaderListener;
 
 public class ExploreActivity extends FragmentActivity { 
 	
-	private String mSiteId;
-	
 	public static final String SITE_ID_ARGUMENT_KEY = "siteIdKey";
-	
 	public static final String TAG = ExploreActivity.class.getName();
+	
+	private String mSiteId;
+	private static final int SITE_INFO_LOADER_ID = 0;
+	private static final int AUGMENTED_IMAGES_LOADER_ID = 1;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,17 @@ public class ExploreActivity extends FragmentActivity {
 				
 			}
 		});
-		getSupportLoaderManager().initLoader(0, null, siteInfoLoader);
+		getSupportLoaderManager().initLoader(SITE_INFO_LOADER_ID, null, siteInfoLoader);
+		
+		AugmentedImagesLoader augmentedImagesLoader = new AugmentedImagesLoader(mSiteId, this, new AugmentedImagesLoaderListener() {
+			
+			@Override
+			public void imagesLoaded(Cursor data) {
+				loadAugmentedImagesIntoUi(data);
+				
+			}
+		});
+		getSupportLoaderManager().initLoader(AUGMENTED_IMAGES_LOADER_ID, null, augmentedImagesLoader);
 		
 		
 	}
@@ -72,4 +86,7 @@ public class ExploreActivity extends FragmentActivity {
 		mapImageManager.setMapView(data);
 	}	
 
+	private void loadAugmentedImagesIntoUi(Cursor data) {
+		
+	}
 }
