@@ -5,31 +5,42 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.parworks.mars.R;
 
 public class TrendingSiteFragment extends Fragment {
 	
+	private String siteId;
+	private int numAugmentedImages;
+	
 	private int mColorRes = -1;
 	
 	public TrendingSiteFragment() { 
-		this(R.color.white);
+		this(null, 0, R.color.white);
 	}
 	
-	public TrendingSiteFragment(int colorRes) {
+	public TrendingSiteFragment(String siteId, int numAugmentedImages, int colorRes) {
+		this.siteId = siteId;
+		this.numAugmentedImages = numAugmentedImages;
 		mColorRes = colorRes;
 		setRetainInstance(true);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if (savedInstanceState != null)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
+		// check the purpose of the following line
+		if (savedInstanceState != null) {
 			mColorRes = savedInstanceState.getInt("mColorRes");
-		int color = getResources().getColor(mColorRes);
-		// construct the RelativeLayout
-		RelativeLayout v = new RelativeLayout(getActivity());
-		v.setBackgroundColor(color);
+		}
+				
+		View v = inflater.inflate(R.layout.fragment_trending_site, null);
+		
+		TextView tv = (TextView) v.findViewById(R.id.trendingSiteId);
+		tv.setText(siteId);
+		TextView numTv = (TextView) v.findViewById(R.id.trendingSiteNum);
+		numTv.setText(numAugmentedImages + " Augmented Photos");
+		
 		return v;
 	}
 	
