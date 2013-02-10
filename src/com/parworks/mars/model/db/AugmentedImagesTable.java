@@ -42,7 +42,8 @@ public class AugmentedImagesTable {
 			+ COLUMN_GALLERY_SIZE_URL + " text,"
 			+ COLUMN_CONTENT_SIZE_URL + " text,"
 			+ COLUMN_CONTENT + " text,"
-			+ COLUMN_TIMESTAMP + " integer"
+			+ COLUMN_TIMESTAMP + " integer,"
+			+ "FOREIGN KEY (" + COLUMN_SITE_ID + ") REFERENCES " + SiteInfoTable.TABLE_SITES + "(" + SiteInfoTable.COLUMN_SITE_ID +") "
 			+ ");";
 
 	protected static void onCreate(SQLiteDatabase database) {
