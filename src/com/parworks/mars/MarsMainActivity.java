@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.parworks.mars.view.nearby.NearbyFragment;
 import com.parworks.mars.view.trending.TrendingFragment;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -79,6 +80,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		menuControlledFragments.put(FRAGMENT_TRENDING, new TrendingFragment(this));
 		
 		// 2. Add Nearby Fragment
+		menuControlledFragments.put(FRAGMENT_NEARBY, new NearbyFragment(this));
 		
 		// 3. Add Search Fragment
 		
@@ -108,12 +110,16 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	 * Change the Fragment component in the main activity 
 	 */
 	public void switchContent(final String fragmentName) {
-		currentFragment = menuControlledFragments.get(fragmentName);
-		if (currentFragment != null) {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.content_frame, currentFragment)
-					.commit();
+		Fragment newFragment = menuControlledFragments.get(fragmentName);
+		if (newFragment != null) {
+			if (newFragment != currentFragment) {
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, newFragment)
+						.commit();
+				currentFragment = newFragment;
+			}
+			// close menu and show the content fragment
 			Handler h = new Handler();
 			h.postDelayed(new Runnable() {
 				public void run() {
