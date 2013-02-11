@@ -178,6 +178,7 @@ public class SyncAdapterService extends Service {
 			values.put(TrendingSitesTable.COLUMN_SITE_ID, siteInfoOverview.getId());
 			values.put(TrendingSitesTable.COLUMN_STATE, siteInfoOverview.getSiteState());
 			values.put(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES, siteInfoOverview.getNumAugmentedImages());	
+			values.put(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL, siteInfoOverview.getPosterImageBlurredURL());
 			
 			op = ContentProviderOperation.newInsert(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES)
 					.withValues(values);
