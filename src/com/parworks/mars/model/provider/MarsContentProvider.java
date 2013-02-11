@@ -37,7 +37,7 @@ public class MarsContentProvider extends ContentProvider {
 	private static final int TRENDING_SITES = 20;
 	private static final int AUGMENTED_IMAGES = 30;
 	private static final int AUGMENTED_IMAGE_ID = 32;
-	private static final int AUGMENTED_SITE_ID = 32;
+	private static final int AUGMENTED_SITE_ID = 34;
 
 	/** Associated with SiteInfoTable */
 	private static final String BASE_PATH_SITE = "site";
@@ -45,6 +45,8 @@ public class MarsContentProvider extends ContentProvider {
 	private static final String BASE_PATH_TRENDING_SITE = "trending";
 	/** Associated with AugmentedImagesTable */
 	private static final String BASE_PATH_AUGMENTED_IMAGE = "augment";
+	
+	private static final String BASE_PATH_AUGMENTED_IMAGES_FOR_SITE = "augmentsite";
 	
 	/** Construct the URI matcher for all content */
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH) {{
@@ -56,7 +58,7 @@ public class MarsContentProvider extends ContentProvider {
 		// AugmentedImages
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE, AUGMENTED_IMAGES);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/*", AUGMENTED_IMAGE_ID);
-		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/site/*", AUGMENTED_SITE_ID);
+		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGES_FOR_SITE +"/*", AUGMENTED_SITE_ID);
 	}};
 
 	/** Helper URIs for the callers to use */
@@ -152,7 +154,7 @@ public class MarsContentProvider extends ContentProvider {
 			Log.d(TAG, "Query was SITES: this is unimplemented");
 			break;
 		case SITE_ID:  // query a SiteInfo record
-			Log.d(TAG, "Query was SITES_ID with id: " + uri.getLastPathSegment());
+			Log.d(TAG, "Uri was: " + uri + ". Query was SITE_ID with id: " + uri.getLastPathSegment());
 			queryBuilder.setTables(SiteInfoTable.TABLE_SITES);
 			queryBuilder.appendWhere(SiteInfoTable.COLUMN_SITE_ID + "="
 					+ "'" + uri.getLastPathSegment() + "'");
@@ -161,10 +163,11 @@ public class MarsContentProvider extends ContentProvider {
 			queryBuilder.setTables(TrendingSitesTable.TABLE_NAME);
 			break;
 		case AUGMENTED_SITE_ID: // query all the augmented images for a given site
+			Log.d(TAG,"Uri was: " + uri + ". It matched AUGMENTED_SITE_ID");
 			queryBuilder.setTables(AugmentedImagesTable.TABLE_NAME);
 			queryBuilder.appendWhere(AugmentedImagesTable.COLUMN_SITE_ID + "="
 					+ "'" + uri.getLastPathSegment() + "'");
-			sortOrder = AugmentedImagesTable.COLUMN_TIMESTAMP + " DES";
+			sortOrder = AugmentedImagesTable.COLUMN_TIMESTAMP + " DESC";
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -230,7 +233,7 @@ public class MarsContentProvider extends ContentProvider {
 	}
 	
 	public static Uri getSiteAugmentedImagesUri(String siteId) {
-		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE + "/site/" + siteId);
+		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGES_FOR_SITE + "/" + siteId);
 	}
 	
 	public static Uri getAugmentedImageUri(String imgId) {

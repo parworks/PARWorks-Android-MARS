@@ -25,8 +25,10 @@ public class SiteTags {
 	public static String toJson(List<String> tags) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		SiteTags siteTags = new SiteTags();
+		siteTags.setTags(tags);
 		try {
-			objectMapper.writeValue(outputStream, SiteTags.class);
+			objectMapper.writeValue(outputStream, siteTags);
 		} catch (JsonGenerationException e) {
 			throw new ARException(e.getMessage(),e);
 		} catch (JsonMappingException e) {

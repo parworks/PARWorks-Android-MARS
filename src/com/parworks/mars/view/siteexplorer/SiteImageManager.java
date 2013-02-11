@@ -29,7 +29,7 @@ public class SiteImageManager {
 	}
 	
 	
-	public void setSiteImageView(Cursor data) {
+	public void setSiteImage(Cursor data) {
 		String posterImageUrl = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_POSTER_IMAGE_URL));
 		
 		final ImageViewManager imageViewManager = new ImageViewManager();

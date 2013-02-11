@@ -48,7 +48,7 @@ public class SiteInfoLoader implements LoaderCallbacks<Cursor> {
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(TAG,"onLoaderReset");		
+		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");		
 		
 	}
 

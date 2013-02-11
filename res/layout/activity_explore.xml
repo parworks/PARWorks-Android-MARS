@@ -120,12 +120,28 @@
                 android:layout_height="wrap_content"
                 android:text="Number of Augmented Photos" />
 
-            <GridView
-                android:id="@+id/gridViewAugmentedPhotos"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="3" >
-            </GridView>
+                android:layout_gravity="center" >
+
+                <GridView
+                    android:id="@+id/gridViewAugmentedPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:numColumns="3" >
+                </GridView>
+
+                <ProgressBar
+                    android:id="@+id/progressBarAugmentedPhotos"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

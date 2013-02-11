@@ -4,6 +4,7 @@ package com.parworks.mars.view.siteexplorer;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class ExploreActivity extends FragmentActivity {
 		AugmentedImagesLoader augmentedImagesLoader = new AugmentedImagesLoader(mSiteId, this, new AugmentedImagesLoaderListener() {
 			
 			@Override
-			public void imagesLoaded(Cursor data) {
+			public void onImagesLoaded(Cursor data) {
 				loadAugmentedImagesIntoUi(data);
 				
 			}
@@ -77,7 +78,7 @@ public class ExploreActivity extends FragmentActivity {
 		ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
 		ProgressBar siteImageProgressBar = (ProgressBar) findViewById(R.id.progressBarSiteImage);
 		SiteImageManager siteImageManager = new SiteImageManager(mSiteId, siteImageView, siteImageProgressBar, this);
-		siteImageManager.setSiteImageView(data);
+		siteImageManager.setSiteImage(data);
 		
 		//let mapImageManager handle the map view
 		ImageView mapImageView = (ImageView) findViewById(R.id.imageViewMap);
@@ -87,6 +88,10 @@ public class ExploreActivity extends FragmentActivity {
 	}	
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
+		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
+		GridView augmentedImagesGridView = (GridView) findViewById(R.id.gridViewAugmentedPhotos);
+		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesGridView);
+		augmentedImagesViewManager.setAugmentedImages(data);
 		
 	}
 }
