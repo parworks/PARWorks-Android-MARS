@@ -2,25 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:background="@color/black" >
 
     <ImageView
-        android:id="@+id/trendingSitePosterImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_alignParentTop="true"
+        android:id="@+id/blurredBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         tools:ignore="ContentDescription" />
-
-    <com.parworks.mars.view.trending.ShingleBoard
-        android:id="@+id/shingleBoard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
-        android:layout_below="@+id/trendingSitePosterImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/shingle_background"
-        />
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+    
+	    <ImageView
+	        android:id="@+id/trendingSitePosterImage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="40dp"
+	        android:layout_alignParentTop="true"
+	        tools:ignore="ContentDescription" />
+	
+	    <com.parworks.mars.view.trending.ShingleBoard
+	        android:id="@+id/shingleBoard"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"        
+	        android:layout_below="@+id/trendingSitePosterImage"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="40dp"
+	        android:src="@drawable/shingle_background"
+	        />
+    </RelativeLayout>
     
 </RelativeLayout>

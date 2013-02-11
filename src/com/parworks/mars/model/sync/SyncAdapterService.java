@@ -140,9 +140,9 @@ public class SyncAdapterService extends Service {
 			values.put(AugmentedImagesTable.COLUMN_TIMESTAMP, image.getTime());
 			values.put(AugmentedImagesTable.COLUMN_CONTENT, image.getOutput());
 			
-			Log.d(TAG,"CONTENT SIZE URL: " + image.getImgContentPath());
-			Log.d(TAG,"SITE ID: " + image.getSiteId());
-			Log.d(TAG,"FULL SIZE IMAGE: " + image.getImgPath());
+//			Log.d(TAG,"CONTENT SIZE URL: " + image.getImgContentPath());
+//			Log.d(TAG,"SITE ID: " + image.getSiteId());
+//			Log.d(TAG,"FULL SIZE IMAGE: " + image.getImgPath());
 			
 			// update or insert if not exist
 			// FIXME: not thread-safe here
@@ -178,6 +178,7 @@ public class SyncAdapterService extends Service {
 			values.put(TrendingSitesTable.COLUMN_SITE_ID, siteInfoOverview.getId());
 			values.put(TrendingSitesTable.COLUMN_STATE, siteInfoOverview.getSiteState());
 			values.put(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES, siteInfoOverview.getNumAugmentedImages());	
+			values.put(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL, siteInfoOverview.getPosterImageBlurredURL());
 			
 			op = ContentProviderOperation.newInsert(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES)
 					.withValues(values);

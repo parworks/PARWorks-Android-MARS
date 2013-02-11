@@ -11,6 +11,9 @@ import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 
 public class ImageViewManager {
 	
+	/** Do not configure width */
+	public static final int IGNORE_WIDTH = -1;
+	
 	public interface ImageLoadedListener {
 		public void onImageLoaded();
 	}
@@ -26,7 +29,9 @@ public class ImageViewManager {
 				new BitmapWorkerTask(url, imageView, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded() {
-						setImageSizeMaintainAspectRatio(imageView,width);
+						if (width != IGNORE_WIDTH) {
+							setImageSizeMaintainAspectRatio(imageView,width);
+						}
 						if (listener != null) {
 							listener.onImageLoaded();
 						}
@@ -34,7 +39,9 @@ public class ImageViewManager {
 				}).execute();
 			} else {
 				imageView.setImageBitmap(posterImageBitmap);
-				setImageSizeMaintainAspectRatio(imageView,width);
+				if (width != IGNORE_WIDTH) {
+					setImageSizeMaintainAspectRatio(imageView,width);
+				}
 				if (listener != null) {
 					listener.onImageLoaded();
 				}
