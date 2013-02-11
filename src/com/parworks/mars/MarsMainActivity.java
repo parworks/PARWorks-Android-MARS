@@ -67,7 +67,11 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		// configure ActionBar
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// enable the back arrow
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		// setup the icon used for the action bar
+		// getSupportActionBar().setIcon(R.drawable.ic_bar_item_sidebar);
 		
 		// init fragment components
 		initMenuControlledFragments();
@@ -126,6 +130,8 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 					getSlidingMenu().showContent();
 				}
 			}, 50);
+			// update ActionBar title
+			this.getSupportActionBar().setTitle(fragmentName);
 		}
 	}
 }

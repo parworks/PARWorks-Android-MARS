@@ -45,7 +45,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-System.out.println("OnCreateView");
+
 		vp = new ViewPager(this.getActivity());
 		vp.setId("VP".hashCode());		
 		vp.setOnPageChangeListener(new OnPageChangeListener() {
@@ -103,7 +103,8 @@ System.out.println("OnCreateView");
 		while(!data.isAfterLast()) {
 			String siteId = data.getString(data.getColumnIndex(TrendingSitesTable.COLUMN_SITE_ID));
 			int siteNum = data.getInt(data.getColumnIndex(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES));
-			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, 0));
+			String posterUrl = data.getString(data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL));
+			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl));
 			data.moveToNext();
 		}	
 		
