@@ -17,8 +17,6 @@ public class AugmentedImageViewManager {
 	private final GridView mAugmentedImagesGridView;
 	private final Context mContext;
 	
-	private static final String AUGMENTED_IMAGE_SIZE_COLUMN = AugmentedImagesTable.COLUMN_CONTENT_SIZE_URL;
-	
 	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, GridView augmentedImagesGridView) {
 		mSiteId = siteId;
 		mContext = context;
@@ -31,10 +29,14 @@ public class AugmentedImageViewManager {
 			Log.d(TAG,"Augmented images cursor has no data. Count was: " + data.getCount() );
 			return;
 		}
-		for(data.moveToFirst();!data.isLast();data.moveToNext()) {
-			Log.d(TAG,"url is: " + data.getString(data.getColumnIndex(AUGMENTED_IMAGE_SIZE_COLUMN)));
+		
+		data.moveToFirst();
+	    while (!data.isAfterLast()) {
+			Log.d(TAG,"url is: " + data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_FULL_SIZE_URL)));
 			Log.d(TAG,"hihihhi");
-		}
+	        data.moveToNext();
+	    }
+	    data.close();
 		
 	}
 	
