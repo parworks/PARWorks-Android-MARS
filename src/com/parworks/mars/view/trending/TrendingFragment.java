@@ -32,7 +32,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	
 	private static final String TAG = "TrendingFragment";
 	private static final int TRENDING_SITES_LOADER_ID = 5;
-
+	
 	private SlidingFragmentActivity mContext;
 	private ViewPager vp;
 	private TrendingPagerAdapter vpAdapter;
@@ -49,11 +49,22 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		vp = new ViewPager(this.getActivity());
 		vp.setId("VP".hashCode());		
 		vp.setOnPageChangeListener(new OnPageChangeListener() {
+			private float lastOffset = 0;
+			
 			@Override
 			public void onPageScrollStateChanged(int arg0) { }
 
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) { }
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { 
+				if (positionOffset >= lastOffset) {
+					vpAdapter.changeOpacity(position, positionOffset);
+					vpAdapter.changeOpacity(position + 1, (1 - positionOffset));
+				} else {
+					vpAdapter.changeOpacity(position, positionOffset);
+					vpAdapter.changeOpacity(position + 1, (1 - positionOffset));
+				}
+				lastOffset = positionOffset;
+			}
 
 			@Override
 			public void onPageSelected(int position) {		
@@ -66,7 +77,9 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 					break;
 				}
 			}
-		});		
+		});
+		
+		//vp.setPageMargin(-60);
 		
 		// config SlidingMenu touch mode
 		mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -99,12 +112,18 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		
 		Log.d(TAG, "onLoadFinished and update sites fragment");
 		// init new data content for the adapter
-		ArrayList<Fragment> sitesFragments = new ArrayList<Fragment>(data.getCount());
+		ArrayList<TrendingSiteFragment> sitesFragments = new ArrayList<TrendingSiteFragment>(data.getCount());
 		while(!data.isAfterLast()) {
-			String siteId = data.getString(data.getColumnIndex(TrendingSitesTable.COLUMN_SITE_ID));
-			int siteNum = data.getInt(data.getColumnIndex(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES));
-			String posterUrl = data.getString(data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL));
-			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl));
+			String siteId = data.getString(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_SITE_ID));
+			int siteNum = data.getInt(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES));
+			String posterUrl = data.getString(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL));
+			String blurredUrl = data.getString(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL));
+			
+			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl, blurredUrl));
 			data.moveToNext();
 		}	
 		
@@ -126,11 +145,11 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	 */
 	public class TrendingPagerAdapter extends FragmentPagerAdapter {
 		
-		private ArrayList<Fragment> mFragments;
+		private ArrayList<TrendingSiteFragment> mFragments;
 		
 		public TrendingPagerAdapter(FragmentManager fm) {
 			super(fm);
-			mFragments = new ArrayList<Fragment>();
+			mFragments = new ArrayList<TrendingSiteFragment>();
 		}
 
 		@Override
@@ -152,9 +171,15 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			return position;
 		}
 
-		public void updateFragments(ArrayList<Fragment> fragments) {
+		public void updateFragments(ArrayList<TrendingSiteFragment> fragments) {
 			mFragments.clear();
 			mFragments = fragments;				
-		}		
+		}
+		
+		public void changeOpacity(int position, float scale) {	
+			if (position < mFragments.size()) {
+				mFragments.get(position).changeBackgroundOpacity(scale);				
+			}
+		}
 	}
 }

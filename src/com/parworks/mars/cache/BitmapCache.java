@@ -91,6 +91,9 @@ public class BitmapCache {
 		if (bitmap == null) {
 			// check disk cache if not present in mem cache
 			bitmap = mImageDiskCache.getBitmap(key, BITMAP_SAMPLE);
+			if (bitmap != null) {
+				mMemoryCache.put(key, bitmap);
+			}
 		}
 		return bitmap;
 	}

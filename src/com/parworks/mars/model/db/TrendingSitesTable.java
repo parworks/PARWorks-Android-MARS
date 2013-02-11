@@ -18,6 +18,7 @@ public class TrendingSitesTable {
 	public static final String COLUMN_LON = "lon";
 	public static final String COLUMN_ADDRESS = "address";
 	public static final String COLUMN_POSTER_IMAGE_URL = "posterimageurl";
+	public static final String COLUMN_POSTER_BLURRED_IMAGE_URL = "posterblurimageurl";
 	public static final String COLUMN_POSTER_IMAGE_CONTENT = "posterimagecontent";
 	public static final String COLUMN_NUM_AUGMENTED_IMAGES = "numaugmentedimages";
 
@@ -25,7 +26,8 @@ public class TrendingSitesTable {
 		COLUMN_INDEX,
 		COLUMN_SITE_ID, COLUMN_NAME, COLUMN_STATE, COLUMN_DESC,
 		COLUMN_LAT, COLUMN_LON, COLUMN_ADDRESS, COLUMN_POSTER_IMAGE_URL,
-		COLUMN_POSTER_IMAGE_CONTENT, COLUMN_NUM_AUGMENTED_IMAGES
+		COLUMN_POSTER_IMAGE_CONTENT, COLUMN_POSTER_BLURRED_IMAGE_URL,
+		COLUMN_NUM_AUGMENTED_IMAGES
 	};	
 
 	/** Database Creation SQL Statement */
@@ -41,6 +43,7 @@ public class TrendingSitesTable {
 			+ COLUMN_LON + " text," 
 			+ COLUMN_ADDRESS + " text,"
 			+ COLUMN_POSTER_IMAGE_URL + " text,"
+			+ COLUMN_POSTER_BLURRED_IMAGE_URL + " text,"
 			+ COLUMN_POSTER_IMAGE_CONTENT + " text,"
 			+ COLUMN_NUM_AUGMENTED_IMAGES + " integer"
 			+ ");";
