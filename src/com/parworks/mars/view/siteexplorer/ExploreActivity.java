@@ -4,6 +4,7 @@ package com.parworks.mars.view.siteexplorer;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -89,8 +90,8 @@ public class ExploreActivity extends FragmentActivity {
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
 		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
-		GridView augmentedImagesGridView = (GridView) findViewById(R.id.gridViewAugmentedPhotos);
-		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesGridView);
+		Gallery augmentedImagesGallery = (Gallery) findViewById(R.id.galleryAugmentedPhotos);
+		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesGallery);
 		augmentedImagesViewManager.setAugmentedImages(data);
 		
 	}

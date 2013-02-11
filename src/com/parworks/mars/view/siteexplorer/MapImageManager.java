@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class MapImageManager {
 
@@ -35,6 +36,10 @@ public class MapImageManager {
 	public void setMapView(Cursor data) {
 		String lat = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LAT));
 		String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
+		if(lat == null || lon == null) {
+			Toast.makeText(mActivity, "This site has no latitude or longitude.", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		
 		ViewDimensionCalculator viewDimensionCalculator = new ViewDimensionCalculator(mActivity);
 		final int width = viewDimensionCalculator.getScreenWidth();

@@ -23,9 +23,10 @@ public class ImageViewManager {
 					BitmapCache.getImageKeyFromURL(url));
 			if (posterImageBitmap == null) {
 				Log.d(TAG, "Bitmap not found in cache, start to download it.");
-				new BitmapWorkerTask(url, imageView, new BitmapWorkerListener() {					
+				new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 					@Override
-					public void bitmapLoaded() {
+					public void bitmapLoaded(Bitmap bitmap) {
+						imageView.setImageBitmap(bitmap);
 						setImageSizeMaintainAspectRatio(imageView,width);
 						if (listener != null) {
 							listener.onImageLoaded();

@@ -17,13 +17,13 @@ import android.widget.ImageView;
 public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	
 	public interface BitmapWorkerListener {
-		public void bitmapLoaded();
+		public void bitmapLoaded(Bitmap bitmap);
 	}
 
 	/** The URL of the image to be downloaded */
 	private String imageUrl;
 	/** The target ImageView to display the bitmap */
-	private ImageView imageView;
+//	private ImageView imageView;
 	/** The callback listener */
 	private BitmapWorkerListener listener;
 	
@@ -35,9 +35,8 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	//  3) the Default image place holder 
 	//  4) the progress bar
 
-	public BitmapWorkerTask(String url, ImageView imageView, BitmapWorkerListener listener) {
+	public BitmapWorkerTask(String url, BitmapWorkerListener listener) {
 		this.imageUrl = url;
-		this.imageView = imageView;
 		this.listener = listener;
 	}
 	
@@ -58,8 +57,7 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	protected void onPostExecute(Bitmap result) {
 		// update the image view
 		if (result != null) {	
-			imageView.setImageBitmap(result);
-			listener.bitmapLoaded();
+			listener.bitmapLoaded(result);
 		} else {
 			Log.w("BitmapWorkerTask", "Failed to get the bitmap and display it: " + imageUrl);
 		}

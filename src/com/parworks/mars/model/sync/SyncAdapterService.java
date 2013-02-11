@@ -140,9 +140,9 @@ public class SyncAdapterService extends Service {
 			values.put(AugmentedImagesTable.COLUMN_TIMESTAMP, image.getTime());
 			values.put(AugmentedImagesTable.COLUMN_CONTENT, image.getOutput());
 			
-			Log.d(TAG,"CONTENT SIZE URL: " + image.getImgContentPath());
-			Log.d(TAG,"SITE ID: " + image.getSiteId());
-			Log.d(TAG,"FULL SIZE IMAGE: " + image.getImgPath());
+//			Log.d(TAG,"CONTENT SIZE URL: " + image.getImgContentPath());
+//			Log.d(TAG,"SITE ID: " + image.getSiteId());
+//			Log.d(TAG,"FULL SIZE IMAGE: " + image.getImgPath());
 			
 			// update or insert if not exist
 			// FIXME: not thread-safe here
