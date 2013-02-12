@@ -26,6 +26,7 @@ import com.parworks.mars.view.siteexplorer.ImageViewManager;
 import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.viewpagerindicator.CirclePageIndicator;
 
 /**
  * The Trending view is based on a ViewPager,
@@ -42,6 +43,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	private ViewPager vp;
 	private TrendingPagerAdapter vpAdapter;
 	
+	private CirclePageIndicator circlePageIndicator;
 	private ImageView backgroundImageView1;
 	private ImageView backgroundImageView2;
 	/** Current page view position */
@@ -57,11 +59,12 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_trending, null);
-		
 		// init ViewPager
 		vp = (ViewPager) v.findViewById(R.id.trendingViewPager);
 		vp.setId("VP".hashCode());		
-		vp.setOnPageChangeListener(new OnPageChangeListener() {			
+		// Bind the title indicator to the adapter
+		circlePageIndicator = (CirclePageIndicator) v.findViewById(R.id.pageIndicatorTitle);	
+		circlePageIndicator.setOnPageChangeListener(new OnPageChangeListener() {			
 			@Override
 			public void onPageScrollStateChanged(int arg0) { }
 
@@ -92,7 +95,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			}
 		});
 		
-		//vp.setPageMargin(-60);
+		//vp.setPageMargin(-60);	
 		
 		// init background ImageViews
 		backgroundImageView1 = (ImageView) v.findViewById(R.id.blurredBackground1);
@@ -106,7 +109,6 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// init adapter			
 		vpAdapter = new TrendingPagerAdapter(this.getActivity().getSupportFragmentManager());
 		// init Loader for TrendingSites
@@ -152,6 +154,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		// update vp adapter
 		vpAdapter.updateFragments(sitesFragments);	
 		vp.setAdapter(vpAdapter);
+		circlePageIndicator.setViewPager(vp);
 		vp.setCurrentItem(0);
 		currentPos = 0;
 		showBackgroundImage(backgroundImageView1, 0, 1);

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@android:color/transparent" >
+    android:background="@android:color/transparent" xmlns:app="http://schemas.android.com/apk/res/com.parworks.mars">
 
     <ImageView
         android:id="@+id/blurredBackground1"
@@ -30,10 +30,15 @@
 	        android:id="@+id/trendingViewPager"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
-	        android:layout_centerHorizontal="true"
-	        android:layout_alignParentTop="true"
 	        tools:ignore="ContentDescription" />
 	    		   
+	    <com.viewpagerindicator.CirclePageIndicator
+		    android:id="@+id/pageIndicatorTitle"
+		    android:layout_alignParentBottom="true"
+		    android:padding="20dp"
+		    android:layout_height="wrap_content"
+		    android:layout_width="fill_parent" />
+	    
     </RelativeLayout>
         
 </RelativeLayout>
