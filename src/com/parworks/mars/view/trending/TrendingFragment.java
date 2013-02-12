@@ -145,7 +145,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL));
 			
 			// add fragment for site
-			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl, blurredUrl));
+			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl));
 			// add blurred image for background
 			backgroundImageUrls.add(blurredUrl);
 			data.moveToNext();
@@ -155,6 +155,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		vpAdapter.updateFragments(sitesFragments);	
 		vp.setAdapter(vpAdapter);
 		circlePageIndicator.setViewPager(vp);
+		circlePageIndicator.setCurrentItem(0);
 		vp.setCurrentItem(0);
 		currentPos = 0;
 		showBackgroundImage(backgroundImageView1, 0, 1);

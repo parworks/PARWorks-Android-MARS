@@ -12,7 +12,8 @@
 	        android:layout_centerHorizontal="true"
 	        android:layout_marginTop="35dp"
 	        android:layout_alignParentTop="true"
-	        android:scaleType="centerCrop"
+	        android:padding="10dp" 
+	        android:scaleType="fitXY"
 	        tools:ignore="ContentDescription" />
 	
 	    <com.parworks.mars.view.trending.ShingleBoard
@@ -21,7 +22,7 @@
 	        android:layout_height="wrap_content"        
 	        android:layout_below="@+id/trendingSitePosterImage"
 	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="30dp"
+	        android:layout_marginTop="10dp"
 	        android:src="@drawable/shingle_background"
 	        />
     

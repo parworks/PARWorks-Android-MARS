@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -40,19 +41,24 @@ public class ShingleBoard extends ImageView {
 		mTextPaint.setColor(Color.WHITE);
 		mTextPaint.setStyle(Style.FILL);
 		mTextPaint.setTextSize(40);
+		mTextPaint.setTextAlign(Align.CENTER);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
+		
+		int width = this.getWidth();
+		int height = this.getHeight();
+		
 		if (displayName != null && !TextUtils.isEmpty(displayName)) {			
-			// draw site name
+			// draw site name			
 			mTextPaint.setTextSize(40);
-			canvas.drawText(displayName, 145, 140, mTextPaint);
+			canvas.drawText(displayName, width/2, height/2, mTextPaint);
 			
 			// draw site num augmented images
 			mTextPaint.setTextSize(30);
-			canvas.drawText(numAugmentedImages + " Augmented Images", 145, 180, mTextPaint);			
+			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + 40, mTextPaint);			
 		}
 	}
 	
