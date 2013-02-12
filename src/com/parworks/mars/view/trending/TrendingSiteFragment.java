@@ -1,22 +1,26 @@
 package com.parworks.mars.view.trending;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.parworks.mars.R;
+import com.parworks.mars.Test;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 import com.parworks.mars.utils.ImageHelper;
+import com.parworks.mars.view.siteexplorer.ExploreActivity;
 import com.parworks.mars.view.siteexplorer.ImageViewManager;
 
-public class TrendingSiteFragment extends Fragment {
+public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	
 	private String siteId;
 	private int numAugmentedImages;
@@ -67,11 +71,22 @@ public class TrendingSiteFragment extends Fragment {
 		sb.getLayoutParams().width = boardWidth;
 		sb.updateText(siteId, numAugmentedImages);		
 		
+		// add click action
+		imageView.setOnClickListener(this);
+		sb.setOnClickListener(this);
+		
 		return v;
 	}	
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent i = new Intent(this.getActivity(), ExploreActivity.class);
+		i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, siteId);
+		startActivity(i);
 	}	
 }
