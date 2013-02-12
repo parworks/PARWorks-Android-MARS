@@ -27,12 +27,12 @@
         
         <activity
             android:name="com.parworks.mars.view.siteexplorer.TestActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" >           
         </activity>
         
         <activity
             android:name="com.parworks.mars.Test"
-            android:label="@string/title_activity_test" >
+            android:label="@string/title_activity_test" >             
         </activity>
         
         <activity
@@ -43,7 +43,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>            
         </activity>
 
         <provider             

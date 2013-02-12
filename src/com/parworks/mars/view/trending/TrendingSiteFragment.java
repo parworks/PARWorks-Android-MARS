@@ -34,10 +34,13 @@ public class TrendingSiteFragment extends Fragment {
 		
 		// handle poster image	
 		ImageView imageView = (ImageView) v.findViewById(R.id.trendingSitePosterImage);
-		ImageViewManager imageViewManager = new ImageViewManager();
+		ImageViewManager imageViewManager = new ImageViewManager();		
 		int imageWidth = (int) (container.getWidth() * 0.8);
+		imageView.getLayoutParams().width = imageWidth;
+		imageView.getLayoutParams().height = imageWidth;
+		
 		if (posterImageUrl != null) {
-			imageViewManager.setImageView(posterImageUrl, imageWidth, imageView, null);
+			imageViewManager.setImageView(posterImageUrl, ImageViewManager.IGNORE_WIDTH, imageView, null);
 		} else {
 			imageView.setImageResource(R.drawable.img_missing_image);
 		}
@@ -46,26 +49,10 @@ public class TrendingSiteFragment extends Fragment {
 		ShingleBoard sb = (ShingleBoard) v.findViewById(R.id.shingleBoard);
 		int boardWidth = (int) (container.getWidth() * 0.7);		
 		sb.getLayoutParams().width = boardWidth;
-		sb.updateText(siteId, numAugmentedImages);
-		
-		// setup blur background
-		backgroundImageView = (ImageView) v.findViewById(R.id.blurredBackground);
-		if (posterBlurredImageUrl != null) {
-			imageViewManager.setImageView(posterBlurredImageUrl, ImageViewManager.IGNORE_WIDTH, 
-					backgroundImageView, null);
-		} else {
-			imageView.setImageResource(R.drawable.img_missing_image);
-		}
+		sb.updateText(siteId, numAugmentedImages);		
 		
 		return v;
 	}	
-	
-	@SuppressWarnings("deprecation")
-	public void changeBackgroundOpacity(float scale) {
-		if (backgroundImageView != null) {
-			backgroundImageView.setAlpha((int) ((1 - scale) * 255));
-		}
-	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

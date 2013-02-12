@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
-import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 public class Test extends FragmentActivity implements

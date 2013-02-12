@@ -1,6 +1,7 @@
 package com.parworks.mars.view.trending;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,9 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.parworks.mars.R;
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.view.siteexplorer.ImageViewManager;
+import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -37,6 +42,12 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	private ViewPager vp;
 	private TrendingPagerAdapter vpAdapter;
 	
+	private ImageView backgroundImageView1;
+	private ImageView backgroundImageView2;
+	/** Current page view position */
+	private int currentPos = 0;
+	private List<String> backgroundImageUrls;
+	
 	public TrendingFragment(SlidingFragmentActivity context) {
 		super();
 		mContext = context;
@@ -45,25 +56,26 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		vp = new ViewPager(this.getActivity());
+		View v = inflater.inflate(R.layout.fragment_trending, null);
+		
+		// init ViewPager
+		vp = (ViewPager) v.findViewById(R.id.trendingViewPager);
 		vp.setId("VP".hashCode());		
-		vp.setOnPageChangeListener(new OnPageChangeListener() {
-			private float lastOffset = 0;
-			
+		vp.setOnPageChangeListener(new OnPageChangeListener() {			
 			@Override
 			public void onPageScrollStateChanged(int arg0) { }
 
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { 
-				if (positionOffset >= lastOffset) {
-					vpAdapter.changeOpacity(position, positionOffset);
-					vpAdapter.changeOpacity(position + 1, (1 - positionOffset));
+				if (position == currentPos) {
+					// to the right
+					showBackgroundImage(backgroundImageView1, position, 1 - positionOffset);
+					showBackgroundImage(backgroundImageView2, position + 1, positionOffset);
 				} else {
-					vpAdapter.changeOpacity(position, positionOffset);
-					vpAdapter.changeOpacity(position + 1, (1 - positionOffset));
+					// to the left
+					showBackgroundImage(backgroundImageView1, position, 1 - positionOffset);
+					showBackgroundImage(backgroundImageView2, position + 1, positionOffset);
 				}
-				lastOffset = positionOffset;
 			}
 
 			@Override
@@ -76,14 +88,19 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 					break;
 				}
+				currentPos = position;
 			}
 		});
 		
 		//vp.setPageMargin(-60);
 		
+		// init background ImageViews
+		backgroundImageView1 = (ImageView) v.findViewById(R.id.blurredBackground1);
+		backgroundImageView2 = (ImageView) v.findViewById(R.id.blurredBackground2);
+		
 		// config SlidingMenu touch mode
 		mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		return vp;
+		return v;
 	}
 
 	@Override
@@ -111,6 +128,8 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		}
 		
 		Log.d(TAG, "onLoadFinished and update sites fragment");
+		// store all the background images
+		backgroundImageUrls = new ArrayList<String>();
 		// init new data content for the adapter
 		ArrayList<TrendingSiteFragment> sitesFragments = new ArrayList<TrendingSiteFragment>(data.getCount());
 		while(!data.isAfterLast()) {
@@ -123,7 +142,10 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			String blurredUrl = data.getString(
 					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL));
 			
+			// add fragment for site
 			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl, blurredUrl));
+			// add blurred image for background
+			backgroundImageUrls.add(blurredUrl);
 			data.moveToNext();
 		}	
 		
@@ -131,7 +153,9 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		vpAdapter.updateFragments(sitesFragments);	
 		vp.setAdapter(vpAdapter);
 		vp.setCurrentItem(0);
-		vpAdapter.notifyDataSetChanged();
+		currentPos = 0;
+		showBackgroundImage(backgroundImageView1, 0, 1);
+		vpAdapter.notifyDataSetChanged();		
 	}
 
 	@Override
@@ -139,6 +163,33 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void showBackgroundImage(final ImageView imageView, int position, final float scale) {
+		if (position >= backgroundImageUrls.size()) {
+			return;
+		}
+		
+		final String imageUrl = backgroundImageUrls.get(position);
+		// if the image view already displays the target image
+		// only set the alpha value
+		if (imageUrl != null && imageUrl.equals(imageView.getTag())) {
+			imageView.setAlpha((int) (255 * scale));
+		} else {
+			// download and load the image first 
+			// then setup the alpha value
+			ImageViewManager imageViewManager = new ImageViewManager();
+			if (imageUrl != null) {
+				imageViewManager.setImageView(imageUrl, ImageViewManager.IGNORE_WIDTH, 
+						imageView, new ImageLoadedListener() {
+							@Override
+							public void onImageLoaded() {
+								imageView.setAlpha((int) (255 * scale));
+								imageView.setTag(imageUrl);
+							}
+				});
+			}
+		}
+	}	
 	
 	/**
 	 * Adapter for trending sites
@@ -174,12 +225,6 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		public void updateFragments(ArrayList<TrendingSiteFragment> fragments) {
 			mFragments.clear();
 			mFragments = fragments;				
-		}
-		
-		public void changeOpacity(int position, float scale) {	
-			if (position < mFragments.size()) {
-				mFragments.get(position).changeBackgroundOpacity(scale);				
-			}
-		}
+		}		
 	}
 }
