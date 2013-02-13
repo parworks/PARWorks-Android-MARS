@@ -26,20 +26,14 @@ public class ImageViewManager {
 				new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {
-//						imageView.setImageBitmap(bitmap);
-//						if (width != IGNORE_WIDTH) {
-//							setImageSizeMaintainAspectRatio(imageView,width);
-//						}
+						imageView.setImageBitmap(bitmap);
 						if (listener != null) {
 							listener.onImageLoaded();
 						}
 					}
 				}).execute();
 			} else {
-//				imageView.setImageBitmap(posterImageBitmap);
-//				if (width != IGNORE_WIDTH) {
-//					setImageSizeMaintainAspectRatio(imageView,width);
-//				}
+				imageView.setImageBitmap(posterImageBitmap);
 				if (listener != null) {
 					listener.onImageLoaded();
 				}
