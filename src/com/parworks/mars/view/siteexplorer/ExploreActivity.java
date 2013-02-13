@@ -4,19 +4,24 @@ package com.parworks.mars.view.siteexplorer;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
 import com.parworks.mars.view.siteexplorer.SiteInfoLoader.SiteInfoLoaderListener;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class ExploreActivity extends FragmentActivity { 
+public class ExploreActivity extends SherlockFragmentActivity { 
 	
 	public static final String SITE_ID_ARGUMENT_KEY = "siteIdKey";
 	public static final String TAG = ExploreActivity.class.getName();
@@ -28,7 +33,7 @@ public class ExploreActivity extends FragmentActivity {
 	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_explore);
 		
@@ -57,7 +62,24 @@ public class ExploreActivity extends FragmentActivity {
 		});
 		getSupportLoaderManager().initLoader(AUGMENTED_IMAGES_LOADER_ID, null, augmentedImagesLoader);
 		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
+		
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	

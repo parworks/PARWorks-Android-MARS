@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
 public class PosterImageManager {
@@ -18,14 +19,18 @@ public class PosterImageManager {
 	private final ProgressBar mSiteImageProgressBar;
 	private final Activity mActivity;
 	private final String mSiteId;
+	private final ViewDimensionCalculator mViewDimensionCalculator;
 	
 	public static final String TAG = PosterImageManager.class.getName();
 	
 	public PosterImageManager(String siteId, ImageView siteImageView, ProgressBar siteImageProgressBar, Activity activity) {
 		mSiteImageView = siteImageView;
+		mSiteImageView.setAdjustViewBounds(true);
+		mSiteImageView.setScaleType(ScaleType.CENTER_CROP);
 		mSiteImageProgressBar = siteImageProgressBar;
 		mActivity = activity;
 		mSiteId = siteId;
+		mViewDimensionCalculator = new ViewDimensionCalculator(mActivity);
 	}
 	
 	
@@ -43,11 +48,9 @@ public class PosterImageManager {
 			}
 		};
 		
-		ViewDimensionCalculator viewDimensionCalculator = new ViewDimensionCalculator(mActivity);
-		final int width = viewDimensionCalculator.getScreenWidth();
-		
 		if(posterImageUrl != null ) {
 			imageViewManager.setImageView(posterImageUrl,  mSiteImageView, imageLoadedListener);
+			setPosterImageSize();
 		} else {
 			imageViewManager.setImageView(posterImageUrl, mSiteImageView, imageLoadedListener);
 			Log.d(TAG, "posterImageUrl was null. Using first base mSiteImageView.");
@@ -56,6 +59,7 @@ public class PosterImageManager {
 				@Override
 				public void firstBaseImageUrl(String url) {
 					imageViewManager.setImageView(url, mSiteImageView, imageLoadedListener);
+					setPosterImageSize();
 					
 				}
 			});
@@ -65,6 +69,10 @@ public class PosterImageManager {
 	private void showSiteImageView() {
 		mSiteImageView.setVisibility(View.VISIBLE);
 		mSiteImageProgressBar.setVisibility(View.INVISIBLE);
+	}
+	private void setPosterImageSize() {
+		mSiteImageView.getLayoutParams().width = mViewDimensionCalculator.getScreenWidth();
+		mSiteImageView.getLayoutParams().height = mViewDimensionCalculator.getScreenWidth()/2;
 	}
 
 }
