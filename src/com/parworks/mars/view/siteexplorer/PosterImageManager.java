@@ -12,16 +12,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-public class SiteImageManager {
+public class PosterImageManager {
 	
 	private final ImageView mSiteImageView;
 	private final ProgressBar mSiteImageProgressBar;
 	private final Activity mActivity;
 	private final String mSiteId;
 	
-	public static final String TAG = SiteImageManager.class.getName();
+	public static final String TAG = PosterImageManager.class.getName();
 	
-	public SiteImageManager(String siteId, ImageView siteImageView, ProgressBar siteImageProgressBar, Activity activity) {
+	public PosterImageManager(String siteId, ImageView siteImageView, ProgressBar siteImageProgressBar, Activity activity) {
 		mSiteImageView = siteImageView;
 		mSiteImageProgressBar = siteImageProgressBar;
 		mActivity = activity;

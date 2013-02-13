@@ -78,7 +78,7 @@ public class ExploreActivity extends FragmentActivity {
 		//let siteImageManager handle the SiteImageView
 		ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
 		ProgressBar siteImageProgressBar = (ProgressBar) findViewById(R.id.progressBarSiteImage);
-		SiteImageManager siteImageManager = new SiteImageManager(mSiteId, siteImageView, siteImageProgressBar, this);
+		PosterImageManager siteImageManager = new PosterImageManager(mSiteId, siteImageView, siteImageProgressBar, this);
 		siteImageManager.setSiteImage(data);
 		
 		//let mapImageManager handle the map view

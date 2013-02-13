@@ -19,6 +19,7 @@ public class MapImageManager {
 	private final ProgressBar mMapImageProgressBar;
 	private final Activity mActivity;
 	private final String mSiteId;
+	private ViewDimensionCalculator mViewDimensionCalculator;
 	
 	public static final String TAG = MapImageManager.class.getName();
 	
@@ -29,6 +30,7 @@ public class MapImageManager {
 		mMapImageProgressBar = mapImageProgressBar;
 		mActivity = activity;
 		mSiteId = siteId;
+		mViewDimensionCalculator = new ViewDimensionCalculator(mActivity);
 	}
 	
 	private void showMapView() {
@@ -37,7 +39,13 @@ public class MapImageManager {
 	}
 	private void disableMapView() {
 		mMapImageView.setVisibility(View.INVISIBLE);
-		mMapImageView.setVisibility(View.INVISIBLE);
+		mMapImageProgressBar.setVisibility(View.INVISIBLE);
+		mMapImageView.setEnabled(false);
+		mMapImageProgressBar.setEnabled(false);
+	}
+	private void setMapViewSize() {
+		mMapImageView.getLayoutParams().width = mViewDimensionCalculator.getScreenWidth();
+		mMapImageView.getLayoutParams().height = mViewDimensionCalculator.getScreenWidth()/2;
 	}
 
 	public void setMapView(Cursor data) {
@@ -45,13 +53,11 @@ public class MapImageManager {
 		String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
 		if(lat == null || lon == null) {
 			Toast.makeText(mActivity, "This site has no latitude or longitude.", Toast.LENGTH_SHORT).show();
+			disableMapView();
 			return;
 		}
-		
-		ViewDimensionCalculator viewDimensionCalculator = new ViewDimensionCalculator(mActivity);
-		final int width = viewDimensionCalculator.getScreenWidth();
-		final int height = width/10;
-		Log.d(TAG,"width is: " + width + " height is: " + height);
+		final int width = mViewDimensionCalculator.getScreenWidth();
+		final int height = width/2;
 		
 		String mapUrl = StaticGoogleMaps.getMapUrl(lat, lon, width, height);
 		Log.d(TAG,"Url is: " + mapUrl);
@@ -62,6 +68,7 @@ public class MapImageManager {
 				
 				@Override
 				public void onImageLoaded() {
+					setMapViewSize();
 					showMapView();
 					
 				}
