@@ -47,15 +47,15 @@ public class SiteImageManager {
 		final int width = viewDimensionCalculator.getScreenWidth();
 		
 		if(posterImageUrl != null ) {
-			imageViewManager.setImageView(posterImageUrl, width, mSiteImageView, imageLoadedListener);
+			imageViewManager.setImageView(posterImageUrl,  mSiteImageView, imageLoadedListener);
 		} else {
-			imageViewManager.setImageView(posterImageUrl, width, mSiteImageView, imageLoadedListener);
+			imageViewManager.setImageView(posterImageUrl, mSiteImageView, imageLoadedListener);
 			Log.d(TAG, "posterImageUrl was null. Using first base mSiteImageView.");
 			BaseImageRetreiver.getFirstBaseImageUrl(mSiteId, new BaseImageRetreiverListener() {
 				
 				@Override
 				public void firstBaseImageUrl(String url) {
-					imageViewManager.setImageView(url, width, mSiteImageView, imageLoadedListener);
+					imageViewManager.setImageView(url, mSiteImageView, imageLoadedListener);
 					
 				}
 			});

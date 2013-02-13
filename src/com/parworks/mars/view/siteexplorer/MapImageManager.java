@@ -44,11 +44,11 @@ public class MapImageManager {
 		ViewDimensionCalculator viewDimensionCalculator = new ViewDimensionCalculator(mActivity);
 		final int width = viewDimensionCalculator.getScreenWidth();
 		
-		String mapUrl = StaticGoogleMaps.getMapUrl(lat, lon, 400, 400);
+		String mapUrl = StaticGoogleMaps.getMapUrl(lat, lon, width, width/2);
 		ImageViewManager imageViewManager = new ImageViewManager();		
 		
 		if(mapUrl != null) {
-			imageViewManager.setImageView(mapUrl, width, mMapImageView, new ImageLoadedListener() {
+			imageViewManager.setImageView(mapUrl, mMapImageView, new ImageLoadedListener() {
 				
 				@Override
 				public void onImageLoaded() {

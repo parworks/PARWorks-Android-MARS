@@ -1,5 +1,6 @@
 package com.parworks.mars.view.siteexplorer;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
@@ -11,16 +12,12 @@ import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 
 public class ImageViewManager {
 	
-	/** Do not configure width */
-	public static final int IGNORE_WIDTH = -1;
-	
 	public interface ImageLoadedListener {
 		public void onImageLoaded();
 	}
-	
 	public static final String TAG = ImageViewManager.class.getName();	
 	
-	public void setImageView(String url, final int width, final ImageView imageView, final ImageLoadedListener listener) {
+	public void setImageView(String url, final ImageView imageView, final ImageLoadedListener listener) {
 		if(url != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(url));
@@ -29,20 +26,20 @@ public class ImageViewManager {
 				new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {
-						imageView.setImageBitmap(bitmap);
-						if (width != IGNORE_WIDTH) {
-							setImageSizeMaintainAspectRatio(imageView,width);
-						}
+//						imageView.setImageBitmap(bitmap);
+//						if (width != IGNORE_WIDTH) {
+//							setImageSizeMaintainAspectRatio(imageView,width);
+//						}
 						if (listener != null) {
 							listener.onImageLoaded();
 						}
 					}
 				}).execute();
 			} else {
-				imageView.setImageBitmap(posterImageBitmap);
-				if (width != IGNORE_WIDTH) {
-					setImageSizeMaintainAspectRatio(imageView,width);
-				}
+//				imageView.setImageBitmap(posterImageBitmap);
+//				if (width != IGNORE_WIDTH) {
+//					setImageSizeMaintainAspectRatio(imageView,width);
+//				}
 				if (listener != null) {
 					listener.onImageLoaded();
 				}
@@ -53,10 +50,10 @@ public class ImageViewManager {
 		}
 	}
 		
-	private void setImageSizeMaintainAspectRatio(ImageView imageView,int width) {
-		Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-		int height = ViewDimensionCalculator.calculateHeightToMaintainAspectRatio(width, bitmap);
-		bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
-		imageView.setImageBitmap(bitmap);		
-	}
+//	private void setImageSizeMaintainAspectRatio(ImageView imageView,int width) {
+//		Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+//		int height = ViewDimensionCalculator.calculateHeightToMaintainAspectRatio(width, bitmap);
+//		bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+//		imageView.setImageBitmap(bitmap);		
+//	}
 }

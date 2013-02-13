@@ -183,7 +183,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			// then setup the alpha value
 			ImageViewManager imageViewManager = new ImageViewManager();
 			if (imageUrl != null) {
-				imageViewManager.setImageView(imageUrl, ImageViewManager.IGNORE_WIDTH, 
+				imageViewManager.setImageView(imageUrl, 
 						imageView, new ImageLoadedListener() {
 							@Override
 							public void onImageLoaded() {
