@@ -1,5 +1,6 @@
 package com.parworks.mars.model.sync;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -27,6 +29,7 @@ import com.parworks.mars.model.db.AugmentedImagesTable;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.SiteTags;
 import com.parworks.mars.utils.User;
 
@@ -54,6 +57,7 @@ public class SyncAdapterService extends Service {
 			try {
 				SyncAdapterService.performSync(mContext, account, extras, authority, provider, syncResult);
 			} catch (OperationCanceledException e) {
+				Log.w(TAG, "Failed to perform the sync", e);
 			}
 		}
 	}
@@ -96,6 +100,12 @@ public class SyncAdapterService extends Service {
 				Log.i(TAG, "performSync for TrendingSites: ");
 				List<SiteInfoOverview> trendingSites = User.getARSites().getTrendingSites();
 				updateTrendingSite(trendingSites);
+				
+				// Sync suggested and all tags
+				List<String> suggestedTags = User.getARSites().getSuggestedTags();
+				storeTags(context, "suggestedTags", suggestedTags);
+				List<String> allTags = User.getARSites().getAllTags();				
+				storeTags(context, "allTags", allTags);
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to sync trending sites", e);
 			}
@@ -190,6 +200,18 @@ public class SyncAdapterService extends Service {
 		// update the augmented image table
 		for(SiteInfoOverview siteInfoOverview : sites) {
 			storeAugmentedImages(siteInfoOverview.getRecentlyAugmentedImages());
+		}
+	}
+	
+	private static void storeTags(Context context, String key, List<String> tags) {
+		// store the tags
+		try {
+			SharedPreferences myPrefs = context.getSharedPreferences("MARSTAGS", 0);
+			SharedPreferences.Editor prefsEditor = myPrefs.edit();
+	        prefsEditor.putString(key, JsonMapper.get().writeValueAsString(tags));
+	        prefsEditor.commit();
+		} catch (IOException e) {
+			Log.e(TAG, "Failed to write the tags value into shared preferences", e);
 		}
 	}
 }

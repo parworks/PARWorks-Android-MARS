@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/view_background"
+    android:orientation="vertical" >
+
+    <AutoCompleteTextView
+        android:id="@+id/searchText" 
+        android:layout_margin="10dp"
+        android:singleLine="true"
+    	android:completionThreshold="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSearch"
+        />
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/popularSearches"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="10dp"
+	    android:orientation="vertical">
+        <TextView 
+            android:id="@+id/popularText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:textColor="#C3C3C3"
+            android:text="@string/popularSearch"
+            />        
+        <ListView 
+            android:id="@+id/popularSearchesList"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       
+        	android:divider="#EFEFEF"
+        	android:dividerHeight="1dp"
+        	android:background="@drawable/list_view_border" 	
+            />
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/searchResult"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="10dp"
+	    android:orientation="vertical">
+        
+        <ListView 
+            android:id="@+id/searchResultList"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"       
+        	android:divider="#EFEFEF"
+        	android:dividerHeight="1dp" 	
+            />
+    </LinearLayout>
+    
+</LinearLayout>

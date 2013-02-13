@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.parworks.mars.view.nearby.NearbyFragment;
+import com.parworks.mars.view.search.SearchFragment;
 import com.parworks.mars.view.trending.TrendingFragment;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -87,11 +88,11 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		menuControlledFragments.put(FRAGMENT_NEARBY, new NearbyFragment(this));
 		
 		// 3. Add Search Fragment
-		
+		menuControlledFragments.put(FRAGMENT_SEARCH, new SearchFragment(this));
 		// 4. Add Technology Fragment
 		
 		// Use Trending as the default view
-		switchContent(FRAGMENT_TRENDING);
+		switchContent(FRAGMENT_SEARCH);
 	}
 
 	@Override

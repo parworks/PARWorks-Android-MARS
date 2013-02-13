@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parworks.androidlibrary.ar.ARException;
-import com.parworks.androidlibrary.response.OverlayConfiguration;
 
 public class SiteTags {
 	
@@ -38,6 +37,7 @@ public class SiteTags {
 		}
 		return outputStream.toString();
 	}
+	
 	public static SiteTags fromJson(String json) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		SiteTags siteTags = null;
