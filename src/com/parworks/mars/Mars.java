@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.parworks.mars.cache.BitmapCache;
+import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.model.sync.SyncHelper;
 
 /**
@@ -27,6 +28,9 @@ public class Mars extends Application {
 		
 		// initialize the bitmap cache system
 		BitmapCache.init(mApplicationContext.getApplicationContext());
+		
+		// initialize the sync handler
+		SyncHandler.initSyncHandler(mApplicationContext);
 	}
 	
 	public static Context getAppContext() {

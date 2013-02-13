@@ -152,6 +152,7 @@ public class MarsContentProvider extends ContentProvider {
 		switch (uriType) {
 		case SITES:
 			Log.d(TAG, "Query was SITES: this is unimplemented");
+			queryBuilder.setTables(SiteInfoTable.TABLE_SITES);
 			break;
 		case SITE_ID:  // query a SiteInfo record
 			Log.d(TAG, "Uri was: " + uri + ". Query was SITE_ID with id: " + uri.getLastPathSegment());
