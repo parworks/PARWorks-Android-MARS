@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.parworks.mars.model.db.AugmentedImagesTable;
+import com.parworks.mars.model.db.CommentsTable;
 import com.parworks.mars.model.db.DatabaseHelper;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.db.TrendingSitesTable;
@@ -38,6 +39,8 @@ public class MarsContentProvider extends ContentProvider {
 	private static final int AUGMENTED_IMAGES = 30;
 	private static final int AUGMENTED_IMAGE_ID = 32;
 	private static final int AUGMENTED_SITE_ID = 34;
+	private static final int COMMENT = 40;
+	private static final int COMMENT_ID = 42;
 
 	/** Associated with SiteInfoTable */
 	private static final String BASE_PATH_SITE = "site";
@@ -47,6 +50,9 @@ public class MarsContentProvider extends ContentProvider {
 	private static final String BASE_PATH_AUGMENTED_IMAGE = "augment";
 	
 	private static final String BASE_PATH_AUGMENTED_IMAGES_FOR_SITE = "augmentsite";
+	
+	private static final String BASE_PATH_COMMENT = "comment";
+	private static final String BASE_PATH_COMMENTS = "comments";
 	
 	/** Construct the URI matcher for all content */
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH) {{
@@ -59,6 +65,8 @@ public class MarsContentProvider extends ContentProvider {
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE, AUGMENTED_IMAGES);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/*", AUGMENTED_IMAGE_ID);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGES_FOR_SITE +"/*", AUGMENTED_SITE_ID);
+		addURI(AUTHORITY, BASE_PATH_COMMENTS + "/*", COMMENT_ID);
+		addURI(AUTHORITY,BASE_PATH_COMMENT ,COMMENT);
 	}};
 
 	/** Helper URIs for the callers to use */
@@ -68,6 +76,8 @@ public class MarsContentProvider extends ContentProvider {
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_TRENDING_SITE);
 	public static final Uri CONTENT_URI_ALL_AUGMENTED_IMAGES = 
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE);
+	public static final Uri CONTENT_URI_ALL_COMMENTS =
+			Uri.parse("content://"+AUTHORITY+ "/" + BASE_PATH_COMMENT);
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -135,6 +145,14 @@ public class MarsContentProvider extends ContentProvider {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}
 			break;
+		case COMMENT: //insert a new comment
+			try {
+				id = db.insertOrThrow(CommentsTable.TABLE_NAME, null, values);
+				Log.d(TAG, "Inserted comment for site: " + values.getAsString("siteId"));
+				returnedUri = Uri.parse(BASE_PATH_COMMENTS + "/" + id);
+			} catch(SQLiteConstraintException exception) {
+				Log.d(TAG,"SQLiteConstraintException: " + exception.getMessage());
+			}
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
@@ -170,6 +188,12 @@ public class MarsContentProvider extends ContentProvider {
 					+ "'" + uri.getLastPathSegment() + "'");
 			sortOrder = AugmentedImagesTable.COLUMN_TIMESTAMP + " DESC";
 			break;
+		case COMMENT_ID:
+			queryBuilder.setTables(CommentsTable.TABLE_NAME);
+			queryBuilder.appendWhere(CommentsTable.COLUMN_SITE_ID + "="
+					+ "'" + uri.getLastPathSegment() + "'");
+			sortOrder = CommentsTable.COLUMN_TIMESTAMP + " DESC";
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
@@ -188,6 +212,7 @@ public class MarsContentProvider extends ContentProvider {
 		int uriType = sURIMatcher.match(uri);
 		SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
 		int rowsUpdated = 0;
+		String id = uri.getLastPathSegment();
 		switch (uriType) {
 		case SITES:    // update the whole SiteInfo table
 			rowsUpdated = sqlDB.update(SiteInfoTable.TABLE_SITES, 
@@ -196,7 +221,6 @@ public class MarsContentProvider extends ContentProvider {
 					selectionArgs);
 			break;
 		case SITE_ID:  // update a SiteInfo record
-			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = sqlDB.update(SiteInfoTable.TABLE_SITES, 
 						values,
@@ -215,6 +239,20 @@ public class MarsContentProvider extends ContentProvider {
 					values,
 					AugmentedImagesTable.COLUMN_IMAGE_ID + "=" + "'" + uri.getLastPathSegment() + "'", 
 					null);
+			break;
+		case COMMENT_ID:
+			if (TextUtils.isEmpty(selection)) {
+				rowsUpdated = sqlDB.update(CommentsTable.TABLE_NAME, 
+						values,
+						SiteInfoTable.COLUMN_SITE_ID + "=" + "'" + id + "'", 
+						null);
+			} else {
+				rowsUpdated = sqlDB.update(CommentsTable.TABLE_NAME, 
+						values,
+						SiteInfoTable.COLUMN_SITE_ID + "=" + "'" + id + "'" 
+						+ " and " + selection,
+						selectionArgs);
+			}
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -239,6 +277,9 @@ public class MarsContentProvider extends ContentProvider {
 	
 	public static Uri getAugmentedImageUri(String imgId) {
 		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE + "/" + imgId);
+	}
+	public static Uri getCommentsUri(String siteId) {
+		return Uri.parse("conent://"+AUTHORITY+"/"+BASE_PATH_COMMENTS + "/" + siteId);
 	}
 	
 	@Override

@@ -23,9 +23,11 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.parworks.androidlibrary.response.AugmentedImage;
+import com.parworks.androidlibrary.response.SiteComment;
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.androidlibrary.response.SiteInfoOverview;
 import com.parworks.mars.model.db.AugmentedImagesTable;
+import com.parworks.mars.model.db.CommentsTable;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
@@ -91,6 +93,9 @@ public class SyncAdapterService extends Service {
 				// Sync the augmented images
 				List<AugmentedImage> augmentedImages = User.getARSites().getExisting(siteId).getAugmentedImages();
 				storeAugmentedImages(augmentedImages);
+				
+				List<SiteComment> siteComments = User.getARSites().getExisting(siteId).getSiteComments(siteId);
+				storeSiteComments(siteComments);
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to sync site with ID: " + siteId, e);
 			}
@@ -133,6 +138,25 @@ public class SyncAdapterService extends Service {
 		if (mContentResolver.update(MarsContentProvider.getSiteUri(info.getId()), 
 				values, null, null) == 0) {		
 			mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_SITES, values);
+		}
+	}
+	private static void storeSiteComments(List<SiteComment> comments) {
+		for(SiteComment comment : comments) {
+			ContentValues values = new ContentValues();			
+			values.put(CommentsTable.COLUMN_SITE_ID, comment.getSiteId());
+			values.put(CommentsTable.COLUMN_COMMENT, comment.getComment());
+			values.put(CommentsTable.COLUMN_USER_ID, comment.getUserId());
+			values.put(CommentsTable.COLUMN_TIMESTAMP, comment.getTimeStamp());
+			values.put(CommentsTable.COLUMN_USER_NAME, comment.getUserName());
+			
+			// update or insert if not exist
+			// FIXME: not thread-safe here
+			if (mContentResolver.update(MarsContentProvider.getCommentsUri(comment.getSiteId()),	
+					values, null, null) == 0) {
+				mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_COMMENTS, values);
+			}		
+			
+			// TODO: Cut the records if there are too many records for the site
 		}
 	}
 	
