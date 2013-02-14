@@ -17,15 +17,16 @@ public class ImageViewManager {
 	}
 	public static final String TAG = ImageViewManager.class.getName();	
 	
-	public void setImageView(String url, final ImageView imageView, final ImageLoadedListener listener) {
+	public void setImageView(final String url, final ImageView imageView, final ImageLoadedListener listener) {
 		if(url != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(url));
 			if (posterImageBitmap == null) {
-				Log.d(TAG, "Bitmap not found in cache, start to download it.");
+				Log.d(TAG, "Bitmap not found in cache, start to download it. Url was: " + url);
 				new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {
+						Log.d(TAG,"Finished downloading the bitmap. Setting it to image view. Url was: " + url);
 						imageView.setImageBitmap(bitmap);
 						if (listener != null) {
 							listener.onImageLoaded();
@@ -33,6 +34,7 @@ public class ImageViewManager {
 					}
 				}).execute();
 			} else {
+				Log.d(TAG,"Bitmap was already in the cache! Setting the image. Url was: " + url);
 				imageView.setImageBitmap(posterImageBitmap);
 				if (listener != null) {
 					listener.onImageLoaded();

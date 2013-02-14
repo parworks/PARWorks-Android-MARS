@@ -16,7 +16,7 @@ import com.parworks.androidlibrary.utils.BitmapUtils;
  */
 public class BitmapCache {
 
-	private static final String TAG = "BitmapCache";
+	private static final String TAG = BitmapCache.class.getName();
 	/** Disk cache name */
 	private static final String DISK_CACHE_NAME = "mars";
 	/** Bitmap sample */
@@ -113,6 +113,7 @@ public class BitmapCache {
 	public Bitmap downloadImage(String url) {
 		Bitmap bitmap = null;
 		try {
+			
 			// download the image
 			BitmapUtils bitmapUtils = new BitmapUtils();
 			bitmap = bitmapUtils.getBitmap(url, BITMAP_SAMPLE);
@@ -122,7 +123,7 @@ public class BitmapCache {
 			// put into mem cache
 			mMemoryCache.put(key, bitmap);	
 		} catch (Exception e) {
-			Log.w(TAG, "Failed to download the image: " + url);
+			Log.w(TAG, "Failed to download the image: " + url + " : " + e.getMessage());
 		}
 		return bitmap;
 	}
