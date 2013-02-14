@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Gallery;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 public class AugmentedImageViewManager {
@@ -22,20 +25,18 @@ public class AugmentedImageViewManager {
 	
 	private final String mSiteId;
 	private final ProgressBar mAugmentedImagesProgressBar;
-	private final Gallery mAugmentedImagesGallery;
+	private final LinearLayout mAugmentedImagesLayout;
 	private final Context mContext;
 	private final AugmentedImageAdapter mAdapter;
 	private final List<Bitmap> mBitmaps;
 	
-	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, Gallery augmentedImagesGridView) {
+	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout) {
 		mSiteId = siteId;
 		mContext = context;
-		mAugmentedImagesGallery = augmentedImagesGridView;
 		mAugmentedImagesProgressBar = augmentedImagesProgressBar;
 		mBitmaps = new ArrayList<Bitmap>();
 		mAdapter = new AugmentedImageAdapter(context,mBitmaps);
-		mAugmentedImagesGallery.setAdapter(mAdapter);
-		mAugmentedImagesGallery.setSpacing(5);
+		mAugmentedImagesLayout = augmentedImagesLayout;
 	}
 	
 	public void setAugmentedImages(Cursor data) {
@@ -74,17 +75,23 @@ public class AugmentedImageViewManager {
 	}
 	
 	private void addBitmap(Bitmap bitmap) {
-		Log.d(TAG,"Adding bitmap to gridview");
-		mBitmaps.add(bitmap);
-		mAdapter.notifyDataSetChanged();
-		showAugmentedImagesGridView();
-		if(mBitmaps.size() == 1) {
-			mAugmentedImagesGallery.setSelection(1);
-		}
+		ImageView imageView = new ImageView(mContext);
+		imageView.setImageBitmap(bitmap);
+		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		imageViewParams.setMargins(5, 0, 5, 0);
+		imageView.setLayoutParams(imageViewParams);
+		mAugmentedImagesLayout.addView(imageView);
+//		Log.d(TAG,"Adding bitmap to gridview");
+//		mBitmaps.add(bitmap);
+//		mAdapter.notifyDataSetChanged();
+//		showAugmentedImagesGridView();
+//		if(mBitmaps.size() == 1) {
+//			mAugmentedImagesLayout.setSelection(1);
+//		}
 	}
 	
 	private void showAugmentedImagesGridView() {
-		mAugmentedImagesGallery.setVisibility(View.VISIBLE);
+		mAugmentedImagesLayout.setVisibility(View.VISIBLE);
 		mAugmentedImagesProgressBar.setVisibility(View.INVISIBLE);
 	}
 

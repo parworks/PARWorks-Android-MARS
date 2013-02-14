@@ -118,11 +118,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" >
 
-                <Gallery
-                    android:id="@+id/galleryAugmentedPhotos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <ProgressBar
                     android:id="@+id/progressBarAugmentedPhotos"
                     style="?android:attr/progressBarStyleLarge"
@@ -130,6 +125,19 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     android:layout_alignParentRight="true" />
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutAugmentedImagesLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </HorizontalScrollView>
 
             </RelativeLayout>
 

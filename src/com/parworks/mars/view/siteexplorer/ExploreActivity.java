@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,8 +113,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
 		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
-		Gallery augmentedImagesGallery = (Gallery) findViewById(R.id.galleryAugmentedPhotos);
-		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesGallery);
+//		Gallery augmentedImagesGallery = (Gallery) findViewById(R.id.galleryAugmentedPhotos);
+		LinearLayout augmentedImagesLayout = (LinearLayout) findViewById(R.id.linearLayoutAugmentedImagesLayout);
+		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesLayout);
 		augmentedImagesViewManager.setAugmentedImages(data);
 		
 	}
