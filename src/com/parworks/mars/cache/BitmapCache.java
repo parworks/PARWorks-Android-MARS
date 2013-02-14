@@ -129,8 +129,14 @@ public class BitmapCache {
 	}
 	
 	public static String getImageKeyFromURL(String imageUrl) {
-		String key = imageUrl.substring(imageUrl.lastIndexOf("/") + 1, imageUrl.lastIndexOf("."));
-		key = key.replaceAll("-", "");
+//		String key = imageUrl.toLowerCase();
+		String key = Integer.toString(imageUrl.hashCode());
+		key = key.replaceAll("-", "_");
+//		String key = imageUrl.substring(imageUrl.lastIndexOf("/") + 1, imageUrl.lastIndexOf("."));
+		//remove everything but numbers and letters
+//		key = key.replaceAll("[^\\p{L}\\p{N}]", "");
+//		key = key.replaceAll("-", "");
+//		Log.d(TAG,"key is: " + key);
 		return key;
 	}
 }

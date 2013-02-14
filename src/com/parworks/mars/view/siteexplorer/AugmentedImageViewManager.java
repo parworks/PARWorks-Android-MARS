@@ -30,6 +30,8 @@ public class AugmentedImageViewManager {
 	private final AugmentedImageAdapter mAdapter;
 	private final List<Bitmap> mBitmaps;
 	
+	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 5; //pixels
+	
 	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout) {
 		mSiteId = siteId;
 		mContext = context;
@@ -78,7 +80,7 @@ public class AugmentedImageViewManager {
 		ImageView imageView = new ImageView(mContext);
 		imageView.setImageBitmap(bitmap);
 		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		imageViewParams.setMargins(5, 0, 5, 0);
+		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0);
 		imageView.setLayoutParams(imageViewParams);
 		mAugmentedImagesLayout.addView(imageView);
 //		Log.d(TAG,"Adding bitmap to gridview");
