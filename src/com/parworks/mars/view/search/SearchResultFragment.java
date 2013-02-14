@@ -71,7 +71,8 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 			adapter.add(new SearchResultItem(id, null));
 		}
 		lv.setAdapter(adapter);
-
+		
+		v.requestFocus();
 		return v;
 	}
 
@@ -161,7 +162,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 		}
 		Log.d(TAG, "Finished loading site info");
 		adapter.clear();
-		// init new data content for the adapter		
+		// init new data content for the adapter
 		while(!data.isAfterLast()) {
 			String siteId = data.getString(
 					data.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));

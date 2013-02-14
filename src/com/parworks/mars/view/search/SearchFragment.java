@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.parworks.androidlibrary.ar.ARErrorListener;
@@ -68,9 +70,13 @@ public class SearchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_search, null);	
-		
+
 		// config search text box
 		autoCompleteView = (AutoCompleteTextView) v.findViewById(R.id.searchText);
+		// config width/height
+		@SuppressWarnings("deprecation")
+		int w = this.getActivity().getWindowManager().getDefaultDisplay().getWidth();		
+		autoCompleteView.getLayoutParams().height = w * 92 / 640;
 		// fill all the tags to assist input
 		autoCompleteView.setAdapter(new ArrayAdapter<String>(
 				this.getActivity(), R.layout.popular_searches_list_row, allTags));
@@ -79,6 +85,14 @@ public class SearchFragment extends Fragment {
 		    public void onItemClick (AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	triggerSearch(((TextView)selectedItemView).getText().toString());
 		    }
+		});
+		
+		// reset cursor whenever being clicked
+		autoCompleteView.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				autoCompleteView.setCursorVisible(true);
+			}
 		});
 		
 		// handle key search action
@@ -94,25 +108,31 @@ public class SearchFragment extends Fragment {
         });
 
 		// hide search result view
-		popularSearchFragment = new PopularSearchFragment();
+		popularSearchFragment = new PopularSearchFragment(this);
 		switchToSearchResult(false);
 		return v;
 	}
 
+	public void triggerSearchFromSuggestion(String searchWord) {
+		// update text view
+		autoCompleteView.setText(searchWord);
+		autoCompleteView.setSelection(searchWord.length());		
+		triggerSearch(searchWord);
+	}
+	
 	private void triggerSearch(String searchWord) {
 		Log.d(TAG, "Start searching: " + searchWord);
-		// close key board
-		InputMethodManager in = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(autoCompleteView.getApplicationWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+		// hide keyboard
+		hideKeyBoard();
         
+		// search 
 		User.getARSites().searchSitesByTag(searchWord, new ARListener<List<String>>() {			
 			@Override
 			public void handleResponse(List<String> resp) {
-				// start sync site info at the background
+				// start sync all site info at the background
 				SyncHandler.syncListSiteInfo(resp);
 				// show result 
-				displaySearchResult(resp);				
+				displaySearchResult(resp);
 			}
 		}, new ARErrorListener() {			
 			@Override
@@ -124,12 +144,29 @@ public class SearchFragment extends Fragment {
 	
 	private void displaySearchResult(List<String> siteIds) {
 		Log.d(TAG, "Search found the following sites: " + siteIds);
-		searchResultFragment = new SearchResultFragment(siteIds);		
-		
-		// show the result view fragment
-		switchToSearchResult(true);
+		if (siteIds != null && siteIds.size() > 0) {
+			autoCompleteView.setCursorVisible(false);
+			searchResultFragment = new SearchResultFragment(siteIds);				
+			// show the result view fragment
+			switchToSearchResult(true);
+		} else {
+			Toast.makeText(mContext, "No results found.", Toast.LENGTH_LONG).show();
+		}
 	}
 	
+	private void hideKeyBoard() {
+		// close key board
+		InputMethodManager in = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(autoCompleteView.getApplicationWindowToken(),
+        InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		hideKeyBoard();
+	}
+
 	/**
 	 * Change the Fragment component in the main activity 
 	 */
@@ -145,5 +182,5 @@ public class SearchFragment extends Fragment {
 					.replace(R.id.search_content_frame, popularSearchFragment)
 					.commit();	
 		}
-	}
+	}	
 }

@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/view_background"
     android:orientation="vertical" >
 
     <AutoCompleteTextView
-        android:id="@+id/searchText" 
-        android:layout_margin="10dp"
+        android:id="@+id/searchText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        android:background="@drawable/search_bar_cover"
+        android:completionThreshold="1"
+        android:hint="Search by tag..."
+        android:imeOptions="actionSearch"
+        android:inputType="textNoSuggestions"
+        android:paddingLeft="45dp"
+        android:textSize="16sp"
         android:singleLine="true"
-    	android:completionThreshold="1"
+        tools:ignore="HardcodedText" />
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/search_content_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionSearch"
-        />
-    
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/search_content_frame"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="10dp" />
+        android:layout_margin="10dp" />
 
 </LinearLayout>
