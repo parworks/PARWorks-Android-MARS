@@ -92,7 +92,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		// 4. Add Technology Fragment
 		
 		// Use Trending as the default view
-		switchContent(FRAGMENT_SEARCH);
+		switchContent(FRAGMENT_TRENDING);
 	}
 
 	@Override
