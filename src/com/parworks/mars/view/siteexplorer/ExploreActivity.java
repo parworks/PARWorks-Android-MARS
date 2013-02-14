@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,12 +33,15 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	private static final int SITE_INFO_LOADER_ID = 0;
 	private static final int AUGMENTED_IMAGES_LOADER_ID = 1;
 	
+	private View mLayoutView;
+	
 	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_explore);
+		mLayoutView = getLayoutInflater().inflate(R.layout.activity_explore, null);
+		setContentView(mLayoutView);
 		
 		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
 		

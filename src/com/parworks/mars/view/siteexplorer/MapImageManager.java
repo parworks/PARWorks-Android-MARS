@@ -38,10 +38,8 @@ public class MapImageManager {
 		mMapImageProgressBar.setVisibility(View.INVISIBLE);
 	}
 	private void disableMapView() {
-		mMapImageView.setVisibility(View.INVISIBLE);
-		mMapImageProgressBar.setVisibility(View.INVISIBLE);
-		mMapImageView.setEnabled(false);
-		mMapImageProgressBar.setEnabled(false);
+		mMapImageView.setVisibility(View.GONE);
+		mMapImageProgressBar.setVisibility(View.GONE);
 	}
 	private void setMapViewSize() {
 		mMapImageView.getLayoutParams().width = mViewDimensionCalculator.getScreenWidth();
@@ -60,7 +58,6 @@ public class MapImageManager {
 		final int height = width/2;
 		
 		String mapUrl = StaticGoogleMaps.getMapUrl(lat, lon, width, height);
-		Log.d(TAG,"Url is: " + mapUrl);
 		ImageViewManager imageViewManager = new ImageViewManager();		
 		
 		if(mapUrl != null) {
