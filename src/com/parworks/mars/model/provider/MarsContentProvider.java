@@ -72,6 +72,7 @@ public class MarsContentProvider extends ContentProvider {
 		
 		addURI(AUTHORITY, BASE_PATH_COMMENTS,COMMENT);
 		addURI(AUTHORITY, BASE_PATH_COMMENTS + "/*", COMMENT_ID);
+		addURI(AUTHORITY, BASE_PATH_COMMENTS ,COMMENT);
 	}};
 
 	/** Helper URIs for the callers to use */
@@ -193,6 +194,12 @@ public class MarsContentProvider extends ContentProvider {
 			queryBuilder.appendWhere(AugmentedImagesTable.COLUMN_SITE_ID + "="
 					+ "'" + uri.getLastPathSegment() + "'");
 			sortOrder = AugmentedImagesTable.COLUMN_TIMESTAMP + " DESC";
+			break;
+		case AUGMENTED_IMAGE_ID: // query the specified augmented image
+			Log.d(TAG,"Uri was: " + uri + ". It matched AUGMENTED_IMAGE_ID");
+			queryBuilder.setTables(AugmentedImagesTable.TABLE_NAME);
+			queryBuilder.appendWhere(AugmentedImagesTable.COLUMN_IMAGE_ID + "="
+					+ "'" + uri.getLastPathSegment() + "'");
 			break;
 		case COMMENT_ID:
 			queryBuilder.setTables(CommentsTable.TABLE_NAME);

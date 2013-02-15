@@ -23,8 +23,6 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 
 	/** The URL of the image to be downloaded */
 	private String imageUrl;
-	/** The target ImageView to display the bitmap */
-//	private ImageView imageView;
 	/** The callback listener */
 	private BitmapWorkerListener listener;
 	

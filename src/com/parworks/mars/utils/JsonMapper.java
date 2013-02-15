@@ -11,6 +11,7 @@ public class JsonMapper {
 	public static ObjectMapper get() {
 		if (mapper == null) {
 			mapper = new ObjectMapper();
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		}
 		return mapper;
 	}

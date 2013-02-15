@@ -3,7 +3,6 @@ package com.parworks.mars.cache;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.parworks.androidlibrary.utils.BitmapUtils;
@@ -129,14 +128,10 @@ public class BitmapCache {
 	}
 	
 	public static String getImageKeyFromURL(String imageUrl) {
-//		String key = imageUrl.toLowerCase();
 		String key = Integer.toString(imageUrl.hashCode());
 		key = key.replaceAll("-", "_");
 //		String key = imageUrl.substring(imageUrl.lastIndexOf("/") + 1, imageUrl.lastIndexOf("."));
 		//remove everything but numbers and letters
-//		key = key.replaceAll("[^\\p{L}\\p{N}]", "");
-//		key = key.replaceAll("-", "");
-//		Log.d(TAG,"key is: " + key);
 		return key;
 	}
 }
