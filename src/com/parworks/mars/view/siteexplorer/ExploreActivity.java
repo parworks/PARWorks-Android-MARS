@@ -68,6 +68,10 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		});
 		getSupportLoaderManager().initLoader(AUGMENTED_IMAGES_LOADER_ID, null, augmentedImagesLoader);
 		
+		
+		
+		
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		

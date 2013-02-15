@@ -33,13 +33,11 @@ public class AugmentedImagesLoader implements LoaderCallbacks<Cursor> {
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = AugmentedImagesTable.ALL_COLUMNS;
 		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getSiteAugmentedImagesUri(mSiteId),projection,null,null,null);
-		Log.d(TAG,"onCreateLoader");
 		return cursorLoader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		Log.d(TAG,"onLoadFinished");
 		mListener.onImagesLoaded(data);
 		
 	}
