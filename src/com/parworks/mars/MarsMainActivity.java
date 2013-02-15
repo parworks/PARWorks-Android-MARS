@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.parworks.mars.view.nearby.NearbyFragment;
 import com.parworks.mars.view.search.SearchFragment;
+import com.parworks.mars.view.technology.TechnologyFragment;
 import com.parworks.mars.view.trending.TrendingFragment;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -89,7 +90,9 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		
 		// 3. Add Search Fragment
 		menuControlledFragments.put(FRAGMENT_SEARCH, new SearchFragment(this));
+		
 		// 4. Add Technology Fragment
+		menuControlledFragments.put(FRAGMENT_TECHNOLOGY, new TechnologyFragment(this));
 		
 		// Use Trending as the default view
 		switchContent(FRAGMENT_TRENDING);
