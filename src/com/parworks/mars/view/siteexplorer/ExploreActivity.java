@@ -134,9 +134,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
 		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
-//		Gallery augmentedImagesGallery = (Gallery) findViewById(R.id.galleryAugmentedPhotos);
 		LinearLayout augmentedImagesLayout = (LinearLayout) findViewById(R.id.linearLayoutAugmentedImagesLayout);
-		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesLayout);
+		TextView augmentedImagesTotalTextView = (TextView) findViewById(R.id.textViewAugmentedPhotoTotal);
+		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesLayout,augmentedImagesTotalTextView);
 		augmentedImagesViewManager.setAugmentedImages(data);
 		
 	}

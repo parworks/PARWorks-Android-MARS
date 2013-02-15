@@ -19,6 +19,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class AugmentedImageViewManager {
 	public static final String TAG = AugmentedImageViewManager.class.getName();
@@ -29,23 +30,21 @@ public class AugmentedImageViewManager {
 	private final Context mContext;
 	private final AugmentedImageAdapter mAdapter;
 	private final List<Bitmap> mBitmaps;
+	private final TextView mAugmentedImagesTotalTextView;
 	
 	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 5; //pixels
 	
-	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout) {
+	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
 		mSiteId = siteId;
 		mContext = context;
 		mAugmentedImagesProgressBar = augmentedImagesProgressBar;
 		mBitmaps = new ArrayList<Bitmap>();
 		mAdapter = new AugmentedImageAdapter(context,mBitmaps);
 		mAugmentedImagesLayout = augmentedImagesLayout;
+		mAugmentedImagesTotalTextView = augmentedImagesTotalTextView;
 	}
 	
 	public void setAugmentedImages(Cursor data) {
-		if(data.getCount() <= 0 ) {
-			Log.d(TAG,"Augmented images cursor has no data. Count was: " + data.getCount() );
-			return;
-		}
 		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
 	    	String url = data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_GALLERY_SIZE_URL));
 	    	if(url != null) {
@@ -72,6 +71,8 @@ public class AugmentedImageViewManager {
 	    		continue;
 	    	}
 	    }
+	    showAugmentedImagesView();
+	    setAugmentedImagesTotalTextView(data.getCount());
 	    data.close();
 		
 	}
@@ -85,9 +86,18 @@ public class AugmentedImageViewManager {
 		mAugmentedImagesLayout.addView(imageView);
 	}
 	
-	private void showAugmentedImagesGridView() {
+	private void showAugmentedImagesView() {
 		mAugmentedImagesLayout.setVisibility(View.VISIBLE);
 		mAugmentedImagesProgressBar.setVisibility(View.INVISIBLE);
+	}
+	private void setAugmentedImagesTotalTextView(int imagesTotal) {
+		String text;
+		if(imagesTotal == 1) {
+			text = " augmented image";
+		} else {
+			text = " augmented images";
+		}
+		mAugmentedImagesTotalTextView.setText(imagesTotal + text);
 	}
 
 }

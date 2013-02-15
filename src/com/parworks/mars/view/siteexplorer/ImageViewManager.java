@@ -45,11 +45,4 @@ public class ImageViewManager {
 			Log.e(TAG, "mapURL was null.");
 		}
 	}
-		
-//	private void setImageSizeMaintainAspectRatio(ImageView imageView,int width) {
-//		Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-//		int height = ViewDimensionCalculator.calculateHeightToMaintainAspectRatio(width, bitmap);
-//		bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
-//		imageView.setImageBitmap(bitmap);		
-//	}
 }

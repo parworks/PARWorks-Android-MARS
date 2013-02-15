@@ -48,6 +48,7 @@ public class CommentsViewManager {
 		mCommentsAdapter.notifyDataSetChanged();
 		showCommentsView();
 		setCommentTotalText(data.getCount());
+		data.close();
 		
 	}
 	
