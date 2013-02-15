@@ -83,13 +83,6 @@ public class AugmentedImageViewManager {
 		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0);
 		imageView.setLayoutParams(imageViewParams);
 		mAugmentedImagesLayout.addView(imageView);
-//		Log.d(TAG,"Adding bitmap to gridview");
-//		mBitmaps.add(bitmap);
-//		mAdapter.notifyDataSetChanged();
-//		showAugmentedImagesGridView();
-//		if(mBitmaps.size() == 1) {
-//			mAugmentedImagesLayout.setSelection(1);
-//		}
 	}
 	
 	private void showAugmentedImagesGridView() {

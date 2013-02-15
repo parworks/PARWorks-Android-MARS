@@ -50,7 +50,6 @@ public class MapImageManager {
 		String lat = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LAT));
 		String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
 		if(lat == null || lon == null) {
-			Toast.makeText(mActivity, "This site has no latitude or longitude.", Toast.LENGTH_SHORT).show();
 			disableMapView();
 			return;
 		}

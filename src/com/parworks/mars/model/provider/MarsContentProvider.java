@@ -279,7 +279,7 @@ public class MarsContentProvider extends ContentProvider {
 		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE + "/" + imgId);
 	}
 	public static Uri getCommentsUri(String siteId) {
-		return Uri.parse("conent://"+AUTHORITY+"/"+BASE_PATH_COMMENTS + "/" + siteId);
+		return Uri.parse("content://"+AUTHORITY+"/"+BASE_PATH_COMMENTS + "/" + siteId);
 	}
 	
 	@Override

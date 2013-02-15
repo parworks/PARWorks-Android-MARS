@@ -11,6 +11,7 @@ import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
 import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
+import com.parworks.mars.view.siteexplorer.CommentsLoader.CommentsLoaderListener;
 import com.parworks.mars.view.siteexplorer.SiteInfoLoader.SiteInfoLoaderListener;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -32,6 +34,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	private String mSiteId;
 	private static final int SITE_INFO_LOADER_ID = 0;
 	private static final int AUGMENTED_IMAGES_LOADER_ID = 1;
+	private static final int COMMENTS_LOADER_ID = 2;
 	
 	private View mLayoutView;
 	
@@ -68,7 +71,15 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		});
 		getSupportLoaderManager().initLoader(AUGMENTED_IMAGES_LOADER_ID, null, augmentedImagesLoader);
 		
-		
+		CommentsLoader commentsLoader = new CommentsLoader(mSiteId, this, new CommentsLoaderListener() {
+			
+			@Override
+			public void onCommentsLoaded(Cursor data) {
+				loadCommentsIntoUi(data);
+				
+			}
+		});
+		getSupportLoaderManager().initLoader(COMMENTS_LOADER_ID, null, commentsLoader);
 		
 		
 		
@@ -76,6 +87,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 		
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return super.onCreateOptionsMenu(menu);
@@ -126,6 +138,15 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		LinearLayout augmentedImagesLayout = (LinearLayout) findViewById(R.id.linearLayoutAugmentedImagesLayout);
 		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesLayout);
 		augmentedImagesViewManager.setAugmentedImages(data);
+		
+	}
+	
+	protected void loadCommentsIntoUi(Cursor data) {
+		ProgressBar commentsProgressBar = (ProgressBar) findViewById(R.id.progressBarComments);
+		ListView commentsListView = (ListView) findViewById(R.id.listViewComments);
+		TextView commentsTotalTextView = (TextView) findViewById(R.id.textViewCommentTotal);
+		CommentsViewManager commentsViewManager = new CommentsViewManager(mSiteId, this, commentsProgressBar, commentsListView,commentsTotalTextView);
+		commentsViewManager.setCommentsView(data);
 		
 	}
 }

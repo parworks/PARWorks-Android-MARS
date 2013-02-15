@@ -18,11 +18,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SiteInfoTable.onCreate(database);		
 		TrendingSitesTable.onCreate(database);
 		AugmentedImagesTable.onCreate(database);
+		CommentsTable.onCreate(database);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		SiteInfoTable.onUpgrade(database, oldVersion, newVersion);		
 		TrendingSitesTable.onUpgrade(database, oldVersion, newVersion);
+		AugmentedImagesTable.onUpgrade(database, oldVersion, newVersion);
+		CommentsTable.onUpgrade(database, oldVersion, newVersion);
 	}
 }
