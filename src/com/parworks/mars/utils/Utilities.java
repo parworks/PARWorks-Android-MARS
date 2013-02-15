@@ -8,6 +8,8 @@ import android.content.Context;
 
 public class Utilities {
 	
+	public static final String DEBUG_TAG_SYNC = "DEBUG_TAG_SYNC";
+	
 	public static File GetCacheDir(Context context)
 	{
 	    File cacheDir;

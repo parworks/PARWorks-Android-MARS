@@ -6,6 +6,7 @@ import java.util.List;
 import com.parworks.androidlibrary.response.SiteComment;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.CommentsTable;
+import com.parworks.mars.model.sync.SyncAdapterService;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -40,6 +41,7 @@ public class CommentsViewManager {
 		mCommentsTotalTextView = commentsTotalTextView;
 	}
 	public void setCommentsView(Cursor data) {
+		Log.d(SyncAdapterService.TAG,"setCommentsView called: " + data.getCount());
 		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
 			String commentText = data.getString(data.getColumnIndex(CommentsTable.COLUMN_COMMENT));
 			String userName = data.getString(data.getColumnIndex(CommentsTable.COLUMN_USER_NAME));

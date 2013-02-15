@@ -39,6 +39,7 @@ public class MarsContentProvider extends ContentProvider {
 	private static final int AUGMENTED_IMAGES = 30;
 	private static final int AUGMENTED_IMAGE_ID = 32;
 	private static final int AUGMENTED_SITE_ID = 34;
+	private static final int COMMENT = 40;
 	private static final int COMMENT_ID = 42;
 
 	/** Associated with SiteInfoTable */
@@ -62,6 +63,7 @@ public class MarsContentProvider extends ContentProvider {
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE, AUGMENTED_IMAGES);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/*", AUGMENTED_IMAGE_ID);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGES_FOR_SITE +"/*", AUGMENTED_SITE_ID);
+		addURI(AUTHORITY, BASE_PATH_COMMENTS,COMMENT);
 		addURI(AUTHORITY, BASE_PATH_COMMENTS + "/*", COMMENT_ID);
 	}};
 
@@ -72,6 +74,8 @@ public class MarsContentProvider extends ContentProvider {
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_TRENDING_SITE);
 	public static final Uri CONTENT_URI_ALL_AUGMENTED_IMAGES = 
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE);
+	public static final Uri CONTENT_URI_ALL_COMMENTS = 
+			Uri.parse("content://"+AUTHORITY+"/"+BASE_PATH_COMMENTS);
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -139,10 +143,10 @@ public class MarsContentProvider extends ContentProvider {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}
 			break;
-		case COMMENT_ID: //insert a new comment
+		case COMMENT: //insert a new comment
 			try {
 				id = db.insertOrThrow(CommentsTable.TABLE_NAME, null, values);
-				Log.d(TAG, "Inserted comment for site: " + uri.getLastPathSegment());
+				Log.d(TAG, "Inserted comment for site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_COMMENTS + "/" + id);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG,"SQLiteConstraintException: " + exception.getMessage());
@@ -236,18 +240,11 @@ public class MarsContentProvider extends ContentProvider {
 					null);
 			break;
 		case COMMENT_ID:
-			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = sqlDB.update(CommentsTable.TABLE_NAME, 
 						values,
 						CommentsTable.COLUMN_TIMESTAMP + "=? AND " + CommentsTable.COLUMN_SITE_ID + "=?", 
 						new String[] { ""+values.getAsLong(CommentsTable.COLUMN_TIMESTAMP),values.getAsString(CommentsTable.COLUMN_SITE_ID)});
-			} else {
-				rowsUpdated = sqlDB.update(CommentsTable.TABLE_NAME, 
-						values,
-						SiteInfoTable.COLUMN_SITE_ID + "=" + "'" + id + "'" 
-						+ " and " + selection,
-						selectionArgs);
-			}
+
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);

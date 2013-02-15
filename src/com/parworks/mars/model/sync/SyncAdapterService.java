@@ -34,10 +34,11 @@ import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.SiteTags;
 import com.parworks.mars.utils.User;
+import com.parworks.mars.utils.Utilities;
 
 public class SyncAdapterService extends Service {
 
-	private static final String TAG = "MarsSyncAdapterService";
+	public static final String TAG = SyncAdapterService.class.getName();
 
 	private static SyncAdapterImpl sSyncAdapter = null;
 	private static ContentResolver mContentResolver = null;
@@ -151,10 +152,16 @@ public class SyncAdapterService extends Service {
 			
 			// update or insert if not exist
 			// FIXME: not thread-safe here
-			if (mContentResolver.update(MarsContentProvider.getCommentsUri(comment.getSiteId()),	
-					values, null, null) == 0) {
-				mContentResolver.insert(MarsContentProvider.getCommentsUri(comment.getSiteId()), values);
-			}		
+			Log.d(Utilities.DEBUG_TAG_SYNC,"Attemping to add comment: " + comment.getComment());
+			int rowsModified = mContentResolver.update(MarsContentProvider.getCommentsUri(comment.getSiteId()),	
+					values, null, null);
+			Log.d(Utilities.DEBUG_TAG_SYNC,"Rows modified was: " + rowsModified);
+			if (rowsModified == 0) {
+				Log.d(Utilities.DEBUG_TAG_SYNC,"Inserting comment: " + comment.getComment());
+				mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_COMMENTS, values);
+			} else {
+				Log.d(Utilities.DEBUG_TAG_SYNC,"Didn't insert comment. Presumably it already exists.");
+			}
 			
 			// TODO: Cut the records if there are too many records for the site
 		}

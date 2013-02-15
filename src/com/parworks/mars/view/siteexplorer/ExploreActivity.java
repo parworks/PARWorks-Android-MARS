@@ -4,6 +4,7 @@ package com.parworks.mars.view.siteexplorer;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.actionbarsherlock.view.Menu;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
+import com.parworks.mars.utils.Utilities;
 import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
 import com.parworks.mars.view.siteexplorer.CommentsLoader.CommentsLoaderListener;
 import com.parworks.mars.view.siteexplorer.SiteInfoLoader.SiteInfoLoaderListener;
@@ -144,6 +146,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	}
 	
 	private void loadCommentsIntoUi(Cursor data) {
+		Log.d(Utilities.DEBUG_TAG_SYNC,"Explore Activity - loadCommentsIntoUi");
 		ProgressBar commentsProgressBar = (ProgressBar) findViewById(R.id.progressBarComments);
 		LinearLayout commentsLayout = (LinearLayout) findViewById(R.id.linearLayoutComments);
 		TextView commentsTotalTextView = (TextView) findViewById(R.id.textViewCommentTotal);

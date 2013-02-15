@@ -2,6 +2,7 @@ package com.parworks.mars.view.siteexplorer;
 
 import com.parworks.mars.model.db.CommentsTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.utils.Utilities;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -30,6 +31,7 @@ public class CommentsLoader implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onCreateLoader");
 		String [] projection = CommentsTable.ALL_COLUMNS;
 		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getCommentsUri(mSiteId),projection,null,null,null);
 		return cursorLoader;
@@ -37,12 +39,14 @@ public class CommentsLoader implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
+		Log.d(Utilities.DEBUG_TAG_SYNC,"Comments Loader - onLoadFinished");
 		mListener.onCommentsLoaded(data);
 		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
+		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onLoaderReset");
 		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");
 		
 	}
