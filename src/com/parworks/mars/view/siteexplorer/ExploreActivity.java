@@ -48,8 +48,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
 		
-		// sync the site
-		SyncHelper.syncSite(mSiteId);
+
 				
 		SiteInfoLoader siteInfoLoader = new SiteInfoLoader(mSiteId, this, new SiteInfoLoaderListener() {
 			
@@ -84,6 +83,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		// sync the site
+		SyncHelper.syncSite(mSiteId);
 		
 		
 	}
@@ -141,11 +143,11 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 	}
 	
-	protected void loadCommentsIntoUi(Cursor data) {
+	private void loadCommentsIntoUi(Cursor data) {
 		ProgressBar commentsProgressBar = (ProgressBar) findViewById(R.id.progressBarComments);
-		ListView commentsListView = (ListView) findViewById(R.id.listViewComments);
+		LinearLayout commentsLayout = (LinearLayout) findViewById(R.id.linearLayoutComments);
 		TextView commentsTotalTextView = (TextView) findViewById(R.id.textViewCommentTotal);
-		CommentsViewManager commentsViewManager = new CommentsViewManager(mSiteId, this, commentsProgressBar, commentsListView,commentsTotalTextView);
+		CommentsViewManager commentsViewManager = new CommentsViewManager(mSiteId, this, commentsProgressBar, commentsLayout,commentsTotalTextView);
 		commentsViewManager.setCommentsView(data);
 		
 	}

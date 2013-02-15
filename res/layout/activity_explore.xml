@@ -167,12 +167,14 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible" />
 
-                <ListView
-                    android:id="@+id/listViewComments"
+                <LinearLayout
+                    android:id="@+id/linearLayoutComments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:visibility="invisible" >
-                </ListView>
+
+                </LinearLayout>
 
             </RelativeLayout>
 

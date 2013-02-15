@@ -153,7 +153,7 @@ public class SyncAdapterService extends Service {
 			// FIXME: not thread-safe here
 			if (mContentResolver.update(MarsContentProvider.getCommentsUri(comment.getSiteId()),	
 					values, null, null) == 0) {
-				mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_COMMENTS, values);
+				mContentResolver.insert(MarsContentProvider.getCommentsUri(comment.getSiteId()), values);
 			}		
 			
 			// TODO: Cut the records if there are too many records for the site

@@ -30,8 +30,8 @@ public class CommentsLoader implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		String [] project = CommentsTable.ALL_COLUMNS;
-		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getCommentsUri(mSiteId),project,null,null,null);
+		String [] projection = CommentsTable.ALL_COLUMNS;
+		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getCommentsUri(mSiteId),projection,null,null,null);
 		return cursorLoader;
 	}
 
