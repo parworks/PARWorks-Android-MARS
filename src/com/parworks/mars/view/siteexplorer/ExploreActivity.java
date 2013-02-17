@@ -85,6 +85,8 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(mSiteId);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		
 		// sync the site
 		SyncHelper.syncSite(mSiteId);
@@ -119,9 +121,19 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		nameTextView.setText(siteName);
 		
 		//set site address
-		String siteDesc = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_DESC));
+		String siteAddress = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_ADDRESS));
 		TextView addressTextView = (TextView) findViewById(R.id.textViewSiteAddress);
-		addressTextView.setText(siteDesc);
+		if(siteAddress == null) {
+			addressTextView.setText("No address available");
+		} else {
+			addressTextView.setText(siteAddress);
+		}
+		
+		
+		//set site description
+		String siteDesc = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_DESC));
+		TextView descriptionTextView = (TextView) findViewById(R.id.textViewSiteDescription);
+		descriptionTextView.setText(siteDesc);
 		
 		//let siteImageManager handle the SiteImageView
 		ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);

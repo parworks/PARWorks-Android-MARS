@@ -43,7 +43,8 @@
                 android:id="@+id/addressSubMapLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingTop="5dip" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -63,13 +64,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Site Name"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:paddingTop="5dip" />
 
                         <TextView
                             android:id="@+id/textViewSiteAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Site Address" />
+                            android:text="Site Address"
+                            android:paddingTop="5dip" />
+
+                        <TextView
+                            android:id="@+id/textViewSiteDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Small Text"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:paddingTop="5dip" />
 
                     </LinearLayout>
 
