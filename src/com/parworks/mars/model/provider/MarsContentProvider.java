@@ -16,6 +16,7 @@ import com.parworks.mars.model.db.CommentsTable;
 import com.parworks.mars.model.db.DatabaseHelper;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.db.TrendingSitesTable;
+import com.parworks.mars.utils.Utilities;
 
 /**
  * Content provider for the whole MARS app.
@@ -35,21 +36,26 @@ public class MarsContentProvider extends ContentProvider {
 	/** Constants used for URI matcher */
 	private static final int SITES = 10;
 	private static final int SITE_ID = 12;
+	
 	private static final int TRENDING_SITES = 20;
+	
 	private static final int AUGMENTED_IMAGES = 30;
 	private static final int AUGMENTED_IMAGE_ID = 32;
 	private static final int AUGMENTED_SITE_ID = 34;
+	
 	private static final int COMMENT = 40;
 	private static final int COMMENT_ID = 42;
 
 	/** Associated with SiteInfoTable */
 	private static final String BASE_PATH_SITE = "site";
+	
 	/** Associated with TrendingSitesTable */
 	private static final String BASE_PATH_TRENDING_SITE = "trending";
-	/** Associated with AugmentedImagesTable */
-	private static final String BASE_PATH_AUGMENTED_IMAGE = "augment";
 	
+	/** Associated with AugmentedImagesTable */
+	private static final String BASE_PATH_AUGMENTED_IMAGE = "augment";	
 	private static final String BASE_PATH_AUGMENTED_IMAGES_FOR_SITE = "augmentsite";
+	
 	private static final String BASE_PATH_COMMENTS = "comments";
 	
 	/** Construct the URI matcher for all content */
@@ -63,6 +69,7 @@ public class MarsContentProvider extends ContentProvider {
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE, AUGMENTED_IMAGES);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/*", AUGMENTED_IMAGE_ID);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGES_FOR_SITE +"/*", AUGMENTED_SITE_ID);
+		
 		addURI(AUTHORITY, BASE_PATH_COMMENTS,COMMENT);
 		addURI(AUTHORITY, BASE_PATH_COMMENTS + "/*", COMMENT_ID);
 	}};
@@ -146,7 +153,7 @@ public class MarsContentProvider extends ContentProvider {
 		case COMMENT: //insert a new comment
 			try {
 				id = db.insertOrThrow(CommentsTable.TABLE_NAME, null, values);
-				Log.d(TAG, "Inserted comment for site: " + values.getAsString("siteId"));
+				Log.d(Utilities.DEBUG_TAG_SYNC, "Inserted comment for site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_COMMENTS + "/" + id);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG,"SQLiteConstraintException: " + exception.getMessage());
@@ -271,7 +278,7 @@ public class MarsContentProvider extends ContentProvider {
 		return Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE + "/" + imgId);
 	}
 	public static Uri getCommentsUri(String siteId) {
-		return Uri.parse("content://"+AUTHORITY+"/"+BASE_PATH_COMMENTS + "/" + siteId);
+		return Uri.parse("content://" + AUTHORITY + "/"+ BASE_PATH_COMMENTS + "/" + siteId);
 	}
 	
 	@Override

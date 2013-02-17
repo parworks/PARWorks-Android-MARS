@@ -73,7 +73,6 @@ public class AugmentedImageViewManager {
 	    }
 	    showAugmentedImagesView();
 	    setAugmentedImagesTotalTextView(data.getCount());
-	    data.close();
 		
 	}
 	

@@ -30,22 +30,22 @@ public class CommentsLoader implements LoaderCallbacks<Cursor>{
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onCreateLoader");
+	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onCreateLoader : " + id);
 		String [] projection = CommentsTable.ALL_COLUMNS;
 		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getCommentsUri(mSiteId),projection,null,null,null);
 		return cursorLoader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"Comments Loader - onLoadFinished");
 		mListener.onCommentsLoaded(data);
 		
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
+	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onLoaderReset");
 		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");
 		

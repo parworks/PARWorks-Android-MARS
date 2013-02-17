@@ -2,6 +2,7 @@ package com.parworks.mars.view.siteexplorer;
 
 import com.parworks.mars.model.db.AugmentedImagesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.utils.Utilities;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -30,7 +31,8 @@ public class AugmentedImagesLoader implements LoaderCallbacks<Cursor> {
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+		Log.d(Utilities.DEBUG_TAG_SYNC,"AugmentedImagesLoader - onCreateLoader : " + id);
 		String[] projection = AugmentedImagesTable.ALL_COLUMNS;
 		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getSiteAugmentedImagesUri(mSiteId),projection,null,null,null);
 		return cursorLoader;
