@@ -1,13 +1,23 @@
 package com.parworks.mars.view.siteexplorer;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -19,6 +29,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.facebook.Session;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
@@ -39,6 +50,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	private static final int COMMENTS_LOADER_ID = 2;
 	
 	private View mLayoutView;
+	
+	private AddCommentManager mAddCommentManager;
+	
 	
 	
 	
@@ -88,10 +102,21 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		getSupportActionBar().setTitle(mSiteId);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		
+		mAddCommentManager = new AddCommentManager(this,mSiteId);
+		Button addCommentButton = (Button) findViewById(R.id.buttonAddComment);
+		addCommentButton.setOnClickListener(mAddCommentManager);
+		
 		// sync the site
 		SyncHelper.syncSite(mSiteId);
 		
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		mAddCommentManager.facebookOnActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

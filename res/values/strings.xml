@@ -15,5 +15,8 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_test">Test</string>
     <string name="title_activity_site">SiteActivity</string>
+   
+    <!--  FACEBOOK -->
+    <string name="app_id">410586319030328</string>
 	
 </resources>

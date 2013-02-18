@@ -43,6 +43,7 @@ public class CommentsViewManager {
 	}
 	public void setCommentsView(Cursor data) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"setCommentsView called: " + data.getCount());
+		mCommentsLayout.removeAllViews();
 		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
 			String commentText = data.getString(data.getColumnIndex(CommentsTable.COLUMN_COMMENT));
 			String userName = data.getString(data.getColumnIndex(CommentsTable.COLUMN_USER_NAME));
@@ -55,6 +56,7 @@ public class CommentsViewManager {
 			showCommentsView();
 			setCommentTotalText(data.getCount());
 		}
+		showCommentsView();
 		
 	}
 	
