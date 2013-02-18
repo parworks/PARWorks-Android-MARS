@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.parworks.mars.R;
-import com.parworks.mars.Test;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
@@ -26,6 +25,10 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	private int numAugmentedImages;
 	private String posterImageUrl;	
 	
+	public TrendingSiteFragment() {
+		super();
+	}
+
 	public TrendingSiteFragment(String siteId, int numAugmentedImages, String posterUrl) {
 		this.siteId = siteId;
 		this.numAugmentedImages = numAugmentedImages;

@@ -41,6 +41,11 @@
             android:label="@string/app_name">            
         </activity>
         
+        <activity 
+            android:name="com.parworks.arcameraview.CaptureImageActivity"
+            android:label="@string/app_name">            
+        </activity>
+        
         <activity
             android:name="com.parworks.mars.MarsMainActivity"
             android:theme="@style/Theme.Sherlock.Light"

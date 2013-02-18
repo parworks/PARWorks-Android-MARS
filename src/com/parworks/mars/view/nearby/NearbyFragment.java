@@ -40,6 +40,10 @@ public class NearbyFragment extends Fragment {
 
 	private SlidingFragmentActivity mContext;
 	
+	public NearbyFragment() {
+		super();
+	}
+
 	public NearbyFragment(SlidingFragmentActivity context) {
 		super();
 		mContext = context;
