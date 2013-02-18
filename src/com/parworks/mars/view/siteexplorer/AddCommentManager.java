@@ -61,6 +61,7 @@ public class AddCommentManager implements android.view.View.OnClickListener{
 		          });
 		        } else {
 		        	if(exception != null) {
+		        		Toast.makeText(mActivity, "Failed to login to facebook.", Toast.LENGTH_SHORT).show();
 		        		Log.d(TAG,"CALL EXCEPTION WAS: " + exception.getMessage());
 		        		Log.d(TAG,"APP ID: " + session.getApplicationId());
 		        		Log.e(TAG, "session not opened.");
