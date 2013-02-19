@@ -96,7 +96,9 @@ public class AddCommentManager implements android.view.View.OnClickListener{
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String commentText = commentEditText.getText().toString();
-				storeComment(user.getName(),user.getName(),commentText);
+				Log.d(TAG,"user.getUsername: " + user.getUsername() );
+				Log.d(TAG,"user.getName(): " + user.getName());
+				storeComment(user.getId(),user.getName(),commentText);
 				
 			}
 		});
