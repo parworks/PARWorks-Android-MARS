@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/github" android:icon="@drawable/ic_action_github" android:showAsAction="always" android:title="github_label" android:titleCondensed="github" android:visible="true"></item>
     
-
 </menu>
