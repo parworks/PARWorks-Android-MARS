@@ -1,35 +1,22 @@
 package com.parworks.mars.view.siteexplorer;
 
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Base64;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Gallery;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.facebook.Session;
+import com.actionbarsherlock.view.MenuItem;
+import com.parworks.arcameraview.CaptureImageActivity;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHelper;
@@ -37,7 +24,6 @@ import com.parworks.mars.utils.Utilities;
 import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
 import com.parworks.mars.view.siteexplorer.CommentsLoader.CommentsLoaderListener;
 import com.parworks.mars.view.siteexplorer.SiteInfoLoader.SiteInfoLoaderListener;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class ExploreActivity extends SherlockFragmentActivity { 
 	
@@ -95,20 +81,17 @@ public class ExploreActivity extends SherlockFragmentActivity {
 			}
 		});
 		getSupportLoaderManager().initLoader(COMMENTS_LOADER_ID, null, commentsLoader);
-		
-		
-		
+					
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(mSiteId);
-		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		
 		mAddCommentManager = new AddCommentManager(this,mSiteId);
 		Button addCommentButton = (Button) findViewById(R.id.buttonAddComment);
 		addCommentButton.setOnClickListener(mAddCommentManager);
 		
 		// sync the site
-		SyncHelper.syncSite(mSiteId);
-		
+		SyncHelper.syncSite(mSiteId);		
 		
 	}
 	
@@ -121,6 +104,22 @@ public class ExploreActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.activity_site_explorer, menu);
+		MenuItem augmentTitleBar = menu.findItem(R.id.augmentTitleBar);
+		ImageView imageView = (ImageView) augmentTitleBar
+				.getActionView().findViewById(R.id.augmentActionButton);
+		imageView.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ExploreActivity.this, CaptureImageActivity.class);
+				intent.putExtra(CaptureImageActivity.SITE_ID_KEY, mSiteId);
+				intent.putExtra(CaptureImageActivity.IS_AUGMENT_ATTR, true);
+				startActivity(intent);
+			}
+		});
+		
+		TextView textView = (TextView) augmentTitleBar.getActionView().findViewById(R.id.siteTitle);
+		textView.setText(mSiteId);		
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -128,10 +127,14 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item) {
 		switch(item.getItemId()) {
+		case R.id.augmentTitleBar:
+			System.out.println("Clicked!");
+			break;
 		case android.R.id.home:
 			onBackPressed();
 			break;
 		}
+		System.out.println("Clicked!");
 		return super.onOptionsItemSelected(item);
 	}
 

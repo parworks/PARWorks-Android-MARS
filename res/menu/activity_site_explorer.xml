@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >    
+      
+    <item
+        android:id="@+id/augmentTitleBar"  
+        android:showAsAction="always" 
+        android:title="augment"
+        android:actionLayout="@layout/actionbar_site_explorer"
+        android:visible="true" />
+</menu>

@@ -122,8 +122,7 @@ public class AddCommentManager implements android.view.View.OnClickListener{
 					
 					@Override
 					public void handleError(Exception error) {
-						Log.e(TAG,error.getMessage());
-						
+						Log.e(TAG, error.getMessage());
 					}
 				});
 				

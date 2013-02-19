@@ -50,6 +50,11 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	private int currentPos = 0;
 	private List<String> backgroundImageUrls;
 	
+	public TrendingFragment() {
+		super();
+		mContext = (SlidingFragmentActivity) this.getActivity();
+	}
+	
 	public TrendingFragment(SlidingFragmentActivity context) {
 		super();
 		mContext = context;
