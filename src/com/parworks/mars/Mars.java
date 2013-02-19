@@ -3,6 +3,7 @@ package com.parworks.mars;
 import android.app.Application;
 import android.content.Context;
 
+import com.parworks.arcameraview.CameraInitHelper;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.model.sync.SyncHelper;
@@ -31,6 +32,9 @@ public class Mars extends Application {
 		
 		// initialize the sync handler
 		SyncHandler.initSyncHandler(mApplicationContext);
+		
+		// initialize the camera config
+		CameraInitHelper.initCamera(mApplicationContext);
 	}
 	
 	public static Context getAppContext() {
