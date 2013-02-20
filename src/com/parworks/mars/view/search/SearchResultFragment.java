@@ -160,7 +160,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 		if (data.getCount() == 0) {
 			return;
 		}
-		Log.d(TAG, "Finished loading site info");
+		Log.d(TAG, "Finished loading site info in search");
 		adapter.clear();
 		// init new data content for the adapter
 		while(!data.isAfterLast()) {

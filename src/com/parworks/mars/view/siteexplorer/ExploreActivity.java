@@ -19,7 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.parworks.arcameraview.CaptureImageActivity;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
-import com.parworks.mars.model.sync.SyncHelper;
+import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.utils.Utilities;
 import com.parworks.mars.view.siteexplorer.AugmentedImagesLoader.AugmentedImagesLoaderListener;
 import com.parworks.mars.view.siteexplorer.CommentsLoader.CommentsLoaderListener;
@@ -81,13 +81,11 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		addCommentButton.setOnClickListener(mAddCommentManager);
 		
 		// sync the site
-		SyncHelper.syncSite(mSiteId);		
-		
+		SyncHandler.syncSiteInfo(mSiteId, true);
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		mAddCommentManager.facebookOnActivityResult(requestCode, resultCode, data);
 	}

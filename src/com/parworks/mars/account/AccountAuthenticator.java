@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.parworks.mars.Test;
+import com.parworks.mars.MarsMainActivity;
 
 /**
  * This authenticator is not currently used, but 
@@ -34,7 +34,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 		final Bundle result;  
 		final Intent intent;  
 
-		intent = new Intent(this.mContext, Test.class);
+		intent = new Intent(this.mContext, MarsMainActivity.class);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);  
 
 		result = new Bundle();  

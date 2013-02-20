@@ -23,18 +23,12 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.parworks.androidlibrary.response.AugmentedImage;
-import com.parworks.androidlibrary.response.SiteComment;
-import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.androidlibrary.response.SiteInfoOverview;
 import com.parworks.mars.model.db.AugmentedImagesTable;
-import com.parworks.mars.model.db.CommentsTable;
-import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.utils.JsonMapper;
-import com.parworks.mars.utils.SiteTags;
 import com.parworks.mars.utils.User;
-import com.parworks.mars.utils.Utilities;
 
 public class SyncAdapterService extends Service {
 
@@ -84,23 +78,7 @@ public class SyncAdapterService extends Service {
 		mContentResolver = context.getContentResolver();
 
 		String siteId = extras.getString("siteId");
-		if (siteId != null) {
-			try {
-				Log.i(TAG, "performSync for SiteID: " + siteId);
-				// TODO: Avoid use getExisint(). This is useless and costs one extra HTTP call
-				// Sync the general SiteInfo
-				SiteInfo siteInfo = User.getARSites().getExisting(siteId).getSiteInfo();
-				storeSiteInfo(siteInfo);
-				// Sync the augmented images
-				List<AugmentedImage> augmentedImages = User.getARSites().getExisting(siteId).getAugmentedImages();
-				storeAugmentedImages(augmentedImages);
-				
-				List<SiteComment> siteComments = User.getARSites().getExisting(siteId).getSiteComments(siteId);
-				storeSiteComments(siteComments);
-			} catch (Exception e) {
-				Log.e(TAG, "Failed to sync site with ID: " + siteId, e);
-			}
-		} else {
+		if (siteId == null) {		
 			try {
 				// periodically sync and update trending sites
 				Log.i(TAG, "performSync for TrendingSites: ");
@@ -117,55 +95,6 @@ public class SyncAdapterService extends Service {
 			}
 		}
 	}
-
-	private static void storeSiteInfo(SiteInfo info) {
-		ContentValues values = new ContentValues();
-		values.put(SiteInfoTable.COLUMN_ADDRESS, info.getAddress());
-		values.put(SiteInfoTable.COLUMN_CHANNEL, info.getChannel());
-		values.put(SiteInfoTable.COLUMN_DESC, info.getDescription());
-		values.put(SiteInfoTable.COLUMN_FEATURE_DESC, info.getFeatureType());
-		values.put(SiteInfoTable.COLUMN_LAT, info.getLat());
-		values.put(SiteInfoTable.COLUMN_LON, info.getLon());
-		values.put(SiteInfoTable.COLUMN_NAME, info.getName());
-		values.put(SiteInfoTable.COLUMN_POSTER_IMAGE_CONTENT, info.getPosterImageOverlayContent());
-		values.put(SiteInfoTable.COLUMN_POSTER_IMAGE_URL, info.getPosterImageURL());
-		values.put(SiteInfoTable.COLUMN_PROFILE, info.getProcessingProfile());
-		values.put(SiteInfoTable.COLUMN_SITE_ID, info.getId());
-		values.put(SiteInfoTable.COLUMN_STATE, info.getSiteState().name());
-		values.put(SiteInfoTable.COLUMN_TAG_LIST, SiteTags.toJson(info.getTags()));
-		
-		// update or insert if not exist
-		// FIXME: not thread-safe here
-		if (mContentResolver.update(MarsContentProvider.getSiteUri(info.getId()), 
-				values, null, null) == 0) {		
-			mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_SITES, values);
-		}
-	}
-	private static void storeSiteComments(List<SiteComment> comments) {
-		for(SiteComment comment : comments) {
-			ContentValues values = new ContentValues();			
-			values.put(CommentsTable.COLUMN_SITE_ID, comment.getSiteId());
-			values.put(CommentsTable.COLUMN_COMMENT, comment.getComment());
-			values.put(CommentsTable.COLUMN_USER_ID, comment.getUserId());
-			values.put(CommentsTable.COLUMN_TIMESTAMP, comment.getTimeStamp());
-			values.put(CommentsTable.COLUMN_USER_NAME, comment.getUserName());
-			
-			// update or insert if not exist
-			// FIXME: not thread-safe here
-			Log.d(Utilities.DEBUG_TAG_SYNC,"Attemping to add comment: " + comment.getComment());
-			int rowsModified = mContentResolver.update(MarsContentProvider.getCommentsUri(comment.getSiteId()),	
-					values, null, null);
-			Log.d(Utilities.DEBUG_TAG_SYNC,"Rows modified was: " + rowsModified);
-			if (rowsModified == 0) {
-				Log.d(Utilities.DEBUG_TAG_SYNC,"Inserting comment: " + comment.getComment());
-				mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_COMMENTS, values);
-			} else {
-				Log.d(Utilities.DEBUG_TAG_SYNC,"Didn't insert comment. Presumably it already exists.");
-			}
-			
-			// TODO: Cut the records if there are too many records for the site
-		}
-	}
 	
 	private static void storeAugmentedImages(List<AugmentedImage> augmentedImages) {
 		for(AugmentedImage image : augmentedImages) {
@@ -180,10 +109,6 @@ public class SyncAdapterService extends Service {
 			values.put(AugmentedImagesTable.COLUMN_CONTENT_SIZE_URL, image.getImgContentPath());
 			values.put(AugmentedImagesTable.COLUMN_TIMESTAMP, image.getTime());
 			values.put(AugmentedImagesTable.COLUMN_CONTENT, image.getOutput());
-			
-//			Log.d(TAG,"CONTENT SIZE URL: " + image.getImgContentPath());
-//			Log.d(TAG,"SITE ID: " + image.getSiteId());
-//			Log.d(TAG,"FULL SIZE IMAGE: " + image.getImgPath());
 			
 			// update or insert if not exist
 			// FIXME: not thread-safe here

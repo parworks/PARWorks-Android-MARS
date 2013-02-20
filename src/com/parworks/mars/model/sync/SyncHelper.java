@@ -8,6 +8,12 @@ import android.os.Bundle;
 
 import com.parworks.mars.model.provider.MarsContentProvider;
 
+/**
+ * Use {@link SyncHandler} instead
+ * 
+ * @author yusun
+ */
+@Deprecated
 public class SyncHelper {
 
 	public static final String ACCOUNT_NAME = "MARS";
@@ -32,16 +38,5 @@ public class SyncHelper {
 	 */
 	public static void sync() {
 		ContentResolver.requestSync(account, MarsContentProvider.AUTHORITY, new Bundle());
-	}
-	
-	/**
-	 * Trigger the sync for the given SiteInfo
-	 * 
-	 * @param siteId
-	 */
-	public static void syncSite(String siteId) {
-		Bundle bundle = new Bundle();
-		bundle.putString("siteId", siteId);
-		ContentResolver.requestSync(account, MarsContentProvider.AUTHORITY, bundle);
 	}
 }
