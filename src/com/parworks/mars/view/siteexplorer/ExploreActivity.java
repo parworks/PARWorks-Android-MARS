@@ -35,12 +35,8 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	private static final int AUGMENTED_IMAGES_LOADER_ID = 1;
 	private static final int COMMENTS_LOADER_ID = 2;
 	
-	private View mLayoutView;
-	
+	private View mLayoutView;	
 	private AddCommentManager mAddCommentManager;
-	
-	
-	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,32 +48,26 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		
 
 				
-		SiteInfoLoader siteInfoLoader = new SiteInfoLoader(mSiteId, this, new SiteInfoLoaderListener() {
-			
+		SiteInfoLoader siteInfoLoader = new SiteInfoLoader(mSiteId, this, new SiteInfoLoaderListener() {			
 			@Override
 			public void onSiteLoaded(Cursor siteData) {
-				loadSiteInfoIntoUi(siteData);
-				
+				loadSiteInfoIntoUi(siteData);				
 			}
 		});
 		getSupportLoaderManager().initLoader(SITE_INFO_LOADER_ID, null, siteInfoLoader);
 		
-		AugmentedImagesLoader augmentedImagesLoader = new AugmentedImagesLoader(mSiteId, this, new AugmentedImagesLoaderListener() {
-			
+		AugmentedImagesLoader augmentedImagesLoader = new AugmentedImagesLoader(mSiteId, this, new AugmentedImagesLoaderListener() {			
 			@Override
 			public void onImagesLoaded(Cursor data) {
-				loadAugmentedImagesIntoUi(data);
-				
+				loadAugmentedImagesIntoUi(data);				
 			}
 		});
 		getSupportLoaderManager().initLoader(AUGMENTED_IMAGES_LOADER_ID, null, augmentedImagesLoader);
 		
-		CommentsLoader commentsLoader = new CommentsLoader(mSiteId, this, new CommentsLoaderListener() {
-			
+		CommentsLoader commentsLoader = new CommentsLoader(mSiteId, this, new CommentsLoaderListener() {			
 			@Override
 			public void onCommentsLoaded(Cursor data) {
-				loadCommentsIntoUi(data);
-				
+				loadCommentsIntoUi(data);				
 			}
 		});
 		getSupportLoaderManager().initLoader(COMMENTS_LOADER_ID, null, commentsLoader);
@@ -181,8 +171,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		LinearLayout augmentedImagesLayout = (LinearLayout) findViewById(R.id.linearLayoutAugmentedImagesLayout);
 		TextView augmentedImagesTotalTextView = (TextView) findViewById(R.id.textViewAugmentedPhotoTotal);
 		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(mSiteId, this, augmentedImagesProgressBar, augmentedImagesLayout,augmentedImagesTotalTextView);
-		augmentedImagesViewManager.setAugmentedImages(data);
-		
+		augmentedImagesViewManager.setAugmentedImages(data);		
 	}
 	
 	private void loadCommentsIntoUi(Cursor data) {
