@@ -52,5 +52,7 @@ public class SearchResultListAdapter extends SimpleCursorAdapter {
 		
 		// put siteId as the tag with the view
 		v.setTag(siteId);
+		
+		System.out.println("YUSUN: Just bind view: " + siteId + " -> " + imageUrl);
 	}
 }

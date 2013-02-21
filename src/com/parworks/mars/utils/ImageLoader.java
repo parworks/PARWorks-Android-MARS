@@ -10,10 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Stack;
 
-import org.apache.commons.io.IOUtils;
-
-import com.parworks.mars.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;

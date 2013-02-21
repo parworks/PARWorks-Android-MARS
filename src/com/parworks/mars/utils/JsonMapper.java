@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonMapper {
 
-	@SuppressWarnings("serial")
 	private static ObjectMapper mapper = new ObjectMapper();
 	
 	public static ObjectMapper get() {

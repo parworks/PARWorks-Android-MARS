@@ -195,19 +195,19 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		} else {
 			// download and load the image first 
 			// then setup the alpha value
+			imageView.setTag(imageUrl);
 			ImageViewManager imageViewManager = new ImageViewManager();
 			if (imageUrl != null) {
 				imageViewManager.setImageView(imageUrl, 
 						imageView, new ImageLoadedListener() {
 					@Override
 					public void onImageLoaded() {
-						imageView.setAlpha((int) (255 * scale));
-						imageView.setTag(imageUrl);
+						imageView.setAlpha((int) (255 * scale));						
 					}
 				});
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Adapter for trending sites
