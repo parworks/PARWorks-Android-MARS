@@ -88,6 +88,6 @@ public class NearbyFragment extends Fragment {
 	
 	private void moveCamera(Location location) {
 		LatLng currentLatLng = new LatLng(location.getLatitude(),location.getLongitude());
-		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, mMap.getMaxZoomLevel()));
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, mMap.getMinZoomLevel()));
 	}
 }
