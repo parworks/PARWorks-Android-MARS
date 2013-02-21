@@ -3,28 +3,20 @@ package com.parworks.mars.view.siteexplorer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.facebook.FacebookException;
-import com.facebook.widget.ProfilePictureView;
-import com.facebook.widget.ProfilePictureView.OnErrorListener;
-import com.parworks.androidlibrary.response.SiteComment;
-import com.parworks.mars.R;
-import com.parworks.mars.model.db.CommentsTable;
-import com.parworks.mars.model.sync.SyncAdapterService;
-import com.parworks.mars.utils.Utilities;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.facebook.widget.ProfilePictureView;
+import com.parworks.androidlibrary.response.SiteComment;
+import com.parworks.mars.R;
+import com.parworks.mars.model.db.CommentsTable;
+import com.parworks.mars.utils.Utilities;
 
 public class CommentsViewManager {
 	public static final String TAG = CommentsViewManager.class.getName();
@@ -105,6 +97,4 @@ public class CommentsViewManager {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
         profilePic.setLayoutParams(params);
     }
-	
-
 }

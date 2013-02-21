@@ -6,7 +6,6 @@ import android.content.Context;
 import com.parworks.arcameraview.CameraInitHelper;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.model.sync.SyncHandler;
-import com.parworks.mars.model.sync.SyncHelper;
 
 /**
  * The entry point of the app
@@ -20,10 +19,7 @@ public class Mars extends Application {
 	@Override
 	public void onCreate() {		
 		super.onCreate();
-		mApplicationContext = this;
-		
-		// initialize the account 
-		SyncHelper.initAppAccount(this.getApplicationContext());
+		mApplicationContext = this;		
 		
 		// initialize the db
 		
