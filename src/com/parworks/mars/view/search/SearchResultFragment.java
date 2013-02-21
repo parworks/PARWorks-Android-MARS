@@ -28,7 +28,8 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	private static final int SEARCH_SITE_INFO_LOADER_ID = 33;
 	
 	private List<String> siteIds;
-	private SearchResultListAdapter adapter;
+	//private SearchResultListAdapter adapter;
+	private SearchResultAdapter newAdapter;
 
 	public SearchResultFragment() {
 		super();
@@ -59,15 +60,13 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, (String)view.getTag());
 				startActivity(i);				
 			}
-		});		
+		});				
 		
-		// init cursor adapter
-		String[] from = new String[] { SiteInfoTable.COLUMN_SITE_ID, SiteInfoTable.COLUMN_POSTER_IMAGE_URL };
-	    // Fields on the UI to which we map
-	    int[] to = new int[] { R.id.searchSiteName, R.id.searchSitePosterImage };	    
-		adapter = new SearchResultListAdapter(
-				this.getActivity(), R.layout.search_result_list_row, null, from, to, 0);
-		lv.setAdapter(adapter);
+		newAdapter = new SearchResultAdapter(this.getActivity());			  	
+		for(String id : siteIds) {			  
+		    newAdapter.add(new SearchResultItem(id, null));			  	
+		}
+		lv.setAdapter(newAdapter);
 		
 		v.requestFocus();
 		return v;
@@ -110,11 +109,27 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(TAG, "Finished loading site info in search");
-		adapter.swapCursor(data);
+		//adapter.swapCursor(data);
+		if (data.getCount() == 0) {				  
+		    return;				  	
+		}
+				
+		Log.d(TAG, "Finished loading site info in search");
+				  	
+		while(!data.isAfterLast()) {				  	
+		    String siteId = data.getString(				  	
+		    		data.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));			  	
+		    String posterUrl = data.getString(				  	
+		    		data.getColumnIndex(SiteInfoTable.COLUMN_POSTER_IMAGE_URL));			
+		    newAdapter.updateRecord(siteId, posterUrl);
+			data.moveToNext();			  	
+		}
+		
+		newAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		adapter.swapCursor(null);
+		//adapter.swapCursor(null);
 	}
 }
