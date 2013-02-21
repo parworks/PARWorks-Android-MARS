@@ -17,11 +17,14 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
-    <style name="customActionBarTabStyle" parent="style/Theme.Sherlock.Light">
-	    <item name="android:paddingLeft">0dp</item>
-	    <item name="android:paddingRight">0dp</item>
-	    <item name="android:layout_width">wrap_content</item>
-	    <item name="android:minWidth">0dp</item>
+    <style name="Theme.MyTheme" parent="Theme.Sherlock.Light">
+    	<item name="actionBarStyle">@style/customActionBarTabStyle</item>
+    	<item name="android:actionBarStyle">@style/customActionBarTabStyle</item>
+	</style>
+
+    <style name="customActionBarTabStyle" parent="Widget.Sherlock.ActionBar">
+        <item name="android:background">#F0F0F0</item>        
+    	<item name="background">#F0F0F0</item>
 	</style>
 
 </resources>

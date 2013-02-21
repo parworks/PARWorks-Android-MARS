@@ -28,6 +28,7 @@
         android:name="com.parworks.mars.Mars"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:logo="@drawable/ic_bar_item_sidebar"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
@@ -56,7 +57,7 @@
         
         <activity
             android:name="com.parworks.mars.MarsMainActivity"
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.MyTheme"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>

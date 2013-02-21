@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+    <item
+        android:id="@+id/introButton"
+        android:icon="@drawable/ic_bar_item_intro"  
+        android:showAsAction="always" 
+        android:title="intro"
+        android:visible="true" />
 </menu>
