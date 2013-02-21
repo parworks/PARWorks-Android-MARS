@@ -1,10 +1,8 @@
 package com.parworks.mars.cache;
 
-
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 /**
  * Async task to the following things:

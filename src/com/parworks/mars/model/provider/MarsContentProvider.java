@@ -258,7 +258,6 @@ public class MarsContentProvider extends ContentProvider {
 						values,
 						CommentsTable.COLUMN_TIMESTAMP + "=? AND " + CommentsTable.COLUMN_SITE_ID + "=?", 
 						new String[] { ""+values.getAsLong(CommentsTable.COLUMN_TIMESTAMP),values.getAsString(CommentsTable.COLUMN_SITE_ID)});
-
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);

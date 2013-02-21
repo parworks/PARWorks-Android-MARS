@@ -25,7 +25,6 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
  */
 public class MarsMainActivity extends SlidingFragmentActivity {
 
-	private int mTitleRes;
 	protected Fragment mFrag;
 	private Fragment currentFragment;
 	
