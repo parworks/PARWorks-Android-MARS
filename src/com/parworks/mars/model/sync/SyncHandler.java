@@ -1,10 +1,16 @@
 package com.parworks.mars.model.sync;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.parworks.androidlibrary.ar.ARErrorListener;
@@ -13,10 +19,13 @@ import com.parworks.androidlibrary.ar.ARSite;
 import com.parworks.androidlibrary.response.AugmentedImage;
 import com.parworks.androidlibrary.response.SiteComment;
 import com.parworks.androidlibrary.response.SiteInfo;
+import com.parworks.androidlibrary.response.SiteInfoOverview;
 import com.parworks.mars.model.db.AugmentedImagesTable;
 import com.parworks.mars.model.db.CommentsTable;
 import com.parworks.mars.model.db.SiteInfoTable;
+import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.SiteTags;
 import com.parworks.mars.utils.User;
 
@@ -24,9 +33,11 @@ public class SyncHandler {
 	
 	private static final String TAG = "MarsSyncHandler";	
 	private static ContentResolver mContentResolver;
+	private static Context mContext;
 	
 	public static void initSyncHandler(Context context) {
 		mContentResolver = context.getContentResolver();
+		mContext = context;
 	}
 
 	public static void syncSiteInfo(final String siteId, final boolean syncAllRelatedInfo) {
@@ -121,6 +132,60 @@ public class SyncHandler {
 		});
 	}
 	
+	/**
+	 * Sync trending sites
+	 */
+	public static void syncTrendingSites() {
+		User.getARSites().getTrendingSites(new ARListener<List<SiteInfoOverview>>() {
+			@Override
+			public void handleResponse(List<SiteInfoOverview> resp) {
+				try {
+					Log.i(TAG, "Sync for TrendingSites: ");
+					updateTrendingSite(resp);
+				} catch (Exception e) {
+					Log.e(TAG, "Failed to sync trending sites", e);
+				}
+			}
+		}, new ARErrorListener() {			
+			@Override
+			public void handleError(Exception error) {
+				Log.e(TAG, "Failed to sync trending sites", error);
+			}
+		});
+	}
+	
+	/**
+	 * Sync suggested tags and all tags
+	 */
+	public static void syncTags() {
+		Log.d(TAG, "Sync suggested tags");
+		// Sync suggested		
+		User.getARSites().getSuggestedTags(new ARListener<List<String>>() {
+			@Override
+			public void handleResponse(List<String> resp) {
+				storeTags(mContext, "suggestedTags", resp);
+			}
+		}, new ARErrorListener() {			
+			@Override
+			public void handleError(Exception error) {				
+				Log.e(TAG, "Failed to sync suggested tags", error);
+			}
+		});
+		
+		// sync all tags
+		User.getARSites().getAllTags(new ARListener<List<String>>() {
+			@Override
+			public void handleResponse(List<String> resp) {
+				storeTags(mContext, "allTags", resp);
+			}
+		}, new ARErrorListener() {			
+			@Override
+			public void handleError(Exception error) {				
+				Log.e(TAG, "Failed to sync all tags", error);
+			}
+		});
+	}
+	
 	private static void storeSiteInfo(SiteInfo info) {
 		ContentValues values = new ContentValues();
 		values.put(SiteInfoTable.COLUMN_ADDRESS, info.getAddress());
@@ -187,6 +252,55 @@ public class SyncHandler {
 			}
 			
 			// TODO: Cut the records if there are too many records for the site
+		}
+	}
+	
+	private static void updateTrendingSite(List<SiteInfoOverview> sites) 
+			throws RemoteException, OperationApplicationException {
+		ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+		
+		// delete the old trending sites
+		ContentProviderOperation.Builder op =
+				ContentProviderOperation.newDelete(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES);
+		ops.add(op.build());
+		
+		// insert the new trending sites
+		for(SiteInfoOverview siteInfoOverview : sites) {
+			ContentValues values = new ContentValues();
+			values.put(TrendingSitesTable.COLUMN_ADDRESS, siteInfoOverview.getAddress());
+			values.put(TrendingSitesTable.COLUMN_DESC, siteInfoOverview.getDescription());
+			values.put(TrendingSitesTable.COLUMN_LAT, siteInfoOverview.getLat());
+			values.put(TrendingSitesTable.COLUMN_LON, siteInfoOverview.getLon());
+			values.put(TrendingSitesTable.COLUMN_NAME, siteInfoOverview.getName());
+			values.put(TrendingSitesTable.COLUMN_POSTER_IMAGE_CONTENT, siteInfoOverview.getPosterImageOverlayContent());
+			values.put(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL, siteInfoOverview.getPosterImageURL());
+			values.put(TrendingSitesTable.COLUMN_SITE_ID, siteInfoOverview.getId());
+			values.put(TrendingSitesTable.COLUMN_STATE, siteInfoOverview.getSiteState());
+			values.put(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES, siteInfoOverview.getNumAugmentedImages());	
+			values.put(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL, siteInfoOverview.getPosterImageBlurredURL());
+			
+			op = ContentProviderOperation.newInsert(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES)
+					.withValues(values);
+			ops.add(op.build());	
+		}
+		
+		mContentResolver.applyBatch(MarsContentProvider.AUTHORITY, ops);
+		mContentResolver.notifyChange(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES, null);
+		// update the augmented image table
+		for(SiteInfoOverview siteInfoOverview : sites) {
+			storeAugmentedImages(siteInfoOverview.getRecentlyAugmentedImages());
+		}
+	}
+	
+	private static void storeTags(Context context, String key, List<String> tags) {
+		// store the tags
+		try {
+			SharedPreferences myPrefs = context.getSharedPreferences("MARSTAGS", 0);
+			SharedPreferences.Editor prefsEditor = myPrefs.edit();
+	        prefsEditor.putString(key, JsonMapper.get().writeValueAsString(tags));
+	        prefsEditor.commit();
+		} catch (IOException e) {
+			Log.e(TAG, "Failed to write the tags value into shared preferences", e);
 		}
 	}
 }

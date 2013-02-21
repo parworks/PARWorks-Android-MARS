@@ -2,14 +2,18 @@ package com.parworks.mars;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.view.nearby.NearbyFragment;
 import com.parworks.mars.view.search.SearchFragment;
 import com.parworks.mars.view.technology.TechnologyFragment;
@@ -25,8 +29,15 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
  */
 public class MarsMainActivity extends SlidingFragmentActivity {
 
-	protected Fragment mFrag;
+	private static final String TAG = "MarsMainActivity";
+	
+	private Fragment mFrag;
 	private Fragment currentFragment;
+	
+	/** Timer used to update the Trending Sites, Tags */
+	private Timer autoUpdate;
+	private static final int UPDATE_INTERVAL = 60 * 1000 * 5; // 5 mins
+	private static long lastUpdateTimeStamp = 0l;
 	
 	/**
 	 *  The fragments controlled by the sliding menu,
@@ -46,7 +57,9 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		// refresh all the resources first
+		updateAll();
 		// set main activity view
 		setContentView(R.layout.activity_base);		
 
@@ -78,6 +91,44 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		initMenuControlledFragments();
 	}
 	
+	@Override
+	protected void onPause() {		
+		// cancel update timer
+		Log.d(TAG, "Stop update timerE");
+		if (autoUpdate != null) {
+			autoUpdate.cancel();
+		}
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume() {		
+		super.onResume();
+
+		long timeDelay = 0;
+		long elapsedTimeSinceLastUpdate = System.currentTimeMillis() - lastUpdateTimeStamp;
+		if (elapsedTimeSinceLastUpdate < UPDATE_INTERVAL) {
+			timeDelay = UPDATE_INTERVAL - elapsedTimeSinceLastUpdate;
+		}
+		
+		// trigger the update timer
+		Log.d(TAG, "Start update timer");		
+		autoUpdate = new Timer();
+		autoUpdate.schedule(new TimerTask() {
+		    @Override
+		    public void run() {
+			    updateAll();
+		    }
+		}, timeDelay, UPDATE_INTERVAL); // updates each 5 mins			
+	}
+	
+	private void updateAll() {
+		Log.d(TAG, "Refresh everything");
+		SyncHandler.syncTrendingSites();
+	    SyncHandler.syncTags();
+	    lastUpdateTimeStamp = System.currentTimeMillis();
+	}
+
 	private void initMenuControlledFragments() {
 		menuControlledFragments = new HashMap<String, Fragment>();
 		

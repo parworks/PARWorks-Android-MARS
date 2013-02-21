@@ -74,26 +74,26 @@ public class SyncAdapterService extends Service {
 
 	private static void performSync(Context context, Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult)
 			throws OperationCanceledException {
-		Log.i(TAG, "performSync: " + account.toString());
-		mContentResolver = context.getContentResolver();
-
-		String siteId = extras.getString("siteId");
-		if (siteId == null) {		
-			try {
-				// periodically sync and update trending sites
-				Log.i(TAG, "performSync for TrendingSites: ");
-				List<SiteInfoOverview> trendingSites = User.getARSites().getTrendingSites();
-				updateTrendingSite(trendingSites);
-				
-				// Sync suggested and all tags
-				List<String> suggestedTags = User.getARSites().getSuggestedTags();
-				storeTags(context, "suggestedTags", suggestedTags);
-				List<String> allTags = User.getARSites().getAllTags();				
-				storeTags(context, "allTags", allTags);
-			} catch (Exception e) {
-				Log.e(TAG, "Failed to sync trending sites", e);
-			}
-		}
+//		Log.i(TAG, "performSync: " + account.toString());
+//		mContentResolver = context.getContentResolver();
+//
+//		String siteId = extras.getString("siteId");
+//		if (siteId == null) {		
+//			try {
+//				// periodically sync and update trending sites
+//				Log.i(TAG, "performSync for TrendingSites: ");
+//				List<SiteInfoOverview> trendingSites = User.getARSites().getTrendingSites();
+//				updateTrendingSite(trendingSites);
+//				
+//				// Sync suggested and all tags
+//				List<String> suggestedTags = User.getARSites().getSuggestedTags();
+//				storeTags(context, "suggestedTags", suggestedTags);
+//				List<String> allTags = User.getARSites().getAllTags();				
+//				storeTags(context, "allTags", allTags);
+//			} catch (Exception e) {
+//				Log.e(TAG, "Failed to sync trending sites", e);
+//			}
+//		}
 	}
 	
 	private static void storeAugmentedImages(List<AugmentedImage> augmentedImages) {
