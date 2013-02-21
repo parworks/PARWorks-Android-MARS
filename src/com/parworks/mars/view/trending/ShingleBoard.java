@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 public class ShingleBoard extends ImageView {
 	
-	private Context context;
 	private String displayName;
 	private int numAugmentedImages;
 	
@@ -20,19 +19,16 @@ public class ShingleBoard extends ImageView {
 
 	public ShingleBoard(Context context) {
 		super(context);
-		this.context = context;
 		initTextPaint();
 	}
 
 	public ShingleBoard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		this.context = context;
 		initTextPaint();
 	}
 
 	public ShingleBoard(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.context = context;
 		initTextPaint();
 	}
 	

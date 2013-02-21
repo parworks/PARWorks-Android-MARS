@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ import com.parworks.mars.view.siteexplorer.ExploreActivity;
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	
 	private String siteId;
+	private String displayName;
 	private int numAugmentedImages;
 	private String posterImageUrl;	
 	
@@ -28,8 +30,12 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		super();
 	}
 
-	public TrendingSiteFragment(String siteId, int numAugmentedImages, String posterUrl) {
+	public TrendingSiteFragment(String siteId, String displayName, int numAugmentedImages, String posterUrl) {
 		this.siteId = siteId;
+		this.displayName = displayName;
+		if (displayName == null || TextUtils.isEmpty(displayName)) {
+			this.displayName = siteId;
+		}
 		this.numAugmentedImages = numAugmentedImages;
 		this.posterImageUrl = posterUrl;
 		setRetainInstance(true);
@@ -71,7 +77,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		ShingleBoard sb = (ShingleBoard) v.findViewById(R.id.shingleBoard);
 		int boardWidth = (int) (container.getWidth() * 0.7);		
 		sb.getLayoutParams().width = boardWidth;
-		sb.updateText(siteId, numAugmentedImages);		
+		sb.updateText(displayName, numAugmentedImages);		
 		
 		// add click action
 		imageView.setOnClickListener(this);

@@ -54,8 +54,7 @@ public class MarsContentProvider extends ContentProvider {
 	
 	/** Associated with AugmentedImagesTable */
 	private static final String BASE_PATH_AUGMENTED_IMAGE = "augment";	
-	private static final String BASE_PATH_AUGMENTED_IMAGES_FOR_SITE = "augmentsite";
-	
+	private static final String BASE_PATH_AUGMENTED_IMAGES_FOR_SITE = "augmentsite";	
 	private static final String BASE_PATH_COMMENTS = "comments";
 	
 	/** Construct the URI matcher for all content */
@@ -83,7 +82,7 @@ public class MarsContentProvider extends ContentProvider {
 	public static final Uri CONTENT_URI_ALL_AUGMENTED_IMAGES = 
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE);
 	public static final Uri CONTENT_URI_ALL_COMMENTS = 
-			Uri.parse("content://"+AUTHORITY+"/"+BASE_PATH_COMMENTS);
+			Uri.parse("content://" + AUTHORITY + "/"+ BASE_PATH_COMMENTS);
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
