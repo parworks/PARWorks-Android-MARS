@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -35,26 +36,26 @@ import com.viewpagerindicator.CirclePageIndicator;
  * @author yusun
  */
 public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor> {	
-	
+
 	private static final String TAG = "TrendingFragment";
 	private static final int TRENDING_SITES_LOADER_ID = 5;
-	
+
 	private SlidingFragmentActivity mContext;
 	private ViewPager vp;
 	private TrendingPagerAdapter vpAdapter;
-	
+
 	private CirclePageIndicator circlePageIndicator;
 	private ImageView backgroundImageView1;
 	private ImageView backgroundImageView2;
 	/** Current page view position */
 	private int currentPos = 0;
 	private List<String> backgroundImageUrls;
-	
+
 	public TrendingFragment() {
 		super();
 		mContext = (SlidingFragmentActivity) this.getActivity();
 	}
-	
+
 	public TrendingFragment(SlidingFragmentActivity context) {
 		super();
 		mContext = context;
@@ -87,7 +88,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			}
 
 			@Override
-			public void onPageSelected(int position) {		
+			public void onPageSelected(int position) {	
 				switch (position) {
 				case 0:
 					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -99,13 +100,13 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 				currentPos = position;
 			}
 		});
-		
-		//vp.setPageMargin(-60);	
-		
+
+		// vp.setPageMargin(-60);
+
 		// init background ImageViews
 		backgroundImageView1 = (ImageView) v.findViewById(R.id.blurredBackground1);
 		backgroundImageView2 = (ImageView) v.findViewById(R.id.blurredBackground2);
-		
+
 		// config SlidingMenu touch mode
 		mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		return v;
@@ -133,7 +134,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		if (data.getCount() == 0) {
 			return;
 		}
-		
+
 		Log.d(TAG, "onLoadFinished and update sites fragment");
 		// store all the background images
 		backgroundImageUrls = new ArrayList<String>();
@@ -148,36 +149,42 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL));
 			String blurredUrl = data.getString(
 					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL));
-			
+
 			// add fragment for site
 			sitesFragments.add(new TrendingSiteFragment(siteId, siteNum, posterUrl));
 			// add blurred image for background
 			backgroundImageUrls.add(blurredUrl);
 			data.moveToNext();
 		}	
-		
+
 		// update vp adapter
 		vpAdapter.updateFragments(sitesFragments);	
 		vp.setAdapter(vpAdapter);
-		circlePageIndicator.setViewPager(vp);
-		circlePageIndicator.setCurrentItem(0);
-		vp.setCurrentItem(0);
-		currentPos = 0;
-		showBackgroundImage(backgroundImageView1, 0, 1);
-		vpAdapter.notifyDataSetChanged();		
+		circlePageIndicator.setViewPager(vp);		
+
+		if (currentPos < sitesFragments.size()) {
+			circlePageIndicator.setCurrentItem(currentPos);
+			vp.setCurrentItem(currentPos);
+		} else {
+			vp.setCurrentItem(0);
+			circlePageIndicator.setCurrentItem(0);
+			currentPos = 0;
+		}		
+
+		showBackgroundImage(backgroundImageView1, currentPos, 1);		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		
+
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void showBackgroundImage(final ImageView imageView, int position, final float scale) {
 		if (position >= backgroundImageUrls.size()) {
 			return;
 		}
-		
+
 		final String imageUrl = backgroundImageUrls.get(position);
 		// if the image view already displays the target image
 		// only set the alpha value
@@ -190,26 +197,28 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			if (imageUrl != null) {
 				imageViewManager.setImageView(imageUrl, 
 						imageView, new ImageLoadedListener() {
-							@Override
-							public void onImageLoaded() {
-								imageView.setAlpha((int) (255 * scale));
-								imageView.setTag(imageUrl);
-							}
+					@Override
+					public void onImageLoaded() {
+						imageView.setAlpha((int) (255 * scale));
+						imageView.setTag(imageUrl);
+					}
 				});
 			}
 		}
 	}	
-	
+
 	/**
 	 * Adapter for trending sites
 	 */
 	public class TrendingPagerAdapter extends FragmentPagerAdapter {
-		
+
 		private ArrayList<TrendingSiteFragment> mFragments;
-		
+		private FragmentManager fm;
+
 		public TrendingPagerAdapter(FragmentManager fm) {
 			super(fm);
-			mFragments = new ArrayList<TrendingSiteFragment>();
+			this.fm = fm;
+			this.mFragments = new ArrayList<TrendingSiteFragment>();
 		}
 
 		@Override
@@ -219,9 +228,10 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 
 		@Override
 		public Fragment getItem(int position) {
+			System.out.println("GETITEMCALLED: " + position);
 			return mFragments.get(position);
 		}
-		
+
 		@Override
 		public int getItemPosition(Object item) {
 			int position = mFragments.indexOf(item);
@@ -232,8 +242,17 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		}
 
 		public void updateFragments(ArrayList<TrendingSiteFragment> fragments) {
-			mFragments.clear();
-			mFragments = fragments;				
-		}		
+			if (mFragments != null) {
+				FragmentTransaction ft = fm.beginTransaction();
+				for (Fragment f : mFragments){
+					ft.remove(f);
+				}
+				ft.commitAllowingStateLoss();
+				ft = null;
+				fm.executePendingTransactions();
+			}
+			mFragments = fragments;
+			notifyDataSetChanged();
+		}
 	}
 }

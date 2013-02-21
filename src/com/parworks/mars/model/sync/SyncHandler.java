@@ -142,7 +142,7 @@ public class SyncHandler {
 		if (mContentResolver.update(MarsContentProvider.getSiteUri(info.getId()), 
 				values, null, null) == 0) {		
 			mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_SITES, values);
-		}
+		}		
 	}
 	
 	private static void storeAugmentedImages(List<AugmentedImage> augmentedImages) {

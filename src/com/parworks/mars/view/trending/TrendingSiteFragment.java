@@ -17,7 +17,6 @@ import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
-import com.parworks.mars.view.siteexplorer.ImageViewManager;
 
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	
@@ -42,7 +41,6 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		
 		// handle poster image	
 		final ImageView imageView = (ImageView) v.findViewById(R.id.trendingSitePosterImage);
-		ImageViewManager imageViewManager = new ImageViewManager();		
 		int imageWidth = (int) (container.getWidth() * 0.8);
 		imageView.getLayoutParams().width = imageWidth;
 		imageView.getLayoutParams().height = imageWidth;
@@ -51,6 +49,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(posterImageUrl));
 			if (posterImageBitmap == null) {
+				imageView.setImageResource(R.drawable.img_missing_image);
 				new BitmapWorkerTask(posterImageUrl, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {			

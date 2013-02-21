@@ -152,7 +152,7 @@ public class SyncAdapterService extends Service {
 		}
 		
 		mContentResolver.applyBatch(MarsContentProvider.AUTHORITY, ops);
-		
+		mContentResolver.notifyChange(MarsContentProvider.CONTENT_URI_ALL_TRENDING_SITES, null);
 		// update the augmented image table
 		for(SiteInfoOverview siteInfoOverview : sites) {
 			storeAugmentedImages(siteInfoOverview.getRecentlyAugmentedImages());

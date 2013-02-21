@@ -70,7 +70,7 @@ public class MarsContentProvider extends ContentProvider {
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGE +"/*", AUGMENTED_IMAGE_ID);
 		addURI(AUTHORITY, BASE_PATH_AUGMENTED_IMAGES_FOR_SITE +"/*", AUGMENTED_SITE_ID);
 		
-		addURI(AUTHORITY, BASE_PATH_COMMENTS,COMMENT);
+		addURI(AUTHORITY, BASE_PATH_COMMENTS, COMMENT);
 		addURI(AUTHORITY, BASE_PATH_COMMENTS + "/*", COMMENT_ID);
 		addURI(AUTHORITY, BASE_PATH_COMMENTS ,COMMENT);
 	}};
@@ -93,6 +93,7 @@ public class MarsContentProvider extends ContentProvider {
 		switch (uriType) {		
 		case SITES:    // delete the whole site table
 			rowsDeleted = db.delete(SiteInfoTable.TABLE_SITES, selection, selectionArgs);
+			getContext().getContentResolver().notifyChange(uri, null);
 			break;
 		case SITE_ID:  // delete a certain site info record 
 			String id = uri.getLastPathSegment();
@@ -106,6 +107,7 @@ public class MarsContentProvider extends ContentProvider {
 						+ " and " + selection,
 						selectionArgs);
 			}
+			getContext().getContentResolver().notifyChange(uri, null);
 			break;
 		case TRENDING_SITES: // delete the whole trending site table
 			rowsDeleted = db.delete(TrendingSitesTable.TABLE_NAME, selection, selectionArgs);
@@ -113,7 +115,7 @@ public class MarsContentProvider extends ContentProvider {
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
-		getContext().getContentResolver().notifyChange(uri, null);
+		
 		return rowsDeleted;
 	}
 
@@ -129,6 +131,7 @@ public class MarsContentProvider extends ContentProvider {
 				id = db.insertOrThrow(SiteInfoTable.TABLE_SITES, null, values);
 				Log.d(TAG,"Inserted site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_SITE + "/" + id);
+				getContext().getContentResolver().notifyChange(uri, null);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}
@@ -147,6 +150,7 @@ public class MarsContentProvider extends ContentProvider {
 				id = db.insertOrThrow(AugmentedImagesTable.TABLE_NAME, null, values);
 				Log.d(TAG,"Inserted augmented image for site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_AUGMENTED_IMAGE + "/" + id);
+				getContext().getContentResolver().notifyChange(uri, null);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}
@@ -156,6 +160,7 @@ public class MarsContentProvider extends ContentProvider {
 				id = db.insertOrThrow(CommentsTable.TABLE_NAME, null, values);
 				Log.d(Utilities.DEBUG_TAG_SYNC, "Inserted comment for site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_COMMENTS + "/" + id);
+				getContext().getContentResolver().notifyChange(uri, null);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG,"SQLiteConstraintException: " + exception.getMessage());
 			}
@@ -163,7 +168,7 @@ public class MarsContentProvider extends ContentProvider {
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
-		getContext().getContentResolver().notifyChange(uri, null);
+		
 		return returnedUri;
 	}
 
