@@ -72,8 +72,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		});
 		getSupportLoaderManager().initLoader(COMMENTS_LOADER_ID, null, commentsLoader);
 					
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setTitle(mSiteId);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		
 		mAddCommentManager = new AddCommentManager(this,mSiteId);
