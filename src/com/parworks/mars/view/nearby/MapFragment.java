@@ -6,6 +6,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.R;
 import com.parworks.mars.view.nearby.GetLocation.GetLocationListener;
@@ -28,6 +29,7 @@ public class MapFragment extends Fragment {
 	private Location mCurrentLocation;
 	private static final int DEFAULT_MAX_SITES = 10;
 	private static final double DEFAULT_RADIUS_IN_METERS = 1609; //about a mile;
+	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
 	public MapFragment(NearbySitesListFragment nearbySitesListFragment) {
 		super();
@@ -45,9 +47,10 @@ public class MapFragment extends Fragment {
 			@Override
 			public void gotSite(SiteInfo site) {
 				gotNewSiteInfo(site);
-				
+				mNearbySitesListFragment.gotNewSiteInfo(site);
 			}
 		});
+		searchForLocation();
 		return v;
 	}
 	
@@ -79,12 +82,24 @@ public class MapFragment extends Fragment {
 	}
 	private void gotUserLocation(Location location) {
 		mInfoFinder.getNearbySiteInfo(location, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
+		moveCamera(location,DEFAULT_ZOOM_LEVEL);
 	}
 	private void gotNewSiteInfo(SiteInfo info) {
-		
+		createSiteMarker(info);
 	}
-	private void displaySite(SiteInfo info) {
-		
+	private void createSiteMarker(SiteInfo info) {
+		MarkerOptions markerOptions = new MarkerOptions();
+		String latString = info.getLat();
+		String lngString = info.getLon();
+		double latDouble = Double.parseDouble(latString);
+		double lngDouble = Double.parseDouble(lngString);
+		markerOptions.position(new LatLng(latDouble,lngDouble));
+		markerOptions.title(info.getId());
+		markerOptions.snippet(info.getDescription());
+		mMap.addMarker(markerOptions);
+	}
+	private void moveCamera(Location location, float zoom) {
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom));
 	}
 
 }

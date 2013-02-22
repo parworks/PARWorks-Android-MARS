@@ -64,7 +64,9 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 		for(int i = 0; i < this.getCount(); i++) {
 			if (this.getItem(i).getSiteId().equals(siteId)) {
 				this.getItem(i).setPosterImageUrl(posterImageUrl);
+				return;
 			}
 		}
+		add(new SearchResultItem(siteId, posterImageUrl));
 	}
 }
