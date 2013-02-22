@@ -12,6 +12,7 @@ import com.parworks.androidlibrary.ar.ARErrorListener;
 import com.parworks.androidlibrary.ar.ARListener;
 import com.parworks.androidlibrary.ar.ARSite;
 import com.parworks.androidlibrary.response.SiteInfo;
+
 //import com.parworks.mars.view.nearby.NearbySitesFinder.NearbySitesListener;
 
 public class NearbySitesDisplayManager {

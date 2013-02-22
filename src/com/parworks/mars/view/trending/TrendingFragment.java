@@ -148,12 +148,20 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			int siteNum = data.getInt(
 					data.getColumnIndex(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES));
 			String posterUrl = data.getString(
-					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL));
-			String blurredUrl = data.getString(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_URL));
+			String blurredUrl = data.getString(   // FIXME
 					data.getColumnIndex(TrendingSitesTable.COLUMN_POSTER_BLURRED_IMAGE_URL));
+			String posterContent = data.getString(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_CONTENT));
+			int width = data.getInt(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_WIDTH));
+			int height = data.getInt(
+					data.getColumnIndex(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_HEIGHT));
 
 			// add fragment for site
-			sitesFragments.add(new TrendingSiteFragment(siteId, siteName, siteNum, posterUrl));
+			sitesFragments.add(new TrendingSiteFragment(siteId, siteName, siteNum, posterUrl, 
+					posterContent, width, height));
+			
 			// add blurred image for background
 			backgroundImageUrls.add(blurredUrl);
 			data.moveToNext();

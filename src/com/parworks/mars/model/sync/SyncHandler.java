@@ -274,6 +274,16 @@ public class SyncHandler {
 			values.put(TrendingSitesTable.COLUMN_NAME, siteInfoOverview.getName());
 			values.put(TrendingSitesTable.COLUMN_POSTER_IMAGE_CONTENT, siteInfoOverview.getPosterImageOverlayContent());
 			values.put(TrendingSitesTable.COLUMN_POSTER_IMAGE_URL, siteInfoOverview.getPosterImageURL());
+			
+			if (siteInfoOverview.getAugmentedPosterImage() != null) {
+				values.put(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_CONTENT, siteInfoOverview.getAugmentedPosterImage().getOutput());
+				values.put(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_URL, siteInfoOverview.getAugmentedPosterImage().getImgContentPath());
+				// FIXME
+				values.put(TrendingSitesTable.COLUMN_AUG_POSTER_BLURRED_IMAGE_URL, siteInfoOverview.getPosterImageBlurredURL());
+				values.put(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_WIDTH, siteInfoOverview.getAugmentedPosterImage().getFullSizeWidth());
+				values.put(TrendingSitesTable.COLUMN_AUG_POSTER_IMAGE_HEIGHT, siteInfoOverview.getAugmentedPosterImage().getFullSizeHeight());
+			}
+			
 			values.put(TrendingSitesTable.COLUMN_SITE_ID, siteInfoOverview.getId());
 			values.put(TrendingSitesTable.COLUMN_STATE, siteInfoOverview.getSiteState());
 			values.put(TrendingSitesTable.COLUMN_NUM_AUGMENTED_IMAGES, siteInfoOverview.getNumAugmentedImages());	

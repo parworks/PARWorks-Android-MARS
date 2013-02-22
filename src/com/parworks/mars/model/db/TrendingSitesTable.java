@@ -20,6 +20,11 @@ public class TrendingSitesTable {
 	public static final String COLUMN_POSTER_IMAGE_URL = "posterimageurl";
 	public static final String COLUMN_POSTER_BLURRED_IMAGE_URL = "posterblurimageurl";
 	public static final String COLUMN_POSTER_IMAGE_CONTENT = "posterimagecontent";
+	public static final String COLUMN_AUG_POSTER_IMAGE_URL = "augposterimageurl";
+	public static final String COLUMN_AUG_POSTER_BLURRED_IMAGE_URL = "augposterblurimageurl";
+	public static final String COLUMN_AUG_POSTER_IMAGE_CONTENT = "augposterimagecontent";
+	public static final String COLUMN_AUG_POSTER_IMAGE_WIDTH = "augposterimagewidth";
+	public static final String COLUMN_AUG_POSTER_IMAGE_HEIGHT = "augposterimageheight";
 	public static final String COLUMN_NUM_AUGMENTED_IMAGES = "numaugmentedimages";
 
 	public static final String ALL_COLUMNS[] = { 
@@ -27,7 +32,9 @@ public class TrendingSitesTable {
 		COLUMN_SITE_ID, COLUMN_NAME, COLUMN_STATE, COLUMN_DESC,
 		COLUMN_LAT, COLUMN_LON, COLUMN_ADDRESS, COLUMN_POSTER_IMAGE_URL,
 		COLUMN_POSTER_IMAGE_CONTENT, COLUMN_POSTER_BLURRED_IMAGE_URL,
-		COLUMN_NUM_AUGMENTED_IMAGES
+		COLUMN_AUG_POSTER_IMAGE_URL, COLUMN_AUG_POSTER_BLURRED_IMAGE_URL, 
+		COLUMN_AUG_POSTER_IMAGE_CONTENT, COLUMN_AUG_POSTER_IMAGE_WIDTH,
+		COLUMN_AUG_POSTER_IMAGE_HEIGHT, COLUMN_NUM_AUGMENTED_IMAGES
 	};	
 
 	/** Database Creation SQL Statement */
@@ -44,7 +51,12 @@ public class TrendingSitesTable {
 			+ COLUMN_ADDRESS + " text,"
 			+ COLUMN_POSTER_IMAGE_URL + " text,"
 			+ COLUMN_POSTER_BLURRED_IMAGE_URL + " text,"
-			+ COLUMN_POSTER_IMAGE_CONTENT + " text,"
+			+ COLUMN_POSTER_IMAGE_CONTENT + " text,"			
+			+ COLUMN_AUG_POSTER_IMAGE_URL + " text,"
+			+ COLUMN_AUG_POSTER_BLURRED_IMAGE_URL + " text,"
+			+ COLUMN_AUG_POSTER_IMAGE_CONTENT + " text,"
+			+ COLUMN_AUG_POSTER_IMAGE_WIDTH + " integer,"
+			+ COLUMN_AUG_POSTER_IMAGE_HEIGHT + " integer,"
 			+ COLUMN_NUM_AUGMENTED_IMAGES + " integer"
 			+ ");";
 

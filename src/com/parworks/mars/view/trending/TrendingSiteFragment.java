@@ -9,14 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.parworks.arviewer.MiniARViewer;
 import com.parworks.mars.R;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
-import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
@@ -24,13 +23,18 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	private String siteId;
 	private String displayName;
 	private int numAugmentedImages;
-	private String posterImageUrl;	
+	private String posterImageUrl;
+	private String posterImageContent;
+	private int posterOriWidth;
+	private int posterOriHeight;
 	
 	public TrendingSiteFragment() {
 		super();
 	}
 
-	public TrendingSiteFragment(String siteId, String displayName, int numAugmentedImages, String posterUrl) {
+	public TrendingSiteFragment(String siteId, String displayName, 
+			int numAugmentedImages, String posterUrl, String posterImageContent,
+			int width, int height) {
 		this.siteId = siteId;
 		this.displayName = displayName;
 		if (displayName == null || TextUtils.isEmpty(displayName)) {
@@ -38,6 +42,9 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		}
 		this.numAugmentedImages = numAugmentedImages;
 		this.posterImageUrl = posterUrl;
+		this.posterImageContent = posterImageContent;
+		this.posterOriWidth = width;
+		this.posterOriHeight = height;
 		setRetainInstance(true);
 	}
 
@@ -46,31 +53,39 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_trending_site, null);
 		
 		// handle poster image	
-		final ImageView imageView = (ImageView) v.findViewById(R.id.trendingSitePosterImage);
+		//final ImageView imageView = (ImageView) v.findViewById(R.id.trendingSitePosterImage);
+		final MiniARViewer miniARViewer = (MiniARViewer) v.findViewById(R.id.trendingSitePosterImageViewer);
+		
 		int imageWidth = (int) (container.getWidth() * 0.8);
-		imageView.getLayoutParams().width = imageWidth;
-		imageView.getLayoutParams().height = imageWidth;
+		miniARViewer.setSize(imageWidth, imageWidth);
+		
 		
 		if (posterImageUrl != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(posterImageUrl));
 			if (posterImageBitmap == null) {
-				imageView.setImageResource(R.drawable.img_missing_image);
+				// imageView.setImageResource(R.drawable.img_missing_image);
 				new BitmapWorkerTask(posterImageUrl, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {			
 						//imageView.setImageDrawable(new PosterImage(bitmap));
-						imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(bitmap, 20));
+						// imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(bitmap, 20));
+						miniARViewer.setImageBitmap(bitmap);
+						miniARViewer.setOriginalSize(posterOriWidth, posterOriHeight);
+						miniARViewer.setAugmentedData(posterImageContent);
 						//imageView.setImageBitmap(bitmap);
 					}
 				}).execute();
 			} else {	
 				//imageView.setImageDrawable(new PosterImage(posterImageBitmap));
-				imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(posterImageBitmap, 20));
+				// imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(posterImageBitmap, 20));
+				miniARViewer.setImageBitmap(posterImageBitmap);
+				miniARViewer.setOriginalSize(posterOriWidth, posterOriHeight);
+				miniARViewer.setAugmentedData(posterImageContent);
 				//imageView.setImageBitmap(posterImageBitmap);
 			}
 		} else {
-			imageView.setImageResource(R.drawable.img_missing_image);
+			// imageView.setImageResource(R.drawable.img_missing_image);
 		}
 		
 		// setup ShingleBoard
@@ -80,7 +95,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		sb.updateText(displayName, numAugmentedImages);		
 		
 		// add click action
-		imageView.setOnClickListener(this);
+		// imageView.setOnClickListener(this);
 		sb.setOnClickListener(this);
 		
 		return v;
