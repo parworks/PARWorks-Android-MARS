@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -42,6 +44,8 @@ public class NearbyFragment extends Fragment {
 	private static final double DEFAULT_RADIUS_IN_METERS = 1609; //about a mile;
 	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
+	private SupportMapFragment mMapFragment;
+	
 	
 	public NearbyFragment() {
 		super();
@@ -56,7 +60,8 @@ public class NearbyFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_nearby, null);
-		mMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap)).getMap();
+		mMapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap);
+		mMap = mMapFragment.getMap();
 		mNearbySitesListFragment = new NearbySitesListFragment();
 		mSlidingFragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.nearby_list_content_frame, mNearbySitesListFragment).commit();
 		mMap.setMyLocationEnabled(true);
@@ -76,6 +81,14 @@ public class NearbyFragment extends Fragment {
 				
 			}
 		});
+		mMapFragment.getView().setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				makeMapFullScreen();
+				return false;
+			}
+		});
 		searchForLocation();
 		return v;
 	}
@@ -87,6 +100,11 @@ public class NearbyFragment extends Fragment {
 	}
 	private void onCameraPositionChanged(CameraPosition position) {
 		mInfoFinder.getNearbySiteInfo(position.target, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
+	}
+	private void makeMapFullScreen() {
+		LayoutParams newParams = mMapFragment.getView().getLayoutParams();
+		newParams.height = LayoutParams.MATCH_PARENT;
+		mMapFragment.getView().setLayoutParams(newParams);
 	}
 
 	private void searchForLocation() {
