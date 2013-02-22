@@ -24,7 +24,10 @@ public class TechnologyFragment extends Fragment {
 		WebView webView = (WebView) v.findViewById(R.id.technologyWebView);
 		webView.setWebViewClient(new TechnologyWebViewClient());
 		// how to enable the webview plugin changed in API 8
-		webView.getSettings().setPluginsEnabled(true);	
+		webView.getSettings().setPluginsEnabled(true); 
+		webView.getSettings().setJavaScriptEnabled(true); 
+		webView.getSettings().setAllowFileAccess(true);
+		
 		webView.getSettings().setPluginState(PluginState.ON);
 		webView.loadUrl("file:///android_asset/technology.html");
 		return v;

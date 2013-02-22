@@ -7,9 +7,9 @@ public class TechnologyWebViewClient extends WebViewClient {
 	
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//		view.loadUrl(url);
+		view.loadUrl(url);
 //		return true;
-		System.out.println("TEST: " + url);
+		System.out.println("YUSUNTEST: " + url);
 		return false;
 	}	
 }
