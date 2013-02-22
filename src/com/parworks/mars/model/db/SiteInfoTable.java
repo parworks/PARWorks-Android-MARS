@@ -23,11 +23,19 @@ public class SiteInfoTable {
 	public static final String COLUMN_ADDRESS = "address";
 	public static final String COLUMN_POSTER_IMAGE_URL = "posterimageurl";
 	public static final String COLUMN_POSTER_IMAGE_CONTENT = "posterimagecontent";
+	public static final String COLUMN_AUG_POSTER_IMAGE_URL = "augposterimageurl";
+	public static final String COLUMN_AUG_POSTER_BLURRED_IMAGE_URL = "augposterblurimageurl";
+	public static final String COLUMN_AUG_POSTER_IMAGE_CONTENT = "augposterimagecontent";
+	public static final String COLUMN_AUG_POSTER_IMAGE_WIDTH = "augposterimagewidth";
+	public static final String COLUMN_AUG_POSTER_IMAGE_HEIGHT = "augposterimageheight";
 	public static final String COLUMN_TAG_LIST = "taglist";
 	
 	public static final String ALL_COLUMNS[] = { COLUMN_INDEX, COLUMN_SITE_ID, COLUMN_NAME, COLUMN_STATE,COLUMN_DESC,COLUMN_CHANNEL,
 		COLUMN_LAT,COLUMN_LON,COLUMN_PROFILE,COLUMN_FEATURE_DESC,COLUMN_ADDRESS,COLUMN_POSTER_IMAGE_URL,
-		COLUMN_POSTER_IMAGE_CONTENT,COLUMN_TAG_LIST };
+		COLUMN_POSTER_IMAGE_CONTENT, COLUMN_AUG_POSTER_BLURRED_IMAGE_URL, 
+		COLUMN_AUG_POSTER_IMAGE_URL,
+		COLUMN_AUG_POSTER_IMAGE_CONTENT, COLUMN_AUG_POSTER_IMAGE_WIDTH,
+		COLUMN_AUG_POSTER_IMAGE_HEIGHT, COLUMN_TAG_LIST };
 	
 	//database creation sql statement
 	private static final String DATABASE_CREATE = "create table "
@@ -46,6 +54,11 @@ public class SiteInfoTable {
 			+ COLUMN_ADDRESS + " text,"
 			+ COLUMN_POSTER_IMAGE_URL + " text,"
 			+ COLUMN_POSTER_IMAGE_CONTENT + " text,"
+			+ COLUMN_AUG_POSTER_IMAGE_URL + " text,"
+			+ COLUMN_AUG_POSTER_BLURRED_IMAGE_URL + " text,"
+			+ COLUMN_AUG_POSTER_IMAGE_CONTENT + " text,"
+			+ COLUMN_AUG_POSTER_IMAGE_WIDTH + " integer,"
+			+ COLUMN_AUG_POSTER_IMAGE_HEIGHT + " integer,"
 			+ COLUMN_TAG_LIST + " text"
 			+ ");";
 	

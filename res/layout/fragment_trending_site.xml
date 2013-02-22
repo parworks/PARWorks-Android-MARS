@@ -5,19 +5,6 @@
     android:layout_height="match_parent" 
     android:background="@android:color/transparent" >        
     
-        <!--  
-   	    <ImageView
-	        android:id="@+id/trendingSitePosterImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="35dp"
-	        android:layout_alignParentTop="true"
-	        android:padding="10dp" 
-	        android:scaleType="fitXY"
-	        tools:ignore="ContentDescription" />
-	     -->
-	     
 	    <com.parworks.arviewer.MiniARViewer
 	        android:id="@+id/trendingSitePosterImageViewer"
 	        android:layout_width="wrap_content"

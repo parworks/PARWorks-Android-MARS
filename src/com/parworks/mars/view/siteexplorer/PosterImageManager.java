@@ -1,21 +1,20 @@
 package com.parworks.mars.view.siteexplorer;
 
-import com.parworks.mars.R;
-import com.parworks.mars.model.db.SiteInfoTable;
-import com.parworks.mars.view.siteexplorer.BaseImageRetreiver.BaseImageRetreiverListener;
-import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
-
 import android.app.Activity;
 import android.database.Cursor;
-import android.util.Log;
+import android.graphics.Bitmap;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
+import com.parworks.arviewer.MiniARViewer;
+import com.parworks.mars.cache.BitmapCache;
+import com.parworks.mars.cache.BitmapWorkerTask;
+import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
+import com.parworks.mars.model.db.SiteInfoTable;
+
 public class PosterImageManager {
-	
-	private final ImageView mSiteImageView;
+		
+	private final MiniARViewer miniARViewer;
 	private final ProgressBar mSiteImageProgressBar;
 	private final Activity mActivity;
 	private final String mSiteId;
@@ -23,10 +22,8 @@ public class PosterImageManager {
 	
 	public static final String TAG = PosterImageManager.class.getName();
 	
-	public PosterImageManager(String siteId, ImageView siteImageView, ProgressBar siteImageProgressBar, Activity activity) {
-		mSiteImageView = siteImageView;
-		mSiteImageView.setAdjustViewBounds(true);
-		mSiteImageView.setScaleType(ScaleType.CENTER_CROP);
+	public PosterImageManager(String siteId, MiniARViewer miniARView, ProgressBar siteImageProgressBar, Activity activity) {
+		this.miniARViewer = miniARView;
 		mSiteImageProgressBar = siteImageProgressBar;
 		mActivity = activity;
 		mSiteId = siteId;
@@ -34,45 +31,43 @@ public class PosterImageManager {
 	}
 	
 	
-	public void setSiteImage(Cursor data) {
-		String posterImageUrl = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_POSTER_IMAGE_URL));
+	public void setSiteImage(Cursor data) {		
+		String posterImageUrl = data.getString(
+				data.getColumnIndex(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_URL));
+		final String posterContent = data.getString(
+				data.getColumnIndex(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_CONTENT));
+		final int width = data.getInt(
+				data.getColumnIndex(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_WIDTH));
+		final int height = data.getInt(
+				data.getColumnIndex(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_HEIGHT));
 		
-		final ImageViewManager imageViewManager = new ImageViewManager();
+		int imageWidth = mViewDimensionCalculator.getScreenWidth();
+		miniARViewer.setSize(imageWidth, (int) (imageWidth * 0.6));		
 		
-		final ImageLoadedListener imageLoadedListener = new ImageLoadedListener() {
-			
-			@Override
-			public void onImageLoaded() {
+		if (posterImageUrl != null) {
+			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
+					BitmapCache.getImageKeyFromURL(posterImageUrl));
+			if (posterImageBitmap == null) {
+				new BitmapWorkerTask(posterImageUrl, new BitmapWorkerListener() {					
+					@Override
+					public void bitmapLoaded(Bitmap bitmap) {			
+						miniARViewer.setImageBitmap(bitmap);
+						miniARViewer.setOriginalSize(width, height);
+						miniARViewer.setAugmentedData(posterContent);
+						showSiteImageView();
+					}
+				}).execute();
+			} else {	
+				miniARViewer.setImageBitmap(posterImageBitmap);
+				miniARViewer.setOriginalSize(width, height);
+				miniARViewer.setAugmentedData(posterContent);
 				showSiteImageView();
-				
 			}
-		};
-		
-		if(posterImageUrl != null ) {
-			imageViewManager.setImageView(posterImageUrl,  mSiteImageView, imageLoadedListener);
-			setPosterImageSize();
-		} else {
-			imageViewManager.setImageView(posterImageUrl, mSiteImageView, imageLoadedListener);
-			Log.d(TAG, "posterImageUrl was null. Using first base mSiteImageView.");
-			BaseImageRetreiver.getFirstBaseImageUrl(mSiteId, new BaseImageRetreiverListener() {
-				
-				@Override
-				public void firstBaseImageUrl(String url) {
-					imageViewManager.setImageView(url, mSiteImageView, imageLoadedListener);
-					setPosterImageSize();
-					
-				}
-			});
 		}
 	}
 	
 	private void showSiteImageView() {
-		mSiteImageView.setVisibility(View.VISIBLE);
+		miniARViewer.setVisibility(View.VISIBLE);
 		mSiteImageProgressBar.setVisibility(View.INVISIBLE);
 	}
-	private void setPosterImageSize() {
-		mSiteImageView.getLayoutParams().width = mViewDimensionCalculator.getScreenWidth();
-		mSiteImageView.getLayoutParams().height = mViewDimensionCalculator.getScreenWidth()/2;
-	}
-
 }

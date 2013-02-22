@@ -16,6 +16,7 @@ import com.parworks.mars.R;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
+import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
@@ -52,40 +53,29 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {						
 		RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_trending_site, null);
 		
-		// handle poster image	
-		//final ImageView imageView = (ImageView) v.findViewById(R.id.trendingSitePosterImage);
+		// handle poster image
 		final MiniARViewer miniARViewer = (MiniARViewer) v.findViewById(R.id.trendingSitePosterImageViewer);
 		
 		int imageWidth = (int) (container.getWidth() * 0.8);
-		miniARViewer.setSize(imageWidth, imageWidth);
-		
+		miniARViewer.setSize(imageWidth, imageWidth);		
 		
 		if (posterImageUrl != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(posterImageUrl));
 			if (posterImageBitmap == null) {
-				// imageView.setImageResource(R.drawable.img_missing_image);
 				new BitmapWorkerTask(posterImageUrl, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {			
-						//imageView.setImageDrawable(new PosterImage(bitmap));
-						// imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(bitmap, 20));
-						miniARViewer.setImageBitmap(bitmap);
+						miniARViewer.setImageBitmap(ImageHelper.getRoundedCornerBitmap(bitmap, 10));
 						miniARViewer.setOriginalSize(posterOriWidth, posterOriHeight);
 						miniARViewer.setAugmentedData(posterImageContent);
-						//imageView.setImageBitmap(bitmap);
 					}
 				}).execute();
 			} else {	
-				//imageView.setImageDrawable(new PosterImage(posterImageBitmap));
-				// imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(posterImageBitmap, 20));
-				miniARViewer.setImageBitmap(posterImageBitmap);
+				miniARViewer.setImageBitmap(ImageHelper.getRoundedCornerBitmap(posterImageBitmap, 10));
 				miniARViewer.setOriginalSize(posterOriWidth, posterOriHeight);
 				miniARViewer.setAugmentedData(posterImageContent);
-				//imageView.setImageBitmap(posterImageBitmap);
 			}
-		} else {
-			// imageView.setImageResource(R.drawable.img_missing_image);
 		}
 		
 		// setup ShingleBoard
@@ -95,7 +85,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		sb.updateText(displayName, numAugmentedImages);		
 		
 		// add click action
-		// imageView.setOnClickListener(this);
+		miniARViewer.setOnClickListener(this);
 		sb.setOnClickListener(this);
 		
 		return v;

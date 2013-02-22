@@ -141,7 +141,7 @@ public class SyncHandler {
 			public void handleResponse(List<SiteInfoOverview> resp) {
 				try {
 					Log.i(TAG, "Sync for TrendingSites: ");
-					updateTrendingSite(resp);
+					storeTrendingSite(resp);
 				} catch (Exception e) {
 					Log.e(TAG, "Failed to sync trending sites", e);
 				}
@@ -202,6 +202,13 @@ public class SyncHandler {
 		values.put(SiteInfoTable.COLUMN_STATE, info.getSiteState().name());
 		values.put(SiteInfoTable.COLUMN_TAG_LIST, SiteTags.toJson(info.getTags()));
 		
+		if (info.getAugmentedPosterImage() != null) {
+			values.put(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_CONTENT, info.getAugmentedPosterImage().getOutput());
+			values.put(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_URL, info.getAugmentedPosterImage().getImgContentPath());
+			values.put(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_WIDTH, info.getAugmentedPosterImage().getFullSizeWidth());
+			values.put(SiteInfoTable.COLUMN_AUG_POSTER_IMAGE_HEIGHT, info.getAugmentedPosterImage().getFullSizeHeight());
+		}		
+		
 		// update or insert if not exist
 		// FIXME: not thread-safe here
 		if (mContentResolver.update(MarsContentProvider.getSiteUri(info.getId()), 
@@ -255,7 +262,7 @@ public class SyncHandler {
 		}
 	}
 	
-	private static void updateTrendingSite(List<SiteInfoOverview> sites) 
+	private static void storeTrendingSite(List<SiteInfoOverview> sites) 
 			throws RemoteException, OperationApplicationException {
 		ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
 		

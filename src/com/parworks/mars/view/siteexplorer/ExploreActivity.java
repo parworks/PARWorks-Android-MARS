@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.parworks.arcameraview.CaptureImageActivity;
+import com.parworks.arviewer.MiniARViewer;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.sync.SyncHandler;
@@ -153,9 +154,10 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		descriptionTextView.setText(siteDesc);
 		
 		//let siteImageManager handle the SiteImageView
-		ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
+		// ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
+		MiniARViewer miniARView = (MiniARViewer) findViewById(R.id.siteExplorerPosterImageView);
 		ProgressBar siteImageProgressBar = (ProgressBar) findViewById(R.id.progressBarSiteImage);
-		PosterImageManager siteImageManager = new PosterImageManager(mSiteId, siteImageView, siteImageProgressBar, this);
+		PosterImageManager siteImageManager = new PosterImageManager(mSiteId, miniARView, siteImageProgressBar, this);
 		siteImageManager.setSiteImage(data);
 		
 		//let mapImageManager handle the map view
