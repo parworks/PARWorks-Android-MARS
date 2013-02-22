@@ -5,6 +5,7 @@ import java.util.List;
 import android.location.Location;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parworks.androidlibrary.ar.ARErrorListener;
 import com.parworks.androidlibrary.ar.ARListener;
 import com.parworks.androidlibrary.ar.ARSite;
@@ -23,9 +24,9 @@ public class NearbySitesInfoFinder {
 		mListener = listener;
 	}
 	
-	public void getNearbySiteInfo(Location location, int max, double radius) {
+	public void getNearbySiteInfo(LatLng location, int max, double radius) {
 		ARSites sites = User.getARSites();
-		sites.near(location.getLatitude(), location.getLongitude(), max, radius, new ARListener<List<ARSite>>() {
+		sites.near(location.latitude, location.longitude, max, radius, new ARListener<List<ARSite>>() {
 			
 			@Override
 			public void handleResponse(List<ARSite> sites) {

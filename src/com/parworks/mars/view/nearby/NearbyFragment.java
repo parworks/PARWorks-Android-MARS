@@ -15,7 +15,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -66,6 +68,14 @@ public class NearbyFragment extends Fragment {
 				mNearbySitesListFragment.gotNewSiteInfo(site);
 			}
 		});
+		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+			
+			@Override
+			public void onCameraChange(CameraPosition position) {
+				onCameraPositionChanged(position);
+				
+			}
+		});
 		searchForLocation();
 		return v;
 	}
@@ -74,6 +84,9 @@ public class NearbyFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		searchForLocation();
+	}
+	private void onCameraPositionChanged(CameraPosition position) {
+		mInfoFinder.getNearbySiteInfo(position.target, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
 	}
 
 	private void searchForLocation() {
@@ -98,7 +111,8 @@ public class NearbyFragment extends Fragment {
 
 	}
 	private void gotUserLocation(Location location) {
-		mInfoFinder.getNearbySiteInfo(location, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
+		LatLng latLon = new LatLng(location.getLatitude(), location.getLongitude());
+		mInfoFinder.getNearbySiteInfo(latLon, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
 		moveCamera(location,DEFAULT_ZOOM_LEVEL);
 	}
 	private void gotNewSiteInfo(SiteInfo info) {
