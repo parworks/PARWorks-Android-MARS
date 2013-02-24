@@ -16,6 +16,12 @@ import android.widget.TextView;
 public class MainMenuListFragment extends Fragment {
 	
 	private MarsMainActivity parentActivity;
+	private ListView lv;
+	private MainMenuListAdapter adapter;
+	// store the currently selected menu item
+	private View currentedSelectedView;
+	// store if this is first time start
+	private boolean firstTimeStartup = true;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// store the activity reference
@@ -25,8 +31,8 @@ public class MainMenuListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.sliding_menu, null);
 		
 		// init the main menu options with an adapter
-		ListView lv = (ListView) view.findViewById(R.id.menu_list);
-		MainMenuListAdapter adapter = new MainMenuListAdapter(getActivity());
+		lv = (ListView) view.findViewById(R.id.menu_list);
+		adapter = new MainMenuListAdapter(getActivity());
 		adapter.add(new MainMenuItem(getString(R.string.menu_trending), 
 				R.drawable.ic_menu_trending));
 		adapter.add(new MainMenuItem(getString(R.string.menu_nearby), 
@@ -40,7 +46,7 @@ public class MainMenuListFragment extends Fragment {
 		// config menu item click control
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {				
+					int position, long id) {								
 				switch (position) {
 				case 0:
 					parentActivity.switchContent(MarsMainActivity.FRAGMENT_TRENDING);
@@ -55,6 +61,17 @@ public class MainMenuListFragment extends Fragment {
 					parentActivity.switchContent(MarsMainActivity.FRAGMENT_TECHNOLOGY);
 					break;
 				}
+				
+				if (firstTimeStartup) {// first time  highlight first row
+					currentedSelectedView = lv.getChildAt(0);
+			    }
+			    firstTimeStartup = false; 
+				// make the right highlight for the background color
+				if (currentedSelectedView != null) {
+					currentedSelectedView.setBackgroundResource(R.color.menu_background_color);
+				}
+				view.setBackgroundResource(R.color.menu_background_select_color);				
+				currentedSelectedView = view;
 			}
 		});
 
@@ -80,11 +97,16 @@ public class MainMenuListFragment extends Fragment {
 			if (convertView == null) {
 				convertView = LayoutInflater.from(getContext()).inflate(R.layout.sliding_menu_list_row, null);
 			}
+			
+			if (firstTimeStartup && position == 0) {
+				convertView.setBackgroundResource(R.color.menu_background_select_color);
+	        }
+			
 			ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
 			icon.setImageResource(getItem(position).iconRes);
 			TextView title = (TextView) convertView.findViewById(R.id.row_title);
 			title.setText(getItem(position).tag);
-
+			
 			return convertView;
 		}
 	}

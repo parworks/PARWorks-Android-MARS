@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
+    android:background="@drawable/menu_row_selector"
     android:orientation="horizontal" >
 
     <ImageView
