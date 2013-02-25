@@ -40,15 +40,13 @@ public class CommentsLoader implements LoaderCallbacks<Cursor>{
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"Comments Loader - onLoadFinished");
-		mListener.onCommentsLoaded(data);
-		
+		mListener.onCommentsLoaded(data);		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(Utilities.DEBUG_TAG_SYNC, "Comments Loader - onLoaderReset");
-		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");
-		
+		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");		
 	}
 
 }

@@ -40,14 +40,12 @@ public class AugmentedImagesLoader implements LoaderCallbacks<Cursor> {
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		mListener.onImagesLoaded(data);
-		
+		mListener.onImagesLoaded(data);		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");
-		
+		Log.d(TAG,"onLoaderReset -- UNIMPLEMENTED");		
 	}
 
 }
