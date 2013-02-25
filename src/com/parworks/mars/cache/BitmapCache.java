@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.parworks.androidlibrary.utils.BitmapUtils;
+import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 
 
 /**
@@ -97,6 +98,29 @@ public class BitmapCache {
 		}
 		return bitmap;
 	}
+	
+	public void getBitmapAsync(final String url, final BitmapWorkerListener onCompleteListener) {
+		String key = getImageKeyFromURL(url);								
+		Bitmap bitmap = getBitmap(key);
+		if (bitmap == null) {
+			new BitmapWorkerTask(url, new BitmapWorkerListener() {					
+				@Override
+				public void bitmapLoaded(Bitmap bitmap) {	
+					if (onCompleteListener != null) {
+						onCompleteListener.bitmapLoaded(bitmap);
+					}
+				}
+			}).execute();
+		} else {
+			if (onCompleteListener != null) {
+				onCompleteListener.bitmapLoaded(bitmap);
+			}
+		}
+	}
+	
+	public boolean containsKey(String key) {
+		return mImageDiskCache.containsKey(key);
+	}
 
 	/**
 	 * Download the image from web with the given URL. Once it
@@ -111,8 +135,7 @@ public class BitmapCache {
 	 */
 	public Bitmap downloadImage(String url) {
 		Bitmap bitmap = null;
-		try {
-			
+		try {			
 			// download the image
 			BitmapUtils bitmapUtils = new BitmapUtils();
 			bitmap = bitmapUtils.getBitmap(url, BITMAP_SAMPLE);
@@ -121,6 +144,7 @@ public class BitmapCache {
 			mImageDiskCache.put(key, bitmap);
 			// put into mem cache
 			mMemoryCache.put(key, bitmap);	
+			Log.d(TAG, "Finished downloading link for " + url);
 		} catch (Exception e) {
 			Log.w(TAG, "Failed to download the image: " + url + " : " + e.getMessage());
 		}
@@ -130,8 +154,6 @@ public class BitmapCache {
 	public static String getImageKeyFromURL(String imageUrl) {
 		String key = Integer.toString(imageUrl.hashCode());
 		key = key.replaceAll("-", "_");
-//		String key = imageUrl.substring(imageUrl.lastIndexOf("/") + 1, imageUrl.lastIndexOf("."));
-		//remove everything but numbers and letters
 		return key;
 	}
 }

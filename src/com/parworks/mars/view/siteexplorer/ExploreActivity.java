@@ -118,13 +118,11 @@ public class ExploreActivity extends SherlockFragmentActivity {
 			com.actionbarsherlock.view.MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.augmentTitleBar:
-			System.out.println("Clicked!");
 			break;
 		case android.R.id.home:
 			onBackPressed();
 			break;
 		}
-		System.out.println("Clicked!");
 		return super.onOptionsItemSelected(item);
 	}
 

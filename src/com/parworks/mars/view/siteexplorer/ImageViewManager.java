@@ -1,8 +1,6 @@
 package com.parworks.mars.view.siteexplorer;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -26,7 +24,6 @@ public class ImageViewManager {
 				new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {
-						Log.d(TAG,"Finished downloading the bitmap. Setting it to image view. Url was: " + url);
 						imageView.setImageBitmap(bitmap);
 						if (listener != null) {
 							listener.onImageLoaded();
