@@ -49,7 +49,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	private ImageView backgroundImageView2;
 	/** Current page view position */
 	private int currentPos = 0;
-	private List<String> backgroundImageUrls;
+	private List<String> backgroundImageUrls;	
 
 	public TrendingFragment() {
 		super();
@@ -116,7 +116,9 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// init adapter			
-		vpAdapter = new TrendingPagerAdapter(this.getActivity().getSupportFragmentManager());
+		if (vpAdapter == null) {
+			vpAdapter = new TrendingPagerAdapter(this.getActivity().getSupportFragmentManager());
+		}
 		// init Loader for TrendingSites
 		this.getLoaderManager().initLoader(TRENDING_SITES_LOADER_ID, null, this);		
 	}
@@ -183,7 +185,7 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 
 		showBackgroundImage(backgroundImageView1, currentPos, 1);		
 	}
-
+	
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 
@@ -228,7 +230,6 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		public TrendingPagerAdapter(FragmentManager fm) {
 			super(fm);
 			this.fm = fm;
-			this.mFragments = new ArrayList<TrendingSiteFragment>();
 		}
 
 		@Override
@@ -238,7 +239,6 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 
 		@Override
 		public Fragment getItem(int position) {
-			System.out.println("GETITEMCALLED: " + position);
 			return mFragments.get(position);
 		}
 

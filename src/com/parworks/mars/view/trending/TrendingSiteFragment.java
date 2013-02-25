@@ -46,26 +46,22 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		this.posterImageContent = posterImageContent;
 		this.posterOriWidth = width;
 		this.posterOriHeight = height;
-		setRetainInstance(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {						
 		RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_trending_site, null);
-		
 		// handle poster image
 		final MiniARViewer miniARViewer = (MiniARViewer) v.findViewById(R.id.trendingSitePosterImageViewer);
-		
 		int imageWidth = (int) (container.getWidth() * 0.8);
 		miniARViewer.setSize(imageWidth, imageWidth);		
-		
 		if (posterImageUrl != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
 					BitmapCache.getImageKeyFromURL(posterImageUrl));
 			if (posterImageBitmap == null) {
 				new BitmapWorkerTask(posterImageUrl, new BitmapWorkerListener() {					
 					@Override
-					public void bitmapLoaded(Bitmap bitmap) {			
+					public void bitmapLoaded(Bitmap bitmap) {
 						miniARViewer.setImageBitmap(ImageHelper.getRoundedCornerBitmap(bitmap, 10));
 						miniARViewer.setOriginalSize(posterOriWidth, posterOriHeight);
 						miniARViewer.setAugmentedData(posterImageContent);
@@ -90,11 +86,6 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		
 		return v;
 	}	
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
 
 	@Override
 	public void onClick(View v) {
