@@ -42,6 +42,7 @@ public class CommentsViewManager {
 		mCommentsAdapter = new CommentsAdapter(context,mComments);
 		mCommentsTotalTextView = commentsTotalTextView;
 	}
+	
 	public void setCommentsView(Cursor data) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"setCommentsView called: " + data.getCount());
 		mCommentsLayout.removeAllViews();
@@ -57,14 +58,14 @@ public class CommentsViewManager {
 			showCommentsView();
 			setCommentTotalText(data.getCount());
 		}
-		showCommentsView();
-		
+		showCommentsView();		
 	}
 	
 	private void showCommentsView() {
 		mCommentsProgressBar.setVisibility(View.INVISIBLE);
 		mCommentsLayout.setVisibility(View.VISIBLE);
 	}
+	
 	private void setCommentTotalText(int commentTotal) {
 		String commentTotalText;
 		if(commentTotal == 1) {
@@ -74,6 +75,7 @@ public class CommentsViewManager {
 		}
 		mCommentsTotalTextView.setText(commentTotal + commentTotalText);
 	}
+	
 	private void addComment(SiteComment siteComment) {
 		LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
 			      (Context.LAYOUT_INFLATER_SERVICE);
@@ -93,7 +95,6 @@ public class CommentsViewManager {
 	}	
 	
     private void setProfilePictureSize(int i, ProfilePictureView profilePic) {
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
         profilePic.setLayoutParams(params);
     }
