@@ -148,8 +148,8 @@ public class MarsContentProvider extends ContentProvider {
 			try {
 				id = db.insertOrThrow(AugmentedImagesTable.TABLE_NAME, null, values);
 				Log.d(TAG,"Inserted augmented image for site: " + values.getAsString("siteId"));
-				returnedUri = Uri.parse(BASE_PATH_AUGMENTED_IMAGE + "/" + id);
-				getContext().getContentResolver().notifyChange(uri, null);
+				returnedUri = Uri.parse(BASE_PATH_AUGMENTED_IMAGES_FOR_SITE + "/" + values.getAsString("siteId"));
+				getContext().getContentResolver().notifyChange(returnedUri, null);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}

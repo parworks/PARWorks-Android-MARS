@@ -138,12 +138,17 @@ public class AugmentedImageViewManager {
 	}
 	
 	private void setAugmentedImagesTotalTextView(int imagesTotal) {
-		String text;
-		if(imagesTotal == 1) {
-			text = " augmented image";
-		} else {
-			text = " augmented images";
-		}
-		mAugmentedImagesTotalTextView.setText(imagesTotal + text);
+		// TODO to enable the total number of augmented images,
+		// we need more reliable image loading, rather than loading
+		// all the image together at the same time
+		
+//		String text;
+//		if(imagesTotal == 1) {
+//			text = " augmented image";
+//		} else {
+//			text = " augmented images";
+//		}
+//		mAugmentedImagesTotalTextView.setText(imagesTotal + text);
+		mAugmentedImagesTotalTextView.setText("Recently augmented images");
 	}
 }

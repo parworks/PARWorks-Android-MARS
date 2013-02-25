@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
+import com.parworks.mars.view.search.SearchResultAdapter.ViewHolder;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 @SuppressLint("ValidFragment")
@@ -30,7 +31,6 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	private static final int SEARCH_SITE_INFO_LOADER_ID = 33;
 	
 	private List<String> siteIds;
-	//private SearchResultListAdapter adapter;
 	private SearchResultAdapter newAdapter;
 
 	public SearchResultFragment() {
@@ -59,7 +59,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				Intent i = new Intent(SearchResultFragment.this.getActivity(), ExploreActivity.class);
-				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, (String)view.getTag());
+				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, ((ViewHolder) view.getTag()).textView.getText());
 				startActivity(i);				
 			}
 		});				
@@ -111,13 +111,11 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(TAG, "Finished loading site info in search");
-		//adapter.swapCursor(data);
 		if (data.getCount() == 0) {				  
 		    return;				  	
 		}
 				
 		Log.d(TAG, "Finished loading site info in search");
-				  	
 		while(!data.isAfterLast()) {				  	
 		    String siteId = data.getString(				  	
 		    		data.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));			  	
@@ -126,12 +124,10 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 		    newAdapter.updateRecord(siteId, posterUrl);
 			data.moveToNext();			  	
 		}
-		
-		newAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		//adapter.swapCursor(null);
+
 	}
 }

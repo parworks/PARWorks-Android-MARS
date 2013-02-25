@@ -118,13 +118,11 @@ public class ExploreActivity extends SherlockFragmentActivity {
 			com.actionbarsherlock.view.MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.augmentTitleBar:
-			System.out.println("Clicked!");
 			break;
 		case android.R.id.home:
 			onBackPressed();
 			break;
 		}
-		System.out.println("Clicked!");
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -165,7 +163,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		ProgressBar mapProgressBar = (ProgressBar) findViewById(R.id.progressBarMapView);
 		MapImageManager mapImageManager = new MapImageManager(mSiteId, mapImageView, mapProgressBar, this);
 		mapImageManager.setMapView(data);
-	}	
+	}
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
 		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
@@ -181,7 +179,6 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		LinearLayout commentsLayout = (LinearLayout) findViewById(R.id.linearLayoutComments);
 		TextView commentsTotalTextView = (TextView) findViewById(R.id.textViewCommentTotal);
 		CommentsViewManager commentsViewManager = new CommentsViewManager(mSiteId, this, commentsProgressBar, commentsLayout,commentsTotalTextView);
-		commentsViewManager.setCommentsView(data);
-		
+		commentsViewManager.setCommentsView(data);		
 	}
 }

@@ -27,7 +27,7 @@
     <application
         android:name="com.parworks.mars.Mars"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_mars_launcher"
         android:logo="@drawable/ic_bar_item_sidebar"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >

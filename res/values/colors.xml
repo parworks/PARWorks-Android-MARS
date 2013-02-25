@@ -7,4 +7,5 @@
     <color name="black">#000</color>
     <color name="menu_background_color">#333333</color>
     <color name="view_background">#F5F5F5</color>
+    <color name="menu_background_select_color">#3262A4</color>
 </resources>

@@ -218,7 +218,9 @@ public class SyncHandler {
 	}
 	
 	private static void storeAugmentedImages(List<AugmentedImage> augmentedImages) {
-		for(AugmentedImage image : augmentedImages) {
+		// only insert/update up to 5 records
+		for(int i = 0; i < augmentedImages.size() && i < 5; i++) {
+			AugmentedImage image = augmentedImages.get(i);
 			ContentValues values = new ContentValues();			
 			values.put(AugmentedImagesTable.COLUMN_SITE_ID, image.getSiteId());
 			values.put(AugmentedImagesTable.COLUMN_IMAGE_ID, image.getImgId());
@@ -243,7 +245,8 @@ public class SyncHandler {
 	}
 	
 	private static void storeSiteComments(List<SiteComment> comments) {
-		for(SiteComment comment : comments) {
+		for(int i = 0; i < comments.size() && i < 20; i++) {
+			SiteComment comment = comments.get(i);
 			ContentValues values = new ContentValues();			
 			values.put(CommentsTable.COLUMN_SITE_ID, comment.getSiteId());
 			values.put(CommentsTable.COLUMN_COMMENT, comment.getComment());

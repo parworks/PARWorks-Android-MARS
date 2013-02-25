@@ -28,8 +28,7 @@ public class PosterImageManager {
 		mActivity = activity;
 		mSiteId = siteId;
 		mViewDimensionCalculator = new ViewDimensionCalculator(mActivity);
-	}
-	
+	}	
 	
 	public void setSiteImage(Cursor data) {		
 		String posterImageUrl = data.getString(

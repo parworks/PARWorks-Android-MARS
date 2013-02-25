@@ -23,14 +23,6 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	private String imageUrl;
 	/** The callback listener */
 	private BitmapWorkerListener listener;
-	
-	// TODO: We might need more configs here to control,
-	// feel free to add more configuration trhough the constructor.
-	// For example, you can add:
-	//  1) the Bitmap sample
-	//  2) the ImageView size and scale
-	//  3) the Default image place holder 
-	//  4) the progress bar
 
 	public BitmapWorkerTask(String url, BitmapWorkerListener listener) {
 		this.imageUrl = url;
@@ -39,24 +31,39 @@ public class BitmapWorkerTask extends AsyncTask<Void, Void, Bitmap> {
 	
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();
+		super.onPreExecute();		
 		// show an ImagePlacerHolder if provided
-		// this is not required to have
+		// this is not required to have		
 	}
 
 	@Override
 	protected Bitmap doInBackground(Void... params) {  
-		// download and put it into cache
-		return BitmapCache.get().downloadImage(imageUrl);			
+		// lock on the URL to download in order to avoid
+		// the same URL being downloaded by multiple threads
+		
+		// lock first
+		// TODO double check if there will be a problem of using
+		// string as the lock object
+		synchronized (imageUrl) {
+			// get the lock, double check the existence
+			String key = BitmapCache.getImageKeyFromURL(imageUrl);
+			Bitmap bitmap = BitmapCache.get().getBitmap(key);
+			if (bitmap != null) {
+				return bitmap;
+			} else {
+				return BitmapCache.get().downloadImage(imageUrl);
+			}
+		}					
+		// release the lock after downloading it and putting it
+		// into the cache
 	}
 
 	@Override
 	protected void onPostExecute(Bitmap result) {
-		// update the image view
 		if (result != null) {	
 			listener.bitmapLoaded(result);
 		} else {
-			Log.w("BitmapWorkerTask", "Failed to get the bitmap and display it: " + imageUrl);
+			Log.e("BitmapWorkerTask", "Failed to get the bitmap and display it: " + imageUrl);
 		}
 	}
 }
