@@ -1,6 +1,6 @@
 package com.parworks.mars.view.siteexplorer;
 
-import com.parworks.mars.R;
+
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 

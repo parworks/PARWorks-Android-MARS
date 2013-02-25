@@ -1,27 +1,21 @@
 package com.parworks.mars.view.nearby;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
-import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.R;
@@ -29,6 +23,7 @@ import com.parworks.mars.view.nearby.GetLocation.GetLocationListener;
 import com.parworks.mars.view.nearby.NearbySitesInfoFinder.NearbySitesInfoFinderListener;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+@SuppressLint("ValidFragment")
 public class NearbyFragment extends Fragment {
 	
 	public static final String TAG = NearbyFragment.class.getName();

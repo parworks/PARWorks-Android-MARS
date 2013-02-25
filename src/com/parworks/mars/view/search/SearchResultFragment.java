@@ -2,6 +2,7 @@ package com.parworks.mars.view.search;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
+@SuppressLint("ValidFragment")
 public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
 	private static final String TAG = "SearchResultFragment";

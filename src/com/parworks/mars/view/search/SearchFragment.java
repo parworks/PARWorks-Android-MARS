@@ -3,6 +3,7 @@ package com.parworks.mars.view.search;
 import java.io.IOException;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.User;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
-
+@SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
 
 	private static final String TAG = "SearchFragment";

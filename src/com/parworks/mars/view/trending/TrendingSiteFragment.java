@@ -1,5 +1,6 @@
 package com.parworks.mars.view.trending;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
+@SuppressLint("ValidFragment")
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	
 	private String siteId;

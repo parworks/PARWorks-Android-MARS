@@ -3,6 +3,7 @@ package com.parworks.mars.view.search;
 import java.io.IOException;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.parworks.mars.R;
 import com.parworks.mars.utils.JsonMapper;
 
+@SuppressLint("ValidFragment")
 public class PopularSearchFragment extends Fragment {
 
 	private static final String TAG = "PopularSearchFragment";

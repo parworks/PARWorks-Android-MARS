@@ -1,5 +1,6 @@
 package com.parworks.mars.view.technology;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.webkit.WebView;
 import com.parworks.mars.R;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+@SuppressLint("ValidFragment")
 public class TechnologyFragment extends Fragment {
 	
 	public TechnologyFragment(SlidingFragmentActivity context) {

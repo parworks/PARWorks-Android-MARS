@@ -1,24 +1,19 @@
 package com.parworks.mars.view.nearby;
 
-import java.util.List;
-
-import com.parworks.androidlibrary.response.SiteInfo;
-import com.parworks.mars.R;
-import com.parworks.mars.view.search.SearchResultAdapter;
-import com.parworks.mars.view.search.SearchResultFragment;
-import com.parworks.mars.view.search.SearchResultItem;
-import com.parworks.mars.view.siteexplorer.ExploreActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.parworks.androidlibrary.response.SiteInfo;
+import com.parworks.mars.R;
+import com.parworks.mars.view.search.SearchResultAdapter;
+import com.parworks.mars.view.siteexplorer.ExploreActivity;
 
 public class NearbySitesListFragment extends Fragment {
 	
