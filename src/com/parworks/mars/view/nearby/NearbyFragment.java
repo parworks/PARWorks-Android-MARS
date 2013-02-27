@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -98,12 +99,21 @@ public class NearbyFragment extends SherlockFragment {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+        SupportMapFragment fragment = (SupportMapFragment) (getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap));  
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.remove(fragment);
+        ft.commit();
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setMenuVisibility(true);
-		View v = inflater.inflate(R.layout.fragment_nearby, null);
+		View v = inflater.inflate(R.layout.fragment_nearby, null); 
 		mMapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap);
 		mMap = mMapFragment.getMap();
 		mNearbySitesListFragment = new NearbySitesListFragment();
