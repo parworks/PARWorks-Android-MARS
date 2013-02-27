@@ -32,9 +32,9 @@ public class NearbySitesListFragment extends Fragment {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
-				Intent i = new Intent(NearbySitesListFragment.this.getActivity(), ExploreActivity.class);
-				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, (String)view.getTag());
-				startActivity(i);				
+//				Intent i = new Intent(NearbySitesListFragment.this.getActivity(), ExploreActivity.class);
+//				i.putExtra(ExploreActivity.SITE_ID_ARGUMENT_KEY, (String)view.getTag());
+//				startActivity(i);				
 			}
 		});				
 		

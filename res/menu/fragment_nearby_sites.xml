@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/nearby_sites_up_navigation"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:visible="false"
+        android:icon="@drawable/up_arrow"/>
+    
+
+</menu>

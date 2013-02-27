@@ -3,7 +3,7 @@
       
     <item
         android:id="@+id/augmentTitleBar"  
-        android:showAsAction="always" 
+        android:showAsAction="never" 
         android:title="augment"
         android:actionLayout="@layout/actionbar_site_explorer"
         android:visible="true" />

@@ -4,15 +4,25 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView.FindListener;
+import android.widget.FrameLayout;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,7 +34,7 @@ import com.parworks.mars.view.nearby.NearbySitesInfoFinder.NearbySitesInfoFinder
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 @SuppressLint("ValidFragment")
-public class NearbyFragment extends Fragment {
+public class NearbyFragment extends SherlockFragment {
 	
 	public static final String TAG = NearbyFragment.class.getName();
 	private SlidingFragmentActivity mSlidingFragmentActivity;
@@ -41,6 +51,10 @@ public class NearbyFragment extends Fragment {
 	
 	private SupportMapFragment mMapFragment;
 	
+	private View mNearbyView;
+	
+	private Menu mMenu;
+	
 	
 	public NearbyFragment() {
 		super();
@@ -50,10 +64,35 @@ public class NearbyFragment extends Fragment {
 		super();
 		mSlidingFragmentActivity = slidingFragmentActivity;
 	}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG,"onCreate");
+		setHasOptionsMenu(true);
+		super.onCreate(savedInstanceState);
+	}
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.d(TAG,"onCreateOptionsMenu");
+		inflater.inflate(R.menu.fragment_nearby_sites, menu);
+		setMenuVisibility(true);
+		mMenu = menu;
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+	@Override
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.nearby_sites_up_navigation:
+			showNearbyList();
+			return true;		
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		setMenuVisibility(true);
 		View v = inflater.inflate(R.layout.fragment_nearby, null);
 		mMapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap);
 		mMap = mMapFragment.getMap();
@@ -76,6 +115,14 @@ public class NearbyFragment extends Fragment {
 				
 			}
 		});
+		mMap.setOnMapClickListener(new OnMapClickListener() {
+			
+			@Override
+			public void onMapClick(LatLng point) {
+				hideNearbyList();
+				
+			}
+		});
 		mMapFragment.getView().setOnLongClickListener(new OnLongClickListener() {
 			
 			@Override
@@ -85,6 +132,16 @@ public class NearbyFragment extends Fragment {
 			}
 		});
 		searchForLocation();
+		mNearbyView = v;
+		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
+		frameLayout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				hideNearbyList();
+				
+			}
+		});
 		return v;
 	}
 	@Override
@@ -100,6 +157,16 @@ public class NearbyFragment extends Fragment {
 		LayoutParams newParams = mMapFragment.getView().getLayoutParams();
 		newParams.height = LayoutParams.MATCH_PARENT;
 		mMapFragment.getView().setLayoutParams(newParams);
+	}
+	private void hideNearbyList() {
+		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
+		frameLayout.setVisibility(View.GONE);
+		mMenu.findItem(R.id.nearby_sites_up_navigation).setVisible(true);
+	}
+	private void showNearbyList() {
+		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
+		frameLayout.setVisibility(View.VISIBLE);
+		mMenu.findItem(R.id.nearby_sites_up_navigation).setVisible(false);
 	}
 
 	private void searchForLocation() {
