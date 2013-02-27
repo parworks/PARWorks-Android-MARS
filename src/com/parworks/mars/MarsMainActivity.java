@@ -36,7 +36,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	
 	/** Timer used to update the Trending Sites, Tags */
 	private Timer autoUpdate;
-	private static final int UPDATE_INTERVAL = 60 * 1000 * 5; // 5 mins
+	private static final int UPDATE_INTERVAL = 60 * 1000 * 10; // 10 mins
 	private static long lastUpdateTimeStamp = 0l;
 	
 	/**
@@ -95,7 +95,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	@Override
 	protected void onPause() {		
 		// cancel update timer
-		Log.d(TAG, "Stop update timerE");
+		Log.d(TAG, "Stop update timer");
 		if (autoUpdate != null) {
 			autoUpdate.cancel();
 		}
