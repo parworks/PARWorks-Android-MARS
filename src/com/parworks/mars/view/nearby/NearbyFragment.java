@@ -31,6 +31,7 @@ import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.R;
 import com.parworks.mars.view.nearby.GetLocation.GetLocationListener;
 import com.parworks.mars.view.nearby.NearbySitesInfoFinder.NearbySitesInfoFinderListener;
+import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 @SuppressLint("ValidFragment")
@@ -162,11 +163,13 @@ public class NearbyFragment extends SherlockFragment {
 		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
 		frameLayout.setVisibility(View.GONE);
 		mMenu.findItem(R.id.nearby_sites_up_navigation).setVisible(true);
+		mSlidingFragmentActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 	}
 	private void showNearbyList() {
 		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
 		frameLayout.setVisibility(View.VISIBLE);
 		mMenu.findItem(R.id.nearby_sites_up_navigation).setVisible(false);
+		mSlidingFragmentActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	}
 
 	private void searchForLocation() {
