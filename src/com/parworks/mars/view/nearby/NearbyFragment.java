@@ -1,5 +1,10 @@
 package com.parworks.mars.view.nearby;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.R;
@@ -47,7 +53,7 @@ public class NearbyFragment extends SherlockFragment {
 	private Location mCurrentLocation;
 	
 	private static final int DEFAULT_MAX_SITES = 10;
-	private static final double DEFAULT_RADIUS_IN_METERS = 1609; //about a mile;
+	private static final double DEFAULT_RADIUS_IN_METERS = 10000 ;//10km
 	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
 	private SupportMapFragment mMapFragment;
@@ -55,6 +61,8 @@ public class NearbyFragment extends SherlockFragment {
 	private View mNearbyView;
 	
 	private Menu mMenu;
+	
+	private Map<String,Marker> mAllMarkers = new HashMap<String,Marker>();
 	
 	
 	public NearbyFragment() {
@@ -210,7 +218,11 @@ public class NearbyFragment extends SherlockFragment {
 		markerOptions.position(new LatLng(latDouble,lngDouble));
 		markerOptions.title(info.getId());
 		markerOptions.snippet(info.getDescription());
-		mMap.addMarker(markerOptions);
+		Marker marker = mMap.addMarker(markerOptions);
+		mAllMarkers.put(info.getId(), marker);
+	}
+	private void removeSiteMarker(String siteId) {
+		mAllMarkers.get(siteId).remove();
 	}
 	private void moveCamera(Location location, float zoom) {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom));

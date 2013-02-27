@@ -16,7 +16,7 @@ import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 
 public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 
-	class ViewHolder {
+	public class ViewHolder {
 		public TextView textView;
 		public ImageView imageView;
 	}
