@@ -1,5 +1,6 @@
 package com.parworks.mars.view.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 import com.parworks.mars.R;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
+import com.parworks.mars.view.siteexplorer.ViewDimensionCalculator;
 
 public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 
+	private ViewDimensionCalculator viewDimensionCalculator;
+	
 	public class ViewHolder {
 		public TextView textView;
 		public ImageView imageView;
@@ -23,6 +27,7 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 	
 	public SearchResultAdapter(Context context) {
 		super(context, 0);
+		this.viewDimensionCalculator = new ViewDimensionCalculator((Activity) context);
 	}
 
 	@Override
@@ -36,11 +41,12 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 		    convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_result_list_row, null);
 		    
 		    TextView title = (TextView) convertView.findViewById(R.id.searchSiteName);
-		    final ImageView imageView = (ImageView) convertView.findViewById(R.id.searchSitePosterImage);
+		    final ImageView imageView = (ImageView) convertView.findViewById(R.id.searchSitePosterImage);		    
 		    
 		    viewHolder = new ViewHolder();
 		    viewHolder.textView = title;
 		    viewHolder.imageView = imageView;
+		    viewHolder.imageView.getLayoutParams().height = (int) (viewDimensionCalculator.getScreenWidth() * 0.6);
 		    
 		    convertView.setTag(viewHolder);
 		} else {
@@ -57,14 +63,18 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResultItem> {
 					@Override
 					public void bitmapLoaded(Bitmap bitmap) {					
 						viewHolder.imageView.setImageBitmap(bitmap);
-						viewHolder.imageView.setTag(imageUrl);
+						viewHolder.imageView.setTag(imageUrl);												
 					}
 				});			
 			}
+		} else {
+			viewHolder.imageView.setImageBitmap(null);
+			viewHolder.imageView.setBackgroundResource(R.drawable.img_missing_image);
+			viewHolder.imageView.setTag(null);			
 		}
 		
 		return convertView;
-	}
+	}	
 
 	public void updateRecord(String siteId, String posterImageUrl) {
 		boolean isExist = false;

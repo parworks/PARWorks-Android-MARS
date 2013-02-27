@@ -11,9 +11,11 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -93,6 +95,13 @@ public class SearchFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				autoCompleteView.setCursorVisible(true);
+			}
+		});		
+		autoCompleteView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				autoCompleteView.setCursorVisible(true);
+				return false;
 			}
 		});
 		

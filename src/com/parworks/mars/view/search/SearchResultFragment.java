@@ -31,7 +31,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	private static final int SEARCH_SITE_INFO_LOADER_ID = 33;
 	
 	private List<String> siteIds;
-	private SearchResultAdapter newAdapter;
+	private SearchResultAdapter newAdapter;	
 
 	public SearchResultFragment() {
 		super();
@@ -45,7 +45,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// init Loader for TrendingSites
-		this.getLoaderManager().initLoader(SEARCH_SITE_INFO_LOADER_ID, null, this);
+		this.getLoaderManager().initLoader(SEARCH_SITE_INFO_LOADER_ID, null, this);		
 	}
 
 	@Override

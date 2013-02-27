@@ -152,7 +152,6 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		descriptionTextView.setText(siteDesc);
 		
 		//let siteImageManager handle the SiteImageView
-		// ImageView siteImageView = (ImageView) findViewById(R.id.imageViewSiteImage);
 		MiniARViewer miniARView = (MiniARViewer) findViewById(R.id.siteExplorerPosterImageView);
 		ProgressBar siteImageProgressBar = (ProgressBar) findViewById(R.id.progressBarSiteImage);
 		PosterImageManager siteImageManager = new PosterImageManager(mSiteId, miniARView, siteImageProgressBar, this);
