@@ -53,6 +53,7 @@ public class NearbyFragment extends SherlockFragment {
 	private Location mCurrentLocation;
 	
 	private static final int DEFAULT_MAX_SITES = 10;
+	private static final float MIN_ZOOM_TO_SHOW_MARKERS = 9.0f;
 	private static final double DEFAULT_RADIUS_IN_METERS = 10000 ;//10km
 	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
@@ -161,6 +162,10 @@ public class NearbyFragment extends SherlockFragment {
 	}
 	private void onCameraPositionChanged(CameraPosition position) {
 		mInfoFinder.getNearbySiteInfo(position.target, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
+		Log.d(TAG,"onCameraPositionChanged: " + position.zoom);
+		if(position.zoom < MIN_ZOOM_TO_SHOW_MARKERS ) {
+			removeAllSiteMarkers();
+		}
 	}
 	private void makeMapFullScreen() {
 		LayoutParams newParams = mMapFragment.getView().getLayoutParams();
@@ -210,6 +215,9 @@ public class NearbyFragment extends SherlockFragment {
 		createSiteMarker(info);
 	}
 	private void createSiteMarker(SiteInfo info) {
+		if(mMap.getCameraPosition().zoom < MIN_ZOOM_TO_SHOW_MARKERS) {
+			return;
+		}
 		MarkerOptions markerOptions = new MarkerOptions();
 		String latString = info.getLat();
 		String lngString = info.getLon();
@@ -222,7 +230,16 @@ public class NearbyFragment extends SherlockFragment {
 		mAllMarkers.put(info.getId(), marker);
 	}
 	private void removeSiteMarker(String siteId) {
+		Log.d(TAG,"Removing site marker: " + siteId);
 		mAllMarkers.get(siteId).remove();
+	}
+	private void removeAllSiteMarkers() {
+		Log.d(TAG,"Removing all site markers");
+		for(String key : mAllMarkers.keySet()) {
+			removeSiteMarker(key);
+		}
+		mAllMarkers.clear();
+		mMap.clear();
 	}
 	private void moveCamera(Location location, float zoom) {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom));
