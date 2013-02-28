@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -39,16 +40,18 @@ public class AugmentedImageViewManager {
 	private final AugmentedImageAdapter mAdapter;
 	private final List<Bitmap> mBitmaps;
 	private final TextView mAugmentedImagesTotalTextView;
+	private final Activity mActivity;
 	
 	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 8; //pixels
 	private final static int AUGMENTED_IMAGE_VERTICAL_MARGINS = 16;
 	
-	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
+	public AugmentedImageViewManager(String siteId, Activity activity, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
 		mSiteId = siteId;
-		mContext = context;
+		mActivity = activity;
+		mContext = activity.getBaseContext();
 		mAugmentedImagesProgressBar = augmentedImagesProgressBar;
 		mBitmaps = new ArrayList<Bitmap>();
-		mAdapter = new AugmentedImageAdapter(context,mBitmaps);
+		mAdapter = new AugmentedImageAdapter(mContext,mBitmaps);
 		mAugmentedImagesLayout = augmentedImagesLayout;
 		mAugmentedImagesTotalTextView = augmentedImagesTotalTextView;	
 	}
@@ -94,7 +97,10 @@ public class AugmentedImageViewManager {
 		
 		ImageView imageView = new ImageView(mContext);
 		imageView.setImageBitmap(bitmap);
-		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		int screenWidth = new ViewDimensionCalculator(mActivity).getScreenWidth();
+		int imageWidth = screenWidth /3;
+		int imageHeight = imageWidth;
+		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(imageWidth,imageHeight);
 		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
 		imageView.setLayoutParams(imageViewParams);
 		imageView.setScaleType(ScaleType.CENTER_CROP);
