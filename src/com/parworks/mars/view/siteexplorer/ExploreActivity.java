@@ -132,7 +132,10 @@ public class ExploreActivity extends SherlockFragmentActivity {
 			return;
 		}
 		//set site name
-		String siteName = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));
+		String siteName = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_NAME));
+		if(siteName.isEmpty() || siteName == null) {
+			siteName = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));
+		}
 		TextView nameTextView = (TextView) findViewById(R.id.textViewSiteName);
 		nameTextView.setText(siteName);
 		
