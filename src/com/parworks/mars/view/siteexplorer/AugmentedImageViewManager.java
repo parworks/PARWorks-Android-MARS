@@ -44,6 +44,9 @@ public class AugmentedImageViewManager {
 	
 	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 8; //pixels
 	private final static int AUGMENTED_IMAGE_VERTICAL_MARGINS = 16;
+	private final static int PLACE_HOLDER_IMAGES_TOTAL = 5;
+	
+	private List<View> mPlaceHolderViews = new ArrayList<View>();
 	
 	public AugmentedImageViewManager(String siteId, Activity activity, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
 		mSiteId = siteId;
@@ -54,6 +57,7 @@ public class AugmentedImageViewManager {
 		mAdapter = new AugmentedImageAdapter(mContext,mBitmaps);
 		mAugmentedImagesLayout = augmentedImagesLayout;
 		mAugmentedImagesTotalTextView = augmentedImagesTotalTextView;	
+		addPlaceHolderImages();
 	}
 	
 	public void setAugmentedImages(Cursor data) {
@@ -92,11 +96,22 @@ public class AugmentedImageViewManager {
 	    setAugmentedImagesTotalTextView(data.getCount());		
 	}
 	
-	private void addBitmap(final Bitmap bitmap, final String imageId, final String contentUrl, 
-			final String augmentedData, final int width, final int height) {
-		
-		ImageView imageView = new ImageView(mContext);
-		imageView.setImageBitmap(bitmap);
+	private void addPlaceHolderImages() {
+		for(int i=0;i<PLACE_HOLDER_IMAGES_TOTAL;++i) {
+			ImageView imageView = new ImageView(mContext);
+			imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_missing_image_78x78));
+			setAugmentedImageViewSize(imageView);
+			mAugmentedImagesLayout.addView(imageView);
+			mPlaceHolderViews.add(imageView);
+		}
+	}
+	private void removePlaceHolderImages() {
+		for(View placeHolder : mPlaceHolderViews) {
+			mAugmentedImagesLayout.removeView(placeHolder);
+		}
+	}
+	
+	private void setAugmentedImageViewSize(ImageView imageView) {
 		int screenWidth = new ViewDimensionCalculator(mActivity).getScreenWidth();
 		int imageWidth = screenWidth /3;
 		int imageHeight = imageWidth;
@@ -105,6 +120,13 @@ public class AugmentedImageViewManager {
 		imageView.setLayoutParams(imageViewParams);
 		imageView.setScaleType(ScaleType.CENTER_CROP);
 		imageView.setBackground(mContext.getResources().getDrawable(R.drawable.activity_explore_augmented_photos_border));
+	}
+	private void addBitmap(final Bitmap bitmap, final String imageId, final String contentUrl, 
+			final String augmentedData, final int width, final int height) {
+		removePlaceHolderImages();
+		ImageView imageView = new ImageView(mContext);
+		imageView.setImageBitmap(bitmap);
+		setAugmentedImageViewSize(imageView);
 		
 		imageView.setOnClickListener(new OnClickListener() {			
 			@Override

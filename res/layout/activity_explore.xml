@@ -115,8 +115,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:visibility="visible"
-                    android:src="@drawable/map" />
+                    android:visibility="invisible"
+                    android:src="@drawable/img_missing_image_78x78" />
 
                 <ProgressBar
                     android:id="@+id/progressBarMapView"
