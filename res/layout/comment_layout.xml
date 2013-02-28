@@ -29,13 +29,22 @@
             android:id="@+id/textViewCommenterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:typeface="serif"
             android:text="Amanda M."
             android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/textViewTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="serif"
+            android:text="Timestamp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:typeface="serif"
             android:text="Lorem ipsum dolar sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

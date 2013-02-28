@@ -18,5 +18,8 @@
    
     <!--  FACEBOOK -->
     <string name="app_id">410586319030328</string>
+    
+    <!--  EXPLORE ACTIVITY -->
+    <string name="explore_activity_font">serif</string>
 	
 </resources>

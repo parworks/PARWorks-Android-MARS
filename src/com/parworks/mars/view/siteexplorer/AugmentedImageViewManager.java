@@ -21,6 +21,7 @@ import com.parworks.androidlibrary.response.AugmentImageResultResponse;
 import com.parworks.arviewer.ARViewerActivity;
 import com.parworks.arviewer.utils.AugmentedDataUtils;
 import com.parworks.arviewer.utils.ImageUtils;
+import com.parworks.mars.R;
 import com.parworks.mars.cache.BitmapCache;
 import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
@@ -39,7 +40,8 @@ public class AugmentedImageViewManager {
 	private final List<Bitmap> mBitmaps;
 	private final TextView mAugmentedImagesTotalTextView;
 	
-	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 5; //pixels
+	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 8; //pixels
+	private final static int AUGMENTED_IMAGE_VERTICAL_MARGINS = 16;
 	
 	public AugmentedImageViewManager(String siteId, Context context, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
 		mSiteId = siteId;
@@ -93,9 +95,10 @@ public class AugmentedImageViewManager {
 		ImageView imageView = new ImageView(mContext);
 		imageView.setImageBitmap(bitmap);
 		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, 0);
+		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
 		imageView.setLayoutParams(imageViewParams);
 		imageView.setScaleType(ScaleType.CENTER_CROP);
+		imageView.setBackground(mContext.getResources().getDrawable(R.drawable.activity_explore_augmented_photos_border));
 		
 		imageView.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -149,6 +152,6 @@ public class AugmentedImageViewManager {
 //			text = " augmented images";
 //		}
 //		mAugmentedImagesTotalTextView.setText(imagesTotal + text);
-		mAugmentedImagesTotalTextView.setText("Recently augmented images");
+//		mAugmentedImagesTotalTextView.setText("Recently augmented images");
 	}
 }

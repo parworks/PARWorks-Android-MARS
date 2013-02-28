@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -36,7 +37,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	private static final int AUGMENTED_IMAGES_LOADER_ID = 1;
 	private static final int COMMENTS_LOADER_ID = 2;
 	
-	private View mLayoutView;	
+	private View mLayoutView;
 	private AddCommentManager mAddCommentManager;
 	
 	@Override
@@ -147,6 +148,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		} else {
 			addressTextView.setText(siteAddress);
 		}
+		
 		
 		
 		//set site description

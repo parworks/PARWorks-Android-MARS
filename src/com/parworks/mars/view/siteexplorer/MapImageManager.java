@@ -53,6 +53,10 @@ public class MapImageManager {
 			disableMapView();
 			return;
 		}
+		if(lat.equals("0.0") && lon.equals("0.0")) {
+			disableMapView();
+			return;
+		}
 		final int width = mViewDimensionCalculator.getScreenWidth();
 		final int height = width/2;
 		
