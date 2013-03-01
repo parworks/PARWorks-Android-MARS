@@ -190,14 +190,13 @@
                 android:id="@+id/textViewCommentTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dip"
                 android:text="Comments"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dip"
-                android:paddingRight="15dip" >
+                android:layout_height="wrap_content" >
 
                 <ProgressBar
                     android:id="@+id/progressBarComments"
@@ -211,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dip"
+                    android:background="@drawable/activity_explore_comment_border"
                     android:visibility="invisible" >
 
                 </LinearLayout>
@@ -224,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dip"
                 android:paddingRight="15dip"
-                android:text="Add a comment!" />
+                android:text="Leave a Comment" />
 
         </LinearLayout>
 

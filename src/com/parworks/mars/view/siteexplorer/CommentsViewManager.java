@@ -1,6 +1,7 @@
 package com.parworks.mars.view.siteexplorer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -86,6 +87,9 @@ public class CommentsViewManager {
 		
 		TextView commenterName = (TextView) commentView.findViewById(R.id.textViewCommenterName);
 		commenterName.setText(siteComment.getUserName());
+		
+		TextView commentTimestamp = (TextView) commentView.findViewById(R.id.textViewCommentTimestamp);
+		commentTimestamp.setText(""+siteComment.getTimeStamp());
 		
 		ProfilePictureView profilePicture = (ProfilePictureView) commentView.findViewById(R.id.profilePictureViewComment);
 		setProfilePictureSize(10, profilePicture);
