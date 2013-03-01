@@ -1,16 +1,22 @@
 package com.parworks.mars.view.trending;
 
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class ShingleBoard extends ImageView {
+	
+	private Context mContext;
 	
 	private String displayName;
 	private int numAugmentedImages;
@@ -19,16 +25,19 @@ public class ShingleBoard extends ImageView {
 
 	public ShingleBoard(Context context) {
 		super(context);
+		mContext = context;
 		initTextPaint();
 	}
 
 	public ShingleBoard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		mContext = context;
 		initTextPaint();
 	}
 
 	public ShingleBoard(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mContext = context;
 		initTextPaint();
 	}
 	
@@ -53,7 +62,8 @@ public class ShingleBoard extends ImageView {
 			canvas.drawText(displayName, width/2, height/2, mTextPaint);
 			
 			// draw site num augmented images
-			mTextPaint.setTextSize(30);
+			mTextPaint.setTextSize(30);			
+//			mTextPaint.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "Avenir Book.ttf"));
 			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + 40, mTextPaint);			
 		}
 	}

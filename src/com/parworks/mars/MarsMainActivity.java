@@ -84,6 +84,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		// enable the back arrow
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	    getSupportActionBar().setHomeButtonEnabled(true);
+//	    getSupportActionBar().setDisplayShowHomeEnabled(false);
 		
 		// setup the icon used for the action bar
 		// getSupportActionBar().setIcon(R.drawable.ic_bar_item_sidebar);
