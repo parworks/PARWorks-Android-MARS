@@ -1,5 +1,7 @@
 package com.parworks.mars.view.siteexplorer;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,7 +91,8 @@ public class CommentsViewManager {
 		commenterName.setText(siteComment.getUserName());
 		
 		TextView commentTimestamp = (TextView) commentView.findViewById(R.id.textViewCommentTimestamp);
-		commentTimestamp.setText(""+siteComment.getTimeStamp());
+		commentTimestamp.setText(DateFormat.getDateTimeInstance(
+	            DateFormat.MEDIUM, DateFormat.SHORT).format(new Date(siteComment.getTimeStamp())));
 		
 		ProfilePictureView profilePicture = (ProfilePictureView) commentView.findViewById(R.id.profilePictureViewComment);
 		setProfilePictureSize(10, profilePicture);
