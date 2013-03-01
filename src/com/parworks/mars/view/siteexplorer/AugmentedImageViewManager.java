@@ -119,8 +119,9 @@ public class AugmentedImageViewManager {
 		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
 		imageView.setLayoutParams(imageViewParams);
 		imageView.setScaleType(ScaleType.CENTER_CROP);
-		imageView.setBackground(mContext.getResources().getDrawable(R.drawable.activity_explore_augmented_photos_border));
+		imageView.setBackgroundResource(R.drawable.activity_explore_augmented_photos_border);
 	}
+	
 	private void addBitmap(final Bitmap bitmap, final String imageId, final String contentUrl, 
 			final String augmentedData, final int width, final int height) {
 		removePlaceHolderImages();
@@ -150,14 +151,14 @@ public class AugmentedImageViewManager {
 	
 	private void showARViewer(String imageId, Bitmap bitmap, String augmentedData, int width, int height) {
 		try {			
-			final Intent intent = new Intent(mContext, ARViewerActivity.class);
+			final Intent intent = new Intent(mActivity, ARViewerActivity.class);
 			intent.putExtra("site-id", mSiteId);
 			intent.putExtra("image-id", imageId);
 			intent.putExtra("file-path", ImageUtils.saveBitmapAsFile(bitmap, null));
 			AugmentImageResultResponse data = JsonMapper.get().readValue(augmentedData, AugmentImageResultResponse.class);
 			intent.putExtra("augmented-data", AugmentedDataUtils.convertAugmentResultResponse(imageId, data));
 			intent.putExtra("original-size", width + "x" + height);
-			mContext.startActivity(intent);
+			mActivity.startActivity(intent);
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to load the augmented image data", e);
 		}
