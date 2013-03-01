@@ -42,12 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timestamp"
+            android:textColor="@color/ltgray"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dip"
             android:linksClickable="true"
             android:text="Lorem ipsum dolar sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
