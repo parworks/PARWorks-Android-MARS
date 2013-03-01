@@ -45,6 +45,7 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 public class NearbyFragment extends SherlockFragment {
 	
 	public static final String TAG = NearbyFragment.class.getName();
+	public static final String TAG_LOAD_MARKERS = "LOADING MARKERS TAG";
 	private SlidingFragmentActivity mSlidingFragmentActivity;
 	
 	private NearbySitesListFragment mNearbySitesListFragment;
@@ -54,7 +55,7 @@ public class NearbyFragment extends SherlockFragment {
 	private Location mCurrentLocation;
 	
 	private static final int DEFAULT_MAX_SITES = 10;
-	private static final float MIN_ZOOM_TO_SHOW_MARKERS = 9.0f;
+	private static final float MIN_ZOOM_TO_SHOW_MARKERS = 0.0f;
 	private static final double DEFAULT_RADIUS_IN_METERS = 10000 ;//10km
 	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
@@ -171,6 +172,7 @@ public class NearbyFragment extends SherlockFragment {
 		searchForLocation();
 	}
 	private void onCameraPositionChanged(CameraPosition position) {
+		Log.d(TAG_LOAD_MARKERS, "onCameraPositionChanged");
 		mInfoFinder.getNearbySiteInfo(position.target, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
 		Log.d(TAG,"onCameraPositionChanged: " + position.zoom);
 		if(position.zoom < MIN_ZOOM_TO_SHOW_MARKERS ) {

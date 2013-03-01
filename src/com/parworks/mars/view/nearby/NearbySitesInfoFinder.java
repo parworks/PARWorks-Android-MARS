@@ -25,12 +25,15 @@ public class NearbySitesInfoFinder {
 	}
 	
 	public void getNearbySiteInfo(LatLng location, int max, double radius) {
+		Log.d(NearbyFragment.TAG_LOAD_MARKERS,"getNearbySiteInfo : calling nearby endpoint");
 		ARSites sites = User.getARSites();
 		sites.near(location.latitude, location.longitude, max, radius, new ARListener<List<ARSite>>() {
 			
 			@Override
 			public void handleResponse(List<ARSite> sites) {
+				Log.d(NearbyFragment.TAG_LOAD_MARKERS,"handleResponse: got list of sites");
 				for(ARSite site : sites) {
+					Log.d(NearbyFragment.TAG_LOAD_MARKERS,"calling get site info on site" + site.getSiteId());
 					getSiteInfo(site);
 				}
 				
@@ -45,6 +48,7 @@ public class NearbySitesInfoFinder {
 		});
 	}
 	private void getSiteInfo(ARSite site) {
+		Log.d(NearbyFragment.TAG_LOAD_MARKERS,"getNearbySiteInfo");
 		site.getSiteInfo(new ARListener<SiteInfo>() {
 			
 			@Override
