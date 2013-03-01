@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:background="@drawable/activity_explore_comment_border"
-    android:paddingBottom="5dip"
+    android:paddingBottom="8dip"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:typeface="serif"
             android:text="Amanda M."
+            android:paddingTop="5dip"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <TextView
             android:id="@+id/textViewCommentTimestamp"
