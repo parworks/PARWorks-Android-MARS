@@ -1,13 +1,22 @@
 package com.parworks.mars.view.siteexplorer;
 
 
+import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -67,9 +76,12 @@ public class MapImageManager {
 			imageViewManager.setImageView(mapUrl, mMapImageView, new ImageLoadedListener() {
 				
 				@Override
-				public void onImageLoaded() {
+				public void onImageLoaded(Bitmap bitmap) {
+//					mMapImageView.setBackground(new BitmapDrawable(mActivity.getBaseContext().getResources(),bitmap));
+//					mMapImageView.setImageDrawable(mActivity.getBaseContext().getResources().getDrawable(R.drawable.activity_explore_map_border));
 					setMapViewSize();
 					showMapView();
+//					createMapGradient(bitmap);
 					
 				}
 			});
@@ -79,5 +91,26 @@ public class MapImageManager {
 		}
 		
 	}
+	
+//	protected void createMapGradient(Bitmap bitmap) {
+//		Bitmap gradientBitmap = getGradientBitmap(bitmap);
+//		mMapImageView.setImageBitmap(gradientBitmap);
+//		
+//	}
+//
+//	private Bitmap getGradientBitmap(Bitmap bitmap) {
+////		    Canvas bigCanvas = new Canvas(bitmap);
+//		    Bitmap b = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+//		    Canvas c = new Canvas(b);
+//		    c.drawColor(Color.TRANSPARENT);
+//		    LinearGradient grad = new LinearGradient(bitmap.getWidth()/2, 0, bitmap.getWidth()/2, 20, Color.WHITE, 0X00FFFFFF, TileMode.CLAMP);
+//		    Paint p = new Paint();
+//		    p.setStyle(Paint.Style.FILL);
+//		    p.setShader(grad);
+//		    c.drawRect(0, 0, bitmap.getWidth(), 20, p);
+//		    bigCanvas.drawBitmap(bitmap, 0, 0, null);
+//		    bigCanvas.drawBitmap(b,0,0, null);
+//		    return bitmap;
+//	}
 	
 }

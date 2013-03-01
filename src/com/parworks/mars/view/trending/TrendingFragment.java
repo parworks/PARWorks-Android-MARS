@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -210,13 +211,15 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 			imageView.setTag(imageUrl);
 			ImageViewManager imageViewManager = new ImageViewManager();
 			if (imageUrl != null) {
-				imageViewManager.setImageView(imageUrl, 
-						imageView, new ImageLoadedListener() {
+				ImageLoadedListener listener = new ImageLoadedListener() {
+					
 					@Override
-					public void onImageLoaded() {
-						imageView.setAlpha((int) (255 * scale));						
+					public void onImageLoaded(Bitmap bitmap) {
+						imageView.setAlpha((int) (255 * scale));
+						
 					}
-				});
+				};
+				imageViewManager.setImageView(imageUrl, imageView, listener);
 			}
 		}
 	}

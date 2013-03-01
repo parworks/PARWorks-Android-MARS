@@ -77,13 +77,14 @@
                             android:text="Site Name"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:typeface="serif"
+                            android:linksClickable="true"
                             android:paddingTop="5dip" />
 
                         <TextView
                             android:id="@+id/textViewSiteAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Site Address"
+                            android:linksClickable="true"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:typeface="serif" />
 
@@ -92,9 +93,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Small Text"
+                            android:linksClickable="true"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:paddingTop="5dip"
-                            android:typeface="serif"
                             android:paddingBottom="10dip" />
 
                     </LinearLayout>
@@ -123,7 +124,7 @@
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -144,7 +145,6 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dip"
                 android:paddingBottom="2dip"
-                android:typeface="serif"
                 android:text="Augmented Photos" />
 
             <RelativeLayout
@@ -191,7 +191,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comments"
-                android:typeface="serif"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <RelativeLayout

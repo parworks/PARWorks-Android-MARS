@@ -11,7 +11,7 @@ import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 public class ImageViewManager {
 	
 	public interface ImageLoadedListener {
-		public void onImageLoaded();
+		public void onImageLoaded(Bitmap bitmap);
 	}
 	public static final String TAG = ImageViewManager.class.getName();	
 	
@@ -26,7 +26,7 @@ public class ImageViewManager {
 					public void bitmapLoaded(Bitmap bitmap) {
 						imageView.setImageBitmap(bitmap);
 						if (listener != null) {
-							listener.onImageLoaded();
+							listener.onImageLoaded(bitmap);
 						}
 					}
 				}).execute();
@@ -34,7 +34,7 @@ public class ImageViewManager {
 				Log.d(TAG,"Bitmap was already in the cache! Setting the image. Url was: " + url);
 				imageView.setImageBitmap(posterImageBitmap);
 				if (listener != null) {
-					listener.onImageLoaded();
+					listener.onImageLoaded(posterImageBitmap);
 				}
 			}
 			
