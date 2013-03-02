@@ -57,12 +57,12 @@ public class ShingleBoard extends ImageView {
 		if (displayName != null && !TextUtils.isEmpty(displayName)) {			
 			// draw site name			
 			mTextPaint.setTextSize(Utilities.getDensityPixels(21, mContext));
-			canvas.drawText(displayName, width/2, height/2, mTextPaint);
+			canvas.drawText(displayName, width/2, height/2 + Utilities.getDensityPixels(17, mContext), mTextPaint);
 			
 			// draw site num augmented images
 			mTextPaint.setTextSize(Utilities.getDensityPixels(12, mContext));			
 //			mTextPaint.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "Avenir Book.ttf"));
-			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + Utilities.getDensityPixels(21, mContext), mTextPaint);			
+			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + Utilities.getDensityPixels(33, mContext), mTextPaint);			
 		}
 	}
 	
