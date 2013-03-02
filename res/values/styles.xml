@@ -16,15 +16,20 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
+
     <style name="Theme.MyTheme" parent="Theme.Sherlock.Light">
-    	<item name="actionBarStyle">@style/customActionBarTabStyle</item>
-    	<item name="android:actionBarStyle">@style/customActionBarTabStyle</item>
-	</style>
+        <item name="actionBarStyle">@style/customActionBarTabStyle</item>
+        <item name="android:actionBarStyle">@style/customActionBarTabStyle</item>
+    </style>
+
+    <style name="Theme.MyNoActionBarTheme" parent="Theme.Sherlock.Light.NoActionBar">
+        <item name="actionBarStyle">@style/customActionBarTabStyle</item>
+        <item name="android:actionBarStyle">@style/customActionBarTabStyle</item>
+    </style>
 
     <style name="customActionBarTabStyle" parent="Widget.Sherlock.ActionBar">
-        <item name="android:background">#F0F0F0</item>        
-    	<item name="background">#F0F0F0</item>
-	</style>
+        <item name="android:background">#F0F0F0</item>
+        <item name="background">#F0F0F0</item>
+    </style>
 
 </resources>

@@ -5,79 +5,81 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature
-		  android:glEsVersion="0x00020000"
-		  android:required="true"/>
-    
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <permission
-          android:name="com.example.googlemapstes.permission.MAPS_RECEIVE"
-          android:protectionLevel="signature"/>
-    
-    <uses-permission android:name="com.example.mapdemo.permission.MAPS_RECEIVE"/>
-	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    
+        android:name="com.example.googlemapstes.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.mapdemo.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name="com.parworks.mars.Mars"
         android:allowBackup="true"
-        android:icon="@drawable/ic_mars_launcher"
-        android:logo="@drawable/ic_bar_item_sidebar"
-        android:label="@string/app_name"
+        android:icon="@drawable/ic_mars_launcher" 
+        android:label="@string/app_name"              
         android:theme="@style/AppTheme" >
-        
         <activity
             android:name="com.parworks.mars.view.siteexplorer.ExploreActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyTheme" >
         </activity>
-        
         <activity
             android:name="com.parworks.mars.view.siteexplorer.TestActivity"
-            android:label="@string/app_name" >           
-        </activity>       
-        
-        <activity 
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.parworks.arviewer.ARViewerActivity"
-            android:label="@string/app_name">            
+            android:label="@string/app_name" >
         </activity>
-        
-        <activity 
+        <activity
             android:name="com.parworks.arcameraview.CaptureImageActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name">            
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
-        
         <activity
             android:name="com.parworks.mars.MarsMainActivity"
-            android:theme="@style/Theme.MyTheme"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:theme="@style/Theme.MyTheme" >
+        </activity>
+        <activity
+            android:name=".SplashActivity"            
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyNoActionBarTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <provider             
+        <provider
             android:name="com.parworks.mars.model.provider.MarsContentProvider"
             android:authorities="com.parworks.mars.provider"
             android:exported="false" >
         </provider>
 
-        <activity android:name="com.facebook.LoginActivity"/>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+        <activity android:name="com.facebook.LoginActivity" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDmz2ASDK1xto8UahGTU2SjyoTBtEBqSUo"/>
-        
+            android:value="AIzaSyDmz2ASDK1xto8UahGTU2SjyoTBtEBqSUo" />
     </application>
+
 </manifest>
