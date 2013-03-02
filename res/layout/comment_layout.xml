@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="7dip"
+        android:padding="12dip"
         android:orientation="vertical" >
 
         <com.facebook.widget.ProfilePictureView
@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dip"
+        android:paddingTop="5dip"
         android:orientation="vertical" >
 
         <TextView
@@ -35,19 +36,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Amanda M."
-            android:paddingTop="5dip"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <TextView
             android:id="@+id/textViewCommentTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timestamp"
+            android:textColor="@color/ltgray"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dip"
             android:linksClickable="true"
             android:text="Lorem ipsum dolar sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut..."
             android:textAppearance="?android:attr/textAppearanceSmall" />

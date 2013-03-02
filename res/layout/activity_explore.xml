@@ -76,7 +76,6 @@
                             android:layout_height="wrap_content"
                             android:text="Site Name"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:typeface="serif"
                             android:linksClickable="true"
                             android:paddingTop="5dip" />
 
@@ -85,8 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:linksClickable="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:typeface="serif" />
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
                             android:id="@+id/textViewSiteDescription"
@@ -117,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:visibility="invisible"
+                    android:background="@drawable/activity_explore_augmented_photos_border"
                     android:src="@drawable/img_missing_image_78x78" />
 
                 <ProgressBar
