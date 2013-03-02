@@ -1,17 +1,13 @@
 package com.parworks.mars.view.trending;
 
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class ShingleBoard extends ImageView {

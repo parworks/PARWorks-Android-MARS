@@ -21,6 +21,8 @@ import com.parworks.mars.view.trending.TrendingFragment;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+
+
 /**
  * The main MARS activity that contains the sliding
  * menu, and all the fragment views for the main functions.

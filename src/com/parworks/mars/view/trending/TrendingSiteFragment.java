@@ -1,5 +1,6 @@
 package com.parworks.mars.view.trending;
 
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
