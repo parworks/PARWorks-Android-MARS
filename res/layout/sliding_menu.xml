@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/menu_background_color"
-    android:orientation="vertical" >
+    android:layout_height="match_parent"    
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
 
     <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/menu_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"        
+        android:background="@drawable/menu_background"
         android:choiceMode="singleChoice"
-        android:dividerHeight="1dp"
-        android:paddingLeft="@dimen/list_padding"
-        android:paddingRight="@dimen/list_padding" />
+        android:dividerHeight="0dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-        <ImageView
+    <ImageView
         android:id="@+id/menu_bottom_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:contentDescription="The logo icon at the bottom of menu"
         android:src="@drawable/marlogo"
-        android:layout_alignParentBottom="true"
         tools:ignore="HardcodedText" />
-        
-    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
