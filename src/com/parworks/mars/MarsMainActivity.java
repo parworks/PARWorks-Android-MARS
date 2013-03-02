@@ -35,7 +35,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	private static final String TAG = "MarsMainActivity";
 
 	private Fragment mFrag;
-	private Fragment currentFragment;
+	private MarsMenuFragment currentFragment;
 
 	/** Timer used to update the Trending Sites, Tags */
 	private Timer autoUpdate;
@@ -46,7 +46,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	 * The fragments controlled by the sliding menu, including: 1) Trending 2)
 	 * Nearby 3) Search 4) Technology
 	 */
-	private Map<String, Fragment> menuControlledFragments;
+	private Map<String, MarsMenuFragment> menuControlledFragments;
 	/** The framgent name keys */
 	public static final String FRAGMENT_TRENDING = "Trending";
 	public static final String FRAGMENT_NEARBY = "Nearby";
@@ -137,7 +137,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	}
 
 	private void initMenuControlledFragments() {
-		menuControlledFragments = new HashMap<String, Fragment>();
+		menuControlledFragments = new HashMap<String, MarsMenuFragment>();
 
 		// 1. Add Trending Fragment
 		menuControlledFragments.put(FRAGMENT_TRENDING, new TrendingFragment(
@@ -157,19 +157,20 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		switchContent(FRAGMENT_TRENDING);
 	}
 
-	public void menuButtonClicked(View v) {
+	public void leftBarButtonClicked(View v) {
 		toggle();
+		currentFragment.leftBarButtonClicked(v);
 	}
 
-	public void introButtonClicked(View v) {
-		Toast.makeText(MarsMainActivity.this, "Insert Intro", Toast.LENGTH_SHORT).show();
-	}
-
+	public void rightBarButtonClicked(View v) {
+		currentFragment.rightBarButtonClicked(v);			
+	}	
+	
 	/**
 	 * Change the Fragment component in the main activity
 	 */
 	public void switchContent(final String fragmentName) {
-		Fragment newFragment = menuControlledFragments.get(fragmentName);
+		MarsMenuFragment newFragment = menuControlledFragments.get(fragmentName);
 		if (newFragment != null) {
 			if (newFragment != currentFragment) {
 				getSupportFragmentManager().beginTransaction()

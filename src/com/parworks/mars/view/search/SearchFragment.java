@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,19 +24,21 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.parworks.androidlibrary.ar.ARErrorListener;
 import com.parworks.androidlibrary.ar.ARListener;
+import com.parworks.mars.MarsMenuFragment;
 import com.parworks.mars.R;
 import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.User;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 @SuppressLint("ValidFragment")
-public class SearchFragment extends Fragment {
+public class SearchFragment extends MarsMenuFragment {
 
 	private static final String TAG = "SearchFragment";
 	
@@ -67,6 +71,15 @@ public class SearchFragment extends Fragment {
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to parse the tags", e);
 		}
+	}
+		
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		button.setBackgroundDrawable(null);
+		
 	}
 
 	@Override

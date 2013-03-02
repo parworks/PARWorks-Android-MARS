@@ -20,8 +20,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.parworks.mars.MarsMenuFragment;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.TrendingSitesTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
@@ -38,7 +41,7 @@ import com.viewpagerindicator.CirclePageIndicator;
  * @author yusun
  */
 @SuppressLint("ValidFragment")
-public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor> {	
+public class TrendingFragment extends MarsMenuFragment implements LoaderCallbacks<Cursor> {	
 
 	private static final String TAG = "TrendingFragment";
 	private static final int TRENDING_SITES_LOADER_ID = 5;
@@ -126,6 +129,18 @@ public class TrendingFragment extends Fragment implements LoaderCallbacks<Cursor
 		this.getLoaderManager().initLoader(TRENDING_SITES_LOADER_ID, null, this);		
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		button.setBackgroundResource(R.drawable.ic_bar_item_intro);		
+	}
+	
+	public void rightBarButtonClicked(View v) {
+		super.rightBarButtonClicked(v);
+		Toast.makeText(mContext, "Insert Intro", Toast.LENGTH_SHORT).show();
+	}
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
 		String[] projection = TrendingSitesTable.ALL_COLUMNS;

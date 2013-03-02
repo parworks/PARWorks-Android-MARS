@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:visible="false"
-        android:icon="@drawable/up_arrow"/>
+       />
     
 
 </menu>

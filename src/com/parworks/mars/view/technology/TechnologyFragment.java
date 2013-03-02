@@ -8,15 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.parworks.mars.MarsMenuFragment;
 import com.parworks.mars.R;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 @SuppressLint("ValidFragment")
-public class TechnologyFragment extends Fragment {
+public class TechnologyFragment extends MarsMenuFragment {
 	
+	private SlidingFragmentActivity mContext;
+	
+	public TechnologyFragment() {
+		super();
+	}
+
 	public TechnologyFragment(SlidingFragmentActivity context) {
 		super();
+		mContext = context;
 	}
 	
 	@Override
@@ -33,5 +43,17 @@ public class TechnologyFragment extends Fragment {
 		webView.getSettings().setPluginState(PluginState.ON);
 		webView.loadUrl("file:///android_asset/technology.html");
 		return v;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		button.setBackgroundResource(R.drawable.ic_bar_item_intro);		
+	}
+	
+	public void rightBarButtonClicked(View v) {
+		super.rightBarButtonClicked(v);
+		Toast.makeText(mContext, "Insert Intro", Toast.LENGTH_SHORT).show();
 	}
 }
