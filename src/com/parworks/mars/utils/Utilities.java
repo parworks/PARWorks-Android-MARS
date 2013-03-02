@@ -41,4 +41,7 @@ public class Utilities {
 	    }
 	}
 
+	public static int getDensityPixels(int pixels, Context context) {
+		return (int) (pixels * context.getResources().getDisplayMetrics().density);
+	}
 }

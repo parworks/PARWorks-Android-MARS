@@ -1,5 +1,7 @@
 package com.parworks.mars.view.trending;
 
+import com.parworks.mars.utils.Utilities;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -41,7 +43,7 @@ public class ShingleBoard extends ImageView {
 		mTextPaint = new Paint();
 		mTextPaint.setColor(Color.WHITE);
 		mTextPaint.setStyle(Style.FILL);
-		mTextPaint.setTextSize(40);
+		mTextPaint.setTextSize(Utilities.getDensityPixels(21, mContext));
 		mTextPaint.setTextAlign(Align.CENTER);
 	}
 	
@@ -54,13 +56,13 @@ public class ShingleBoard extends ImageView {
 		
 		if (displayName != null && !TextUtils.isEmpty(displayName)) {			
 			// draw site name			
-			mTextPaint.setTextSize(40);
+			mTextPaint.setTextSize(Utilities.getDensityPixels(21, mContext));
 			canvas.drawText(displayName, width/2, height/2, mTextPaint);
 			
 			// draw site num augmented images
-			mTextPaint.setTextSize(30);			
+			mTextPaint.setTextSize(Utilities.getDensityPixels(12, mContext));			
 //			mTextPaint.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "Avenir Book.ttf"));
-			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + 40, mTextPaint);			
+			canvas.drawText(numAugmentedImages + " Augmented Images", width/2, height/2 + Utilities.getDensityPixels(21, mContext), mTextPaint);			
 		}
 	}
 	
