@@ -7,7 +7,7 @@
     <ImageButton
         android:id="@+id/leftBarButton"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:onClick="leftBarButtonClicked"
         android:background="@drawable/ic_bar_item_sidebar"
@@ -16,7 +16,7 @@
     <ImageButton
         android:id="@+id/rightBarButton"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:onClick="rightBarButtonClicked"
         android:background="@drawable/ic_bar_item_intro"
@@ -29,8 +29,8 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/rightBarButton"
         android:layout_toRightOf="@+id/leftBarButton"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"        
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"        
         android:textSize="18sp" />
 
 </RelativeLayout>
