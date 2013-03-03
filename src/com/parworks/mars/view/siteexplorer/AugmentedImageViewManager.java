@@ -69,7 +69,9 @@ public class AugmentedImageViewManager {
 		// Or, the horizontal scroll view should cache property. That's the best
 		// solution
 		
-		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
+		int imageLimit = data.getCount() < PLACE_HOLDER_IMAGES_TOTAL ? data.getCount() : PLACE_HOLDER_IMAGES_TOTAL;
+		
+		for(data.moveToFirst();data.getPosition() < imageLimit;data.moveToNext()) {
 	    	final String url = data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_GALLERY_SIZE_URL));	    	
 	    	final String augmentedData = data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_CONTENT));
 	    	final String contentUrl = data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_CONTENT_SIZE_URL));
@@ -121,7 +123,7 @@ public class AugmentedImageViewManager {
 		int imageWidth = Utilities.getDensityPixels(78, mContext);
 		int imageHeight = imageWidth;
 		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(imageWidth,imageHeight);
-		if(position == PLACE_HOLDER_IMAGES_TOTAL)
+		if(position == (PLACE_HOLDER_IMAGES_TOTAL - 1))
 			imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
 		else
 			imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, 0, AUGMENTED_IMAGE_VERTICAL_MARGINS);
