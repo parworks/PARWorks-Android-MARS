@@ -28,9 +28,14 @@
     <application
         android:name="com.parworks.mars.Mars"
         android:allowBackup="true"
-        android:icon="@drawable/ic_mars_launcher" 
-        android:label="@string/app_name"              
+        android:icon="@drawable/ic_mars_launcher"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.parworks.mars.view.intro.IntroActivity"
+            android:screenOrientation="portrait" 
+            android:theme="@style/Theme.MyNoActionBarTheme" >
+        </activity>
         <activity
             android:name="com.parworks.mars.view.siteexplorer.ExploreActivity"
             android:label="@string/app_name"
@@ -57,11 +62,12 @@
             android:theme="@style/Theme.MyTheme" >
         </activity>
         <activity
-            android:name=".SplashActivity"            
+            android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyNoActionBarTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,5 +1,8 @@
 package com.parworks.mars.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.parworks.androidlibrary.ar.ARSites;
 
 public class User {
@@ -19,5 +22,15 @@ public class User {
 
 	public static ARSites getARSites() {
 		return arSites;
+	}
+	
+	public static void setHasPerformedFirstLaunch(boolean launched, Context context){
+		SharedPreferences.Editor editor = context.getSharedPreferences("FLAGS", 0).edit();
+		editor.putBoolean("kDefaultsHasPerformedFirstLaunchKey", launched);
+		editor.commit();
+	}
+	
+	public static boolean hasPerformedFirstLaunch(Context context){
+		return context.getSharedPreferences("FLAGS", 0).getBoolean("kDefaultsHasPerformedFirstLaunchKey", false);
 	}
 }

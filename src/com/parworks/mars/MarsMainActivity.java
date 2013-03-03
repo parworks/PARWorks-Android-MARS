@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parworks.mars.model.sync.SyncHandler;
+import com.parworks.mars.utils.User;
+import com.parworks.mars.view.intro.IntroActivity;
 import com.parworks.mars.view.nearby.NearbyFragment;
 import com.parworks.mars.view.search.SearchFragment;
 import com.parworks.mars.view.technology.TechnologyFragment;
@@ -56,6 +58,10 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		boolean hasPerformedFirstLaunch = User.hasPerformedFirstLaunch(this);
+		if (!hasPerformedFirstLaunch)
+			showIntro();
 
 		// refresh all the resources first
 		updateAll();
@@ -163,14 +169,25 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 	}
 
 	public void rightBarButtonClicked(View v) {
-		currentFragment.rightBarButtonClicked(v);			
-	}	
-	
+		if (currentFragment.getClass().equals(TrendingFragment.class)
+				|| currentFragment.getClass().equals(TechnologyFragment.class)) {
+			showIntro();
+		} else {
+			currentFragment.rightBarButtonClicked(v);
+		}
+	}
+
+	private void showIntro() {
+		Intent i = new Intent(this, IntroActivity.class);
+		startActivity(i);
+	}
+
 	/**
 	 * Change the Fragment component in the main activity
 	 */
 	public void switchContent(final String fragmentName) {
-		MarsMenuFragment newFragment = menuControlledFragments.get(fragmentName);
+		MarsMenuFragment newFragment = menuControlledFragments
+				.get(fragmentName);
 		if (newFragment != null) {
 			if (newFragment != currentFragment) {
 				getSupportFragmentManager().beginTransaction()
@@ -185,9 +202,10 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 				}
 			}, 50);
 			// update ActionBar title
-			
-			TextView titleTextView = (TextView)this.getSupportActionBar().getCustomView().findViewById(R.id.barTitle);
-			titleTextView.setText(fragmentName);					
+
+			TextView titleTextView = (TextView) this.getSupportActionBar()
+					.getCustomView().findViewById(R.id.barTitle);
+			titleTextView.setText(fragmentName);
 		}
 	}
 }
