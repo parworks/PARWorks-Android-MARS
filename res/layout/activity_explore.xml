@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#f5f5f5" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,22 +15,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!-- 
-            <ImageView
-                android:id="@+id/imageViewSiteImage"
+            <com.parworks.arviewer.MiniARViewer
+                android:id="@+id/siteExplorerPosterImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"   
-				android:visibility="invisible" />
-             -->
-             
-            <com.parworks.arviewer.MiniARViewer
-		        android:id="@+id/siteExplorerPosterImageView"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center_horizontal"
-		        android:background="@drawable/img_missing_image_78x78"
-		        android:visibility="visible" />
+                android:layout_gravity="center_horizontal"
+                android:background="#F5F5F5"
+                android:visibility="visible" />
 
             <ProgressBar
                 android:id="@+id/progressBarSiteImage"
@@ -37,9 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:visibility="invisible" 
-                />
-
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <LinearLayout
@@ -58,65 +48,73 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:paddingLeft="15dip"
-                    android:paddingRight="15dip"
                     android:orientation="horizontal" >
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
-                        android:orientation="vertical"
-                        android:layout_gravity="left" >
+                        android:layout_gravity="left"
+                        android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/textViewSiteName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Site Name"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:linksClickable="true"
-                            android:paddingTop="5dip" />
+                            android:paddingTop="5dip"
+                            android:text="No name available"
+                            android:textColor="#333333"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/textViewSiteAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:linksClickable="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:text="No address available"
+                            android:textColor="#737373"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textViewSiteDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Small Text"
                             android:linksClickable="true"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:paddingBottom="10dip"
                             android:paddingTop="5dip"
-                            android:paddingBottom="10dip" />
-
+                            android:text="No description available"
+                            android:textColor="#737373"
+                            android:textSize="14sp" />
                     </LinearLayout>
-
                 </RelativeLayout>
-
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
-                android:paddingLeft="15dip"
-                android:paddingRight="15dip"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center" >
 
                 <ImageView
                     android:id="@+id/imageViewMap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
-                    android:visibility="invisible"
                     android:background="@drawable/activity_explore_augmented_photos_border"
-                    android:src="@drawable/img_missing_image_78x78" />
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/imageViewMapShadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/map_inner_shadow"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/progressBarMapView"
@@ -124,41 +122,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
-
             </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/augmentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            android:paddingLeft="15dip"
-            android:paddingRight="15dip"
-            android:paddingTop="10dip">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:paddingTop="10dip" >
 
             <TextView
                 android:id="@+id/textViewAugmentedPhotoTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dip"
                 android:paddingBottom="2dip"
-                android:text="Augmented Photos" />
+                android:paddingTop="5dip"
+                android:text="Augmented Photos"
+                android:textColor="#737373"
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/activity_explore_augmented_photos_border"
-                android:layout_gravity="center" >
+                android:layout_gravity="center"
+                android:background="@drawable/activity_explore_augmented_photos_border" >
 
                 <ProgressBar
                     android:id="@+id/progressBarAugmentedPhotos"
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentRight="true"
+                    android:visibility="invisible" />
 
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView1"
@@ -172,17 +170,15 @@
                         android:orientation="horizontal" >
                     </LinearLayout>
                 </HorizontalScrollView>
-
             </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/commentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dip"
-            android:paddingRight="15dip"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical" >
 
             <TextView
@@ -190,8 +186,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dip"
-                android:text="Comments"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:text="Comments"                
+                android:textColor="#737373"
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -208,24 +205,20 @@
                     android:id="@+id/linearLayoutComments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/activity_explore_comment_border"
+                    android:orientation="vertical"
                     android:visibility="invisible" >
-
                 </LinearLayout>
-
             </RelativeLayout>
 
             <Button
                 android:id="@+id/buttonAddComment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                               
-                android:background="@drawable/leave_comment_selector"                
-               />
-
+                android:layout_height="31dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/leave_comment_selector" />
         </LinearLayout>
-
     </LinearLayout>
-    
 
 </ScrollView>

@@ -6,6 +6,7 @@ import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,34 +26,43 @@ import android.widget.ImageView.ScaleType;
 public class MapImageManager {
 
 	private final ImageView mMapImageView;
+	private final ImageView mMapShadowImageView;
 	private final ProgressBar mMapImageProgressBar;
+	private final Context mContext;
 	private final Activity mActivity;
 	private final String mSiteId;
 	private ViewDimensionCalculator mViewDimensionCalculator;
 	
 	public static final String TAG = MapImageManager.class.getName();
 	
-	public MapImageManager(String siteId, ImageView mapImageView, ProgressBar mapImageProgressBar, Activity activity) {
+	public MapImageManager(String siteId, ImageView mapImageView, ImageView mapShadowImageView, ProgressBar mapImageProgressBar, Activity activity) {
 		mMapImageView = mapImageView;
+		mMapShadowImageView = mapShadowImageView;
 		mMapImageView.setAdjustViewBounds(true);
 		mMapImageView.setScaleType(ScaleType.CENTER_CROP);
 		mMapImageProgressBar = mapImageProgressBar;
 		mActivity = activity;
+		mContext = activity.getBaseContext();
 		mSiteId = siteId;
 		mViewDimensionCalculator = new ViewDimensionCalculator(mActivity);
 	}
 	
 	private void showMapView() {
 		mMapImageView.setVisibility(View.VISIBLE);
+		mMapShadowImageView.setVisibility(View.VISIBLE);
 		mMapImageProgressBar.setVisibility(View.INVISIBLE);
 	}
 	private void disableMapView() {
 		mMapImageView.setVisibility(View.GONE);
+		mMapShadowImageView.setVisibility(View.GONE);
 		mMapImageProgressBar.setVisibility(View.GONE);
 	}
 	private void setMapViewSize() {
 		mMapImageView.getLayoutParams().width = mViewDimensionCalculator.getScreenWidth();
-		mMapImageView.getLayoutParams().height = mViewDimensionCalculator.getScreenWidth()/2;
+		mMapImageView.getLayoutParams().height = mViewDimensionCalculator.getScreenWidth()/3;
+		
+		mMapShadowImageView.getLayoutParams().width = mMapImageView.getLayoutParams().width;
+		mMapShadowImageView.getLayoutParams().height = mMapImageView.getLayoutParams().height;
 	}
 
 	public void setMapView(Cursor data) {

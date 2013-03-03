@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/activity_explore_comment_border"
-    android:paddingBottom="8dip"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:paddingBottom="8dip" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="12dip"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <com.facebook.widget.ProfilePictureView
-             android:id="@+id/profilePictureViewComment"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:layout_weight="1"
-             app:preset_size="large"
-             android:background="@drawable/activity_explore_comment_border"
-             app:is_cropped="true"/>
-
+            android:id="@+id/profilePictureViewComment"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:background="@drawable/activity_explore_comment_border"
+            app:is_cropped="true"
+            app:preset_size="large" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dip"
-        android:paddingTop="5dip"
-        android:orientation="vertical" >
+        android:orientation="vertical"        
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/textViewCommenterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amanda M."
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="Name not available"
+            android:textSize="15sp"
+            android:textColor="#333333" />
+
         <TextView
             android:id="@+id/textViewCommentTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Timestamp"
-            android:textColor="@color/ltgray"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="Time not available"
+            android:textSize="13sp"
+            android:textColor="#737373" />
 
         <TextView
             android:id="@+id/textViewCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dip"
-            android:linksClickable="true"
-            android:text="Lorem ipsum dolar sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut..."
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
+            android:linksClickable="true"            
+            android:text="No comment content"
+            android:textSize="15sp"
+            android:textColor="#737373" />
     </LinearLayout>
 
 </LinearLayout>

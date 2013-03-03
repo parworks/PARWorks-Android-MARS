@@ -178,9 +178,10 @@ public class ExploreActivity extends SherlockFragmentActivity {
 
 		// let mapImageManager handle the map view
 		ImageView mapImageView = (ImageView) findViewById(R.id.imageViewMap);
+		ImageView mapShadowImageView = (ImageView) findViewById(R.id.imageViewMapShadow);
 		ProgressBar mapProgressBar = (ProgressBar) findViewById(R.id.progressBarMapView);
 		MapImageManager mapImageManager = new MapImageManager(mSiteId,
-				mapImageView, mapProgressBar, this);
+				mapImageView, mapShadowImageView, mapProgressBar, this);
 		mapImageManager.setMapView(data);
 	}
 

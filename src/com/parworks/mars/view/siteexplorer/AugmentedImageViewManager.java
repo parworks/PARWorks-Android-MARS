@@ -28,6 +28,7 @@ import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 import com.parworks.mars.model.db.AugmentedImagesTable;
 import com.parworks.mars.utils.JsonMapper;
+import com.parworks.mars.utils.Utilities;
 
 public class AugmentedImageViewManager {
 	
@@ -42,16 +43,18 @@ public class AugmentedImageViewManager {
 	private final TextView mAugmentedImagesTotalTextView;
 	private final Activity mActivity;
 	
-	private final static int AUGMENTED_IMAGE_HORIZONTAL_MARGINS = 8; //pixels
-	private final static int AUGMENTED_IMAGE_VERTICAL_MARGINS = 16;
+	private int AUGMENTED_IMAGE_HORIZONTAL_MARGINS;
+	private int AUGMENTED_IMAGE_VERTICAL_MARGINS;
 	private final static int PLACE_HOLDER_IMAGES_TOTAL = 5;
 	
 	private List<View> mPlaceHolderViews = new ArrayList<View>();
 	
-	public AugmentedImageViewManager(String siteId, Activity activity, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {
+	public AugmentedImageViewManager(String siteId, Activity activity, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {		
 		mSiteId = siteId;
 		mActivity = activity;
 		mContext = activity.getBaseContext();
+		AUGMENTED_IMAGE_HORIZONTAL_MARGINS = Utilities.getDensityPixels(7, mContext); //pixels
+		AUGMENTED_IMAGE_VERTICAL_MARGINS = Utilities.getDensityPixels(7, mContext);		
 		mAugmentedImagesProgressBar = augmentedImagesProgressBar;
 		mBitmaps = new ArrayList<Bitmap>();
 		mAdapter = new AugmentedImageAdapter(mContext,mBitmaps);
@@ -73,6 +76,7 @@ public class AugmentedImageViewManager {
 			final int width = data.getInt(data.getColumnIndex(AugmentedImagesTable.COLUMN_WIDTH));
 			final int height = data.getInt(data.getColumnIndex(AugmentedImagesTable.COLUMN_HIEGHT));
 			final String imageId = data.getString(data.getColumnIndex(AugmentedImagesTable.COLUMN_IMAGE_ID));
+			final int position = data.getPosition();
 			
 	    	if(url != null) {
 	    		Log.d(TAG,"url is: " + url);
@@ -82,11 +86,11 @@ public class AugmentedImageViewManager {
 					new BitmapWorkerTask(url, new BitmapWorkerListener() {					
 						@Override
 						public void bitmapLoaded(Bitmap bitmap) {
-							addBitmap(bitmap, imageId, contentUrl, augmentedData, width, height);							
+							addBitmap(bitmap, imageId, contentUrl, augmentedData, width, height, position);							
 						}
 					}).execute();
 	    		} else {
-	    			addBitmap(augmentedBitmap, imageId, contentUrl, augmentedData, width, height);
+	    			addBitmap(augmentedBitmap, imageId, contentUrl, augmentedData, width, height, position);
 	    		}	    		
 	    	} else {
 	    		continue;
@@ -100,7 +104,7 @@ public class AugmentedImageViewManager {
 		for(int i=0;i<PLACE_HOLDER_IMAGES_TOTAL;++i) {
 			ImageView imageView = new ImageView(mContext);
 			imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_missing_image_78x78));
-			setAugmentedImageViewSize(imageView);
+			setAugmentedImageViewSize(imageView, i);
 			mAugmentedImagesLayout.addView(imageView);
 			mPlaceHolderViews.add(imageView);
 		}
@@ -111,23 +115,27 @@ public class AugmentedImageViewManager {
 		}
 	}
 	
-	private void setAugmentedImageViewSize(ImageView imageView) {
-		int screenWidth = new ViewDimensionCalculator(mActivity).getScreenWidth();
-		int imageWidth = screenWidth /3;
+	private void setAugmentedImageViewSize(ImageView imageView, int position) {
+//		int screenWidth = new ViewDimensionCalculator(mActivity).getScreenWidth();
+//		int imageWidth = screenWidth /3;		
+		int imageWidth = Utilities.getDensityPixels(78, mContext);
 		int imageHeight = imageWidth;
 		LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(imageWidth,imageHeight);
-		imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
+		if(position == PLACE_HOLDER_IMAGES_TOTAL)
+			imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS);
+		else
+			imageViewParams.setMargins(AUGMENTED_IMAGE_HORIZONTAL_MARGINS, AUGMENTED_IMAGE_VERTICAL_MARGINS, 0, AUGMENTED_IMAGE_VERTICAL_MARGINS);
 		imageView.setLayoutParams(imageViewParams);
 		imageView.setScaleType(ScaleType.CENTER_CROP);
 		imageView.setBackgroundResource(R.drawable.activity_explore_augmented_photos_border);
 	}
 	
 	private void addBitmap(final Bitmap bitmap, final String imageId, final String contentUrl, 
-			final String augmentedData, final int width, final int height) {
+			final String augmentedData, final int width, final int height, final int position) {
 		removePlaceHolderImages();
 		ImageView imageView = new ImageView(mContext);
 		imageView.setImageBitmap(bitmap);
-		setAugmentedImageViewSize(imageView);
+		setAugmentedImageViewSize(imageView, position);
 		
 		imageView.setOnClickListener(new OnClickListener() {			
 			@Override

@@ -59,7 +59,8 @@ public class CommentsViewManager {
 			addComment(comment);
 
 			showCommentsView();
-			setCommentTotalText(data.getCount());
+			mCommentsTotalTextView.setText("Comments");
+//			setCommentTotalText(data.getCount());
 		}
 		showCommentsView();		
 	}
@@ -95,14 +96,14 @@ public class CommentsViewManager {
 	            DateFormat.MEDIUM, DateFormat.SHORT).format(new Date(siteComment.getTimeStamp())));
 		
 		ProfilePictureView profilePicture = (ProfilePictureView) commentView.findViewById(R.id.profilePictureViewComment);
-		setProfilePictureSize(10, profilePicture);
+		setProfilePictureSize(Utilities.getDensityPixels(26, mContext), profilePicture);
 		Log.d(TAG,"Setting profile picture id " + siteComment.getUserId());
 		profilePicture.setProfileId(siteComment.getUserId());
 		mCommentsLayout.addView(commentView);
 	}	
 	
     private void setProfilePictureSize(int i, ProfilePictureView profilePic) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(i,i);
         profilePic.setLayoutParams(params);
     }
 }
