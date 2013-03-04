@@ -1,5 +1,6 @@
 package com.parworks.mars.view.intro;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.parworks.arcameraview.CaptureImageActivity;
 import com.parworks.mars.R;
 import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.utils.Utilities;
+import com.parworks.mars.view.siteexplorer.ExploreActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 
 /**
@@ -33,6 +36,7 @@ public class IntroActivity extends FragmentActivity {
 	private IntroActivity mContext;
 
 	private CirclePageIndicator circlePageIndicator;
+	
 	private int currentPos = 0;
 
 	@Override
@@ -75,11 +79,19 @@ public class IntroActivity extends FragmentActivity {
 	}
 
 	public void macbookButtonClicked(View v) {
-
+		Intent intent = new Intent(IntroActivity.this,
+				CaptureImageActivity.class);
+		intent.putExtra(CaptureImageActivity.SITE_ID_KEY, "macbookkeyboard");
+		intent.putExtra(CaptureImageActivity.IS_AUGMENT_ATTR, true);
+		startActivity(intent);
 	}
 
 	public void dollarButtonClicked(View v) {
-
+		Intent intent = new Intent(IntroActivity.this,
+				CaptureImageActivity.class);
+		intent.putExtra(CaptureImageActivity.SITE_ID_KEY, "Dollar1");
+		intent.putExtra(CaptureImageActivity.IS_AUGMENT_ATTR, true);
+		startActivity(intent);
 	}
 
 	public void doneButtonClicked(View v){
@@ -123,4 +135,6 @@ public class IntroActivity extends FragmentActivity {
 			return NUM_PAGES;
 		}
 	}
+	
+	
 }
