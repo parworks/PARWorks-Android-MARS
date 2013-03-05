@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -85,8 +86,18 @@ public class SyncHandler {
 			public void handleResponse(ARSite resp) {		
 				resp.getAugmentedImages(new ARListener<List<AugmentedImage>>() {
 					@Override
-					public void handleResponse(List<AugmentedImage> resp) {
-						storeAugmentedImages(resp);				
+					public void handleResponse(final List<AugmentedImage> resp) {								
+						new AsyncTask<Void, Void, Void>() {
+							@Override
+							protected Void doInBackground(Void... params) {
+								try {
+									storeAugmentedImages(resp);
+								} catch (Exception e) {
+									Log.e(TAG, "Failed to sync trending sites", e);
+								}
+								return null;
+							}						
+						}.execute();
 					}
 				}, new ARErrorListener() {					
 					@Override
@@ -114,8 +125,18 @@ public class SyncHandler {
 			public void handleResponse(ARSite resp) {
 				resp.getSiteComments(siteId, new ARListener<List<SiteComment>>() {
 					@Override
-					public void handleResponse(List<SiteComment> resp) {
-						storeSiteComments(resp);
+					public void handleResponse(final List<SiteComment> resp) {
+						new AsyncTask<Void, Void, Void>() {
+							@Override
+							protected Void doInBackground(Void... params) {
+								try {
+									storeSiteComments(resp);
+								} catch (Exception e) {
+									Log.e(TAG, "Failed to sync trending sites", e);
+								}
+								return null;
+							}						
+						}.execute();						
 					}
 				}, new ARErrorListener() {					
 					@Override
@@ -138,10 +159,21 @@ public class SyncHandler {
 	public static void syncTrendingSites() {
 		User.getARSites().getTrendingSites(new ARListener<List<SiteInfoOverview>>() {
 			@Override
-			public void handleResponse(List<SiteInfoOverview> resp) {
+			public void handleResponse(final List<SiteInfoOverview> resp) {
 				try {
 					Log.i(TAG, "Sync for TrendingSites: ");
-					storeTrendingSite(resp);
+					new AsyncTask<Void, Void, Void>() {
+						@Override
+						protected Void doInBackground(Void... params) {
+							try {
+								storeTrendingSite(resp);
+							} catch (Exception e) {
+								Log.e(TAG, "Failed to sync trending sites", e);
+							}
+							return null;
+						}						
+					}.execute();
+					
 				} catch (Exception e) {
 					Log.e(TAG, "Failed to sync trending sites", e);
 				}
@@ -162,8 +194,18 @@ public class SyncHandler {
 		// Sync suggested		
 		User.getARSites().getSuggestedTags(new ARListener<List<String>>() {
 			@Override
-			public void handleResponse(List<String> resp) {
-				storeTags(mContext, "suggestedTags", resp);
+			public void handleResponse(final List<String> resp) {
+				new AsyncTask<Void, Void, Void>() {
+					@Override
+					protected Void doInBackground(Void... params) {
+						try {
+							storeTags(mContext, "suggestedTags", resp);
+						} catch (Exception e) {
+							Log.e(TAG, "Failed to sync trending sites", e);
+						}
+						return null;
+					}						
+				}.execute();				
 			}
 		}, new ARErrorListener() {			
 			@Override
@@ -175,8 +217,18 @@ public class SyncHandler {
 		// sync all tags
 		User.getARSites().getAllTags(new ARListener<List<String>>() {
 			@Override
-			public void handleResponse(List<String> resp) {
-				storeTags(mContext, "allTags", resp);
+			public void handleResponse(final List<String> resp) {				
+				new AsyncTask<Void, Void, Void>() {
+					@Override
+					protected Void doInBackground(Void... params) {
+						try {
+							storeTags(mContext, "allTags", resp);
+						} catch (Exception e) {
+							Log.e(TAG, "Failed to sync trending sites", e);
+						}
+						return null;
+					}						
+				}.execute();
 			}
 		}, new ARErrorListener() {			
 			@Override
