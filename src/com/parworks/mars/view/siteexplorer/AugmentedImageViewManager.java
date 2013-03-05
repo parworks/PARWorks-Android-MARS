@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parworks.androidlibrary.response.AugmentImageResultResponse;
@@ -34,8 +33,9 @@ public class AugmentedImageViewManager {
 	
 	public static final String TAG = AugmentedImageViewManager.class.getName();
 	
+	private static Boolean placeHoldersAdded = false; 
+	
 	private final String mSiteId;
-	private final ProgressBar mAugmentedImagesProgressBar;
 	private final LinearLayout mAugmentedImagesLayout;
 	private final Context mContext;
 	private final AugmentedImageAdapter mAdapter;
@@ -47,15 +47,18 @@ public class AugmentedImageViewManager {
 	private int AUGMENTED_IMAGE_VERTICAL_MARGINS;
 	private final static int PLACE_HOLDER_IMAGES_TOTAL = 5;
 	
-	private List<View> mPlaceHolderViews = new ArrayList<View>();
+	// FIXME: The whole placeholder logic here needs to be replaced
+	private static List<View> mPlaceHolderViews; 
+	public static void clearPlaceHolders() {
+		mPlaceHolderViews = new ArrayList<View>();
+	}
 	
-	public AugmentedImageViewManager(String siteId, Activity activity, ProgressBar augmentedImagesProgressBar, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {		
+	public AugmentedImageViewManager(String siteId, Activity activity, LinearLayout augmentedImagesLayout, TextView augmentedImagesTotalTextView) {		
 		mSiteId = siteId;
 		mActivity = activity;
 		mContext = activity.getBaseContext();
 		AUGMENTED_IMAGE_HORIZONTAL_MARGINS = Utilities.getDensityPixels(7, mContext); //pixels
 		AUGMENTED_IMAGE_VERTICAL_MARGINS = Utilities.getDensityPixels(7, mContext);		
-		mAugmentedImagesProgressBar = augmentedImagesProgressBar;
 		mBitmaps = new ArrayList<Bitmap>();
 		mAdapter = new AugmentedImageAdapter(mContext,mBitmaps);
 		mAugmentedImagesLayout = augmentedImagesLayout;
@@ -111,10 +114,11 @@ public class AugmentedImageViewManager {
 			mPlaceHolderViews.add(imageView);
 		}
 	}
+	
 	private void removePlaceHolderImages() {
 		for(View placeHolder : mPlaceHolderViews) {
 			mAugmentedImagesLayout.removeView(placeHolder);
-		}
+		}		
 	}
 	
 	private void setAugmentedImageViewSize(ImageView imageView, int position) {
@@ -145,7 +149,7 @@ public class AugmentedImageViewManager {
 				Bitmap bitmap = BitmapCache.get().getBitmap(BitmapCache.getImageKeyFromURL(contentUrl));
 				if (bitmap != null) {
 					showARViewer(imageId, bitmap, augmentedData, width, height);
-				} else {
+				} else {					
 					new BitmapWorkerTask(contentUrl, new BitmapWorkerListener() {				
 						@Override
 						public void bitmapLoaded(Bitmap bitmap) {
@@ -176,7 +180,6 @@ public class AugmentedImageViewManager {
 	
 	private void showAugmentedImagesView() {
 		mAugmentedImagesLayout.setVisibility(View.VISIBLE);
-		mAugmentedImagesProgressBar.setVisibility(View.INVISIBLE);
 	}
 	
 	private void setAugmentedImagesTotalTextView(int imagesTotal) {

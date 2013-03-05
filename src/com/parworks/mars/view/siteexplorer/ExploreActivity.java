@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,8 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		mLayoutView = getLayoutInflater().inflate(R.layout.activity_explore,
 				null);
 		setContentView(mLayoutView);
+		
+		AugmentedImageViewManager.clearPlaceHolders();
 
 		mSiteId = getIntent().getStringExtra(SITE_ID_ARGUMENT_KEY);
 
@@ -138,7 +141,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		if (siteName == null) {
 			siteName = data.getString(data
 					.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));
-		} else if (siteName.isEmpty()) {
+		} else if (TextUtils.isEmpty(siteName)) {
 			siteName = data.getString(data
 					.getColumnIndex(SiteInfoTable.COLUMN_SITE_ID));
 		}
@@ -182,12 +185,11 @@ public class ExploreActivity extends SherlockFragmentActivity {
 	}
 
 	private void loadAugmentedImagesIntoUi(Cursor data) {
-		ProgressBar augmentedImagesProgressBar = (ProgressBar) findViewById(R.id.progressBarAugmentedPhotos);
+		Log.d(Utilities.DEBUG_TAG_SYNC, "Explore Activity - loadAugmentedImages");
 		LinearLayout augmentedImagesLayout = (LinearLayout) findViewById(R.id.linearLayoutAugmentedImagesLayout);
 		TextView augmentedImagesTotalTextView = (TextView) findViewById(R.id.textViewAugmentedPhotoTotal);
 		AugmentedImageViewManager augmentedImagesViewManager = new AugmentedImageViewManager(
-				mSiteId, this, augmentedImagesProgressBar,
-				augmentedImagesLayout, augmentedImagesTotalTextView);
+				mSiteId, this, augmentedImagesLayout, augmentedImagesTotalTextView);
 		augmentedImagesViewManager.setAugmentedImages(data);
 	}
 

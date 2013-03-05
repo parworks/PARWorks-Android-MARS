@@ -16,8 +16,7 @@ public class AugmentedImagesLoader implements LoaderCallbacks<Cursor> {
 	public interface AugmentedImagesLoaderListener {
 		public void onImagesLoaded(Cursor data);
 	}
-	
-	
+		
 	private String mSiteId;
 	private Context mContext;
 	private AugmentedImagesLoaderListener mListener;
@@ -34,7 +33,8 @@ public class AugmentedImagesLoader implements LoaderCallbacks<Cursor> {
 	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"AugmentedImagesLoader - onCreateLoader : " + id);
 		String[] projection = AugmentedImagesTable.ALL_COLUMNS;
-		CursorLoader cursorLoader = new CursorLoader(mContext, MarsContentProvider.getSiteAugmentedImagesUri(mSiteId),projection,null,null,null);
+		CursorLoader cursorLoader = new CursorLoader(mContext, 
+				MarsContentProvider.getSiteAugmentedImagesUri(mSiteId), projection, null, null, null);
 		return cursorLoader;
 	}
 
