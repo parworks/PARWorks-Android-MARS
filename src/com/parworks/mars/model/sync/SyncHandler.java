@@ -42,6 +42,7 @@ public class SyncHandler {
 	}
 
 	public static void syncSiteInfo(final String siteId, final boolean syncAllRelatedInfo) {
+		Log.d(TAG, "Syncing site info: " + siteId);
 		User.getARSites().getSiteInfo(siteId, new ARListener<SiteInfo>() {
 			@Override
 			public void handleResponse(SiteInfo resp) {
@@ -270,6 +271,7 @@ public class SyncHandler {
 	}
 	
 	private static void storeAugmentedImages(List<AugmentedImage> augmentedImages) {
+		boolean hasInserted = false;
 		// only insert/update up to 5 records
 		for(int i = 0; i < augmentedImages.size() && i < 5; i++) {
 			AugmentedImage image = augmentedImages.get(i);
@@ -289,10 +291,16 @@ public class SyncHandler {
 			// FIXME: not thread-safe here
 			if (mContentResolver.update(MarsContentProvider.getAugmentedImageUri(image.getImgId()),	
 					values, null, null) == 0) {
+				hasInserted = true;
 				mContentResolver.insert(MarsContentProvider.CONTENT_URI_ALL_AUGMENTED_IMAGES, values);
 			}		
 			
 			// TODO: Cut the records if there are too many records for the site
+		}
+		
+		// notify changes
+		if (hasInserted) {
+			mContentResolver.notifyChange(MarsContentProvider.CONTENT_URI_ALL_AUGMENTED_IMAGES_FOR_SITE, null);
 		}
 	}
 	

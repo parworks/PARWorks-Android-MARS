@@ -81,6 +81,8 @@ public class MarsContentProvider extends ContentProvider {
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_TRENDING_SITE);
 	public static final Uri CONTENT_URI_ALL_AUGMENTED_IMAGES = 
 			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGE);
+	public static final Uri CONTENT_URI_ALL_AUGMENTED_IMAGES_FOR_SITE = 
+			Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH_AUGMENTED_IMAGES_FOR_SITE);
 	public static final Uri CONTENT_URI_ALL_COMMENTS = 
 			Uri.parse("content://" + AUTHORITY + "/"+ BASE_PATH_COMMENTS);
 	
@@ -149,7 +151,7 @@ public class MarsContentProvider extends ContentProvider {
 				id = db.insertOrThrow(AugmentedImagesTable.TABLE_NAME, null, values);
 				Log.d(TAG,"Inserted augmented image for site: " + values.getAsString("siteId"));
 				returnedUri = Uri.parse(BASE_PATH_AUGMENTED_IMAGES_FOR_SITE + "/" + values.getAsString("siteId"));
-				getContext().getContentResolver().notifyChange(returnedUri, null);
+				//getContext().getContentResolver().notifyChange(returnedUri, null);
 			} catch(SQLiteConstraintException exception) {
 				Log.d(TAG, "SQLiteConstraintException: " + exception.getMessage());
 			}
