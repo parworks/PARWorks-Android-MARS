@@ -86,7 +86,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
 			android:value="AIzaSyBiWrouUYjM1UKwyjamyVgMe6XCdg6dqSo" /> 
-        <!--     <uses-library android:name="com.google.android.maps" /> -->
+        <!-- debug key    android:value="AIzaSyCnwQVdZqb8XY2GJgfZ-eUZWOpcmy9iI2E" /> -->
     </application>
 
 </manifest>
