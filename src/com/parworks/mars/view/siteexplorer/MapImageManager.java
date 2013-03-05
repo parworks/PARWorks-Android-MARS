@@ -7,6 +7,7 @@ import com.parworks.mars.view.siteexplorer.ImageViewManager.ImageLoadedListener;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,8 +16,10 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -45,12 +48,14 @@ public class MapImageManager {
 		mContext = activity.getBaseContext();
 		mSiteId = siteId;
 		mViewDimensionCalculator = new ViewDimensionCalculator(mActivity);
+
 	}
 	
 	private void showMapView() {
 		mMapImageView.setVisibility(View.VISIBLE);
 		mMapShadowImageView.setVisibility(View.VISIBLE);
 		mMapImageProgressBar.setVisibility(View.INVISIBLE);
+		
 	}
 	private void disableMapView() {
 		mMapImageView.setVisibility(View.GONE);
@@ -66,8 +71,8 @@ public class MapImageManager {
 	}
 
 	public void setMapView(Cursor data) {
-		String lat = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LAT));
-		String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
+		final String lat = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LAT));
+		final String lon = data.getString(data.getColumnIndex(SiteInfoTable.COLUMN_LON));
 		if(lat == null || lon == null) {
 			disableMapView();
 			return;
@@ -92,6 +97,23 @@ public class MapImageManager {
 					setMapViewSize();
 					showMapView();
 //					createMapGradient(bitmap);
+					mMapImageView.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							try {
+								double latDouble = Double.parseDouble(lat);
+								double lonDouble = Double.parseDouble(lon);
+								String mapsUri = String.format("geo:%f,%f?q=%f,%f", latDouble, lonDouble,latDouble,lonDouble);
+								Intent mapsIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(mapsUri));
+								mapsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								mContext.startActivity(mapsIntent);
+							} catch(Exception e) {
+								Log.e(TAG,e.getMessage());
+							}
+							
+						}
+					});
 					
 				}
 			});
