@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.parworks.mars"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="5"
+    android:versionName="1.04" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -85,7 +85,8 @@
             android:value="@string/app_id" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDmz2ASDK1xto8UahGTU2SjyoTBtEBqSUo" />
+            android:value="AIzaSyBiWrouUYjM1UKwyjamyVgMe6XCdg6dqSo" /> 
+            <uses-library android:name="com.google.android.maps" />
     </application>
 
 </manifest>
