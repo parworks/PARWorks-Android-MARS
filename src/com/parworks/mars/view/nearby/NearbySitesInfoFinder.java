@@ -27,14 +27,12 @@ public class NearbySitesInfoFinder {
 	public void getNearbySiteInfo(LatLng location, int max, double radius) {
 		Log.d(NearbyFragment.TAG_LOAD_MARKERS,"getNearbySiteInfo : calling nearby endpoint");
 		ARSites sites = User.getARSites();
-		sites.near(location.latitude, location.longitude, max, radius, new ARListener<List<ARSite>>() {
+		sites.nearInfo(location.latitude,location.longitude,max,radius,new ARListener<List<SiteInfo>>() {
 			
 			@Override
-			public void handleResponse(List<ARSite> sites) {
-				Log.d(NearbyFragment.TAG_LOAD_MARKERS,"handleResponse: got list of sites");
-				for(ARSite site : sites) {
-					Log.d(NearbyFragment.TAG_LOAD_MARKERS,"calling get site info on site" + site.getSiteId());
-					getSiteInfo(site);
+			public void handleResponse(List<SiteInfo> sites) {
+				for(SiteInfo info : sites) {
+					mListener.gotSite(info);
 				}
 				
 			}
@@ -42,10 +40,29 @@ public class NearbySitesInfoFinder {
 			
 			@Override
 			public void handleError(Exception error) {
-				Log.e(TAG,error.getMessage());
+				// TODO Auto-generated method stub
 				
 			}
 		});
+//		sites.near(location.latitude, location.longitude, max, radius, new ARListener<List<ARSite>>() {
+//			
+//			@Override
+//			public void handleResponse(List<ARSite> sites) {
+//				Log.d(NearbyFragment.TAG_LOAD_MARKERS,"handleResponse: got list of sites");
+//				for(ARSite site : sites) {
+//					Log.d(NearbyFragment.TAG_LOAD_MARKERS,"calling get site info on site" + site.getSiteId());
+//					getSiteInfo(site);
+//				}
+//				
+//			}
+//		}, new ARErrorListener() {
+//			
+//			@Override
+//			public void handleError(Exception error) {
+//				Log.e(TAG,error.getMessage());
+//				
+//			}
+//		});
 	}
 	private void getSiteInfo(ARSite site) {
 		Log.d(NearbyFragment.TAG_LOAD_MARKERS,"getNearbySiteInfo");
