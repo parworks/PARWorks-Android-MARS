@@ -55,6 +55,12 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
         </activity>
+         <activity
+            android:name="com.parworks.mars.view.siteexplorer.LeaveCommentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.PopupDialog" >
+        </activity>
         <activity
             android:name="com.parworks.mars.MarsMainActivity"
             android:label="@string/app_name"
