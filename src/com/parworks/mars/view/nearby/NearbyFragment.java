@@ -203,6 +203,9 @@ public class NearbyFragment extends MarsMenuFragment {
 
 			@Override
 			public void gotLocation(Location location) {
+				if(location == null) {
+					return;
+				}
 				mCurrentLocation = location;
 				gotUserLocation(location);
 			}
