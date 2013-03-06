@@ -102,8 +102,12 @@ public class ExploreActivity extends SherlockFragmentActivity {
 
 		ImageButton rightBarButton = (ImageButton) getSupportActionBar()
 				.getCustomView().findViewById(R.id.rightBarButton);
-		rightBarButton.setBackgroundResource(R.drawable.try_it_now_collapsed);
+		rightBarButton.setBackgroundResource(R.drawable.try_it_now);
 
+		TextView barTitle = (TextView) getSupportActionBar().getCustomView()
+				.findViewById(R.id.barTitle);
+		barTitle.setVisibility(View.GONE);
+		
 		mAddCommentManager = new AddCommentManager(this, mSiteId);
 		Button addCommentButton = (Button) findViewById(R.id.buttonAddComment);
 		addCommentButton.setOnClickListener(mAddCommentManager);
@@ -148,9 +152,9 @@ public class ExploreActivity extends SherlockFragmentActivity {
 		TextView nameTextView = (TextView) findViewById(R.id.textViewSiteName);
 		nameTextView.setText(siteName);
 
-		TextView barTitle = (TextView) getSupportActionBar().getCustomView()
-				.findViewById(R.id.barTitle);
-		barTitle.setText(siteName);
+//		TextView barTitle = (TextView) getSupportActionBar().getCustomView()
+//				.findViewById(R.id.barTitle);
+//		barTitle.setText(siteName);
 
 		// set site address
 		String siteAddress = data.getString(data
