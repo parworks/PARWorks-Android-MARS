@@ -34,13 +34,14 @@ public class TechnologyFragment extends MarsMenuFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_technology, null);
 		WebView webView = (WebView) v.findViewById(R.id.technologyWebView);
-		webView.setWebViewClient(new TechnologyWebViewClient());
+//		webView.setWebViewClient(new TechnologyWebViewClient());
 		// how to enable the webview plugin changed in API 8
 		webView.getSettings().setPluginsEnabled(true); 
 		webView.getSettings().setJavaScriptEnabled(true); 
 		webView.getSettings().setAllowFileAccess(true);
 		
-		webView.getSettings().setPluginState(PluginState.ON);
+		webView.getSettings().setPluginState(PluginState.ON_DEMAND);
+		webView.getSettings().setPluginsEnabled(true);
 		webView.loadUrl("file:///android_asset/technology.html");
 		return v;
 	}
