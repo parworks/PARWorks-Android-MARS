@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/comment_background"
+    android:gravity="center" >
+
+    <RelativeLayout
+        android:id="@+id/comment_nav"
+        android:layout_width="match_parent"
+        android:layout_height="47dp" >
+
+        <Button
+            android:id="@+id/comment_cancel_button"
+            android:layout_width="65dp"
+            android:layout_height="46dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:gravity="center|top"
+            android:onClick="commentCancelClicked"
+            android:shadowColor="@android:color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="0.5"
+            android:src="@drawable/button_default_selector"
+            android:text="Cancel"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_centerInParent="true"
+            android:gravity="center|top"
+            android:shadowColor="@android:color/white"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:text="Comment"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/comment_post_button"
+            android:layout_width="65dp"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@android:color/transparent"
+            android:gravity="center|top"
+            android:onClick="commentPostClicked"
+            android:shadowColor="@android:color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="0.5"
+            android:src="@drawable/button_default_selector"
+            android:text="Post"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/comment_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_below="@+id/comment_nav"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/transparent"
+        android:gravity="top|left"
+        android:inputType="textCapSentences"
+        android:lineSpacingExtra="3dp"/>        
+
+</RelativeLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.parworks.mars"
-    android:versionCode="5"
-    android:versionName="1.04" >
+    android:versionCode="6"
+    android:versionName="1.0.5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -34,7 +34,7 @@
         <activity
             android:name="com.parworks.mars.view.intro.IntroActivity"
             android:screenOrientation="portrait" 
-            android:theme="@style/Theme.MyNoActionBarTheme" >
+            android:theme="@style/Theme.MyNoActionBarTheme.Intro" >
         </activity>
         <activity
             android:name="com.parworks.mars.view.siteexplorer.ExploreActivity"
@@ -53,7 +53,13 @@
         <activity
             android:name="com.parworks.arcameraview.CaptureImageActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
+        </activity>
+         <activity
+            android:name="com.parworks.mars.view.siteexplorer.LeaveCommentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.PopupDialog" >
         </activity>
         <activity
             android:name="com.parworks.mars.MarsMainActivity"
@@ -64,10 +70,9 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyNoActionBarTheme" >
+            android:theme="@style/Theme.MyNoActionBarTheme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -78,7 +83,8 @@
             android:exported="false" >
         </provider>
 
-        <activity android:name="com.facebook.LoginActivity" />
+        <activity android:name="com.facebook.LoginActivity"
+            android:theme="@style/Theme.Translucent.NoTitleBar.Dim" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
