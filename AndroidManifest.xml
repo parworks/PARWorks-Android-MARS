@@ -34,7 +34,7 @@
         <activity
             android:name="com.parworks.mars.view.intro.IntroActivity"
             android:screenOrientation="portrait" 
-            android:theme="@style/Theme.MyNoActionBarTheme" >
+            android:theme="@style/Theme.MyNoActionBarTheme.Intro" >
         </activity>
         <activity
             android:name="com.parworks.mars.view.siteexplorer.ExploreActivity"
@@ -70,7 +70,7 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyNoActionBarTheme" >
+            android:theme="@style/Theme.MyNoActionBarTheme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

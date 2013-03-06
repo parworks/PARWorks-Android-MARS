@@ -16,13 +16,11 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.splash);
 		TimerTask task = new TimerTask() {
 			@Override
-			public void run() {
-				finish();
+			public void run() {				
 				Intent intent = new Intent(SplashActivity.this,
 						MarsMainActivity.class);
 				startActivity(intent);
-				overridePendingTransition(android.R.anim.fade_in,
-						android.R.anim.fade_out);
+				finish();
 			}
 		};
 
