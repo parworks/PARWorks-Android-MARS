@@ -12,12 +12,12 @@
         android:toXScale="0.1"
         android:toYScale="0.1" />
 
-    <translate
+<!--     <translate
         android:duration="@android:integer/config_longAnimTime"
         android:fromXDelta="0%p"
         android:fromYDelta="0%p"
-        android:toXDelta="100%p"
-        android:toYDelta="-100%p" />
+        android:toXDelta="1%p"
+        android:toYDelta="1%p" />  -->
 
     <alpha
         android:duration="@android:integer/config_longAnimTime"
