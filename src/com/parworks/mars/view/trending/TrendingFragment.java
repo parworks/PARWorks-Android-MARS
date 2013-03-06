@@ -100,7 +100,7 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 					break;
 				default:
-					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 					break;
 				}
 				currentPos = position;
