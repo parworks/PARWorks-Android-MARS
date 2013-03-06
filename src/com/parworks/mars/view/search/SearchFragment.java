@@ -121,8 +121,8 @@ public class SearchFragment extends MarsMenuFragment {
 		// handle key search action
 		autoCompleteView.setOnKeyListener(new OnKeyListener() {
             @Override
-            public boolean onKey(View arg0, int arg1, KeyEvent event) {
-            	if (event.getAction() == KeyEvent.ACTION_UP) {
+            public boolean onKey(View arg0, int keyCode, KeyEvent event) {
+            	if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER) {
             		triggerSearch(autoCompleteView.getText().toString());
             		return true;
             	}
