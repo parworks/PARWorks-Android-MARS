@@ -54,6 +54,12 @@ public class CommentsViewManager {
 		mCommentsTotalTextView.setText("Comments");
 		mCommentCount = data.getCount();
 		mCommentsLayout.removeAllViews();
+		
+		if(mCommentCount > 0)
+			showCommentsView();		
+		else
+			hideCommentsView();
+		
 		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
 			String commentText = data.getString(data.getColumnIndex(CommentsTable.COLUMN_COMMENT));
 			String userName = data.getString(data.getColumnIndex(CommentsTable.COLUMN_USER_NAME));
@@ -67,12 +73,17 @@ public class CommentsViewManager {
 //			mCommentsTotalTextView.setText("Comments");
 //			setCommentTotalText(data.getCount());
 		}
-		showCommentsView();		
+		
 	}
 	
 	private void showCommentsView() {
 		mCommentsProgressBar.setVisibility(View.INVISIBLE);
 		mCommentsLayout.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideCommentsView() {		
+		mCommentsProgressBar.setVisibility(View.INVISIBLE);
+		mCommentsLayout.setVisibility(View.GONE);
 	}
 	
 	private void setCommentTotalText(int commentTotal) {
