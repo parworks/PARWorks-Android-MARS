@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,7 @@ public class CommentsViewManager {
 		
 		TextView commentText = (TextView) commentView.findViewById(R.id.textViewCommentText);
 		commentText.setText(siteComment.getComment());
+		Linkify.addLinks(commentText, Linkify.ALL);
 		
 		TextView commenterName = (TextView) commentView.findViewById(R.id.textViewCommenterName);
 		commenterName.setText(siteComment.getUserName());

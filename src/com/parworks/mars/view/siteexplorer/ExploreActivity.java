@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,6 +172,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 				.getColumnIndex(SiteInfoTable.COLUMN_DESC));
 		TextView descriptionTextView = (TextView) findViewById(R.id.textViewSiteDescription);
 		descriptionTextView.setText(siteDesc);
+		Linkify.addLinks(descriptionTextView, Linkify.ALL);
 
 		// let siteImageManager handle the SiteImageView
 		MiniARViewer miniARView = (MiniARViewer) findViewById(R.id.siteExplorerPosterImageView);
