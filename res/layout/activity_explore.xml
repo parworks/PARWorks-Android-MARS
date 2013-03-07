@@ -113,7 +113,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/map_inner_shadow"
+                    android:background="@drawable/map_inner_shadow_selector"
+                    android:clickable="true"
                     android:visibility="invisible" />
 
                 <ProgressBar

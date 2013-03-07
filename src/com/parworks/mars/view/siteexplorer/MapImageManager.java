@@ -97,7 +97,7 @@ public class MapImageManager {
 					setMapViewSize();
 					showMapView();
 //					createMapGradient(bitmap);
-					mMapImageView.setOnClickListener(new OnClickListener() {
+					mMapShadowImageView.setOnClickListener(new OnClickListener() {
 						
 						@Override
 						public void onClick(View v) {
