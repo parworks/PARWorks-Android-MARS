@@ -165,6 +165,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 			addressTextView.setText("No address available");
 		} else {
 			addressTextView.setText(siteAddress);
+			Linkify.addLinks(addressTextView, Linkify.ALL);
 		}
 
 		// set site description
