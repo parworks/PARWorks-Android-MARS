@@ -33,4 +33,24 @@ public class User {
 	public static boolean hasPerformedFirstLaunch(Context context){
 		return context.getSharedPreferences("FLAGS", 0).getBoolean("kDefaultsHasPerformedFirstLaunchKey", false);
 	}
+	
+	public static void setUserId(String userId, Context context){
+		SharedPreferences.Editor editor = context.getSharedPreferences("USER", 0).edit();
+		editor.putString("userId", userId);
+		editor.commit();
+	}
+	
+	public static String getUserId(Context context){
+		return context.getSharedPreferences("USER", 0).getString("userId", "");
+	}
+	
+	public static void setUserName(String userName, Context context){
+		SharedPreferences.Editor editor = context.getSharedPreferences("USER", 0).edit();
+		editor.putString("userName", userName);
+		editor.commit();
+	}
+	
+	public static String getUserName(Context context){
+		return context.getSharedPreferences("USER", 0).getString("userName", "");
+	}
 }

@@ -1,6 +1,7 @@
 package com.parworks.mars.view.siteexplorer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -25,69 +26,93 @@ public class AddCommentManager implements android.view.View.OnClickListener {
 	private final Activity mActivity;
 	private final String mSiteId;
 
+//	private ProgressDialog mProgressDialog;
+
 	public AddCommentManager(Activity activity, String siteId) {
 		mActivity = activity;
 		mSiteId = siteId;
+
+//		mProgressDialog = new ProgressDialog(mActivity);
+//		mProgressDialog.setMessage("Loading...");
+//		mProgressDialog.setIndeterminate(true);
 	}
 
 	@Override
 	public void onClick(View view) {
-		Session.openActiveSession(mActivity, true,
-				new Session.StatusCallback() {
+		final View localView = view;
 
-					// callback when session changes state
-					@Override
-					public void call(Session session, SessionState state,
-							Exception exception) {
-						Log.d(TAG, "call");
-						if (session.isOpened()) {
+		if (User.getUserId(mActivity.getBaseContext()).length() > 0) {
+			mActivity.startActivity(new Intent(mActivity,
+					LeaveCommentActivity.class).putExtra("siteId", mSiteId));
+		} else {
+			localView.setEnabled(false);
+//			mProgressDialog.show();
+			Session.openActiveSession(mActivity, true,
+					new Session.StatusCallback() {
 
-							// make request to the /me API
-							Request.executeMeRequestAsync(session,
-									new Request.GraphUserCallback() {
+						// callback when session changes state
+						@Override
+						public void call(Session session, SessionState state,
+								Exception exception) {
+							Log.d(TAG, "call");
+							if (session.isOpened()) {
 
-										// callback after Graph API response
-										// with user object
-										@Override
-										public void onCompleted(GraphUser user,
-												Response response) {
-											Log.d(TAG, "onCompleted");
-											if (user != null) {
-												mActivity
-														.startActivity(new Intent(
-																mActivity,
-																LeaveCommentActivity.class)
-																.putExtra(
-																		"userName",
-																		user.getName())
-																.putExtra(
-																		"userId",
-																		user.getId())
-																.putExtra(
-																		"siteId",
-																		mSiteId));
-											} else {
-												Log.e(TAG, "User was null.");
+								// make request to the /me API
+								Request.executeMeRequestAsync(session,
+										new Request.GraphUserCallback() {
+
+											// callback after Graph API response
+											// with user object
+											@Override
+											public void onCompleted(
+													GraphUser user,
+													Response response) {
+												Log.d(TAG, "onCompleted");
+												if (user != null) {
+													User.setUserId(
+															user.getId(),
+															mActivity
+																	.getBaseContext());
+													User.setUserName(
+															user.getName(),
+															mActivity
+																	.getBaseContext());
+
+													mActivity
+															.startActivity(new Intent(
+																	mActivity,
+																	LeaveCommentActivity.class)
+																	.putExtra(
+																			"siteId",
+																			mSiteId));
+												} else {
+													Log.e(TAG, "User was null.");
+												}
+												localView.setEnabled(true);
+//												mProgressDialog.dismiss();
 											}
-										}
-									});
-						} else {
-							if (exception != null) {
-								Toast.makeText(mActivity,
-										"Failed to login to facebook.",
-										Toast.LENGTH_SHORT).show();
-								Log.d(TAG,
-										"CALL EXCEPTION WAS: "
-												+ exception.getMessage());
-								Log.d(TAG,
-										"APP ID: " + session.getApplicationId());
-								Log.e(TAG, "session not opened.");
-								Log.e(TAG, session.getState() + "");
-								Log.e(TAG, session.toString());
+										});
+							} else {
+								if (exception != null) {
+									Toast.makeText(mActivity,
+											"Failed to login to facebook.",
+											Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "CALL EXCEPTION WAS: "
+											+ exception.getMessage());
+									Log.d(TAG,
+											"APP ID: "
+													+ session
+															.getApplicationId());
+									Log.e(TAG, "session not opened.");
+									Log.e(TAG, session.getState() + "");
+									Log.e(TAG, session.toString());
+								}
+								localView.setEnabled(true);
+//								mProgressDialog.dismiss();
 							}
 						}
-					}
-				});
+					});
+		}
 
 	}
 

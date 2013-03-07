@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="-2dp"
     android:background="@drawable/activity_explore_comment_border"
-    android:orientation="horizontal"
-    android:paddingBottom="8dip" >
+    android:orientation="horizontal" >
 
     <LinearLayout
+        android:id="@+id/comment_picture_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -24,35 +25,46 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/comment_text_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"        
-        android:paddingTop="10dp" >
+        android:layout_toRightOf="@+id/comment_picture_layout"
+        android:orientation="vertical"
+        android:paddingTop="10dp" 
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/textViewCommenterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name not available"
-            android:textSize="15sp"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textViewCommentTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time not available"
-            android:textSize="13sp"
-            android:textColor="#737373" />
+            android:textColor="#737373"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textViewCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:linksClickable="true"            
+            android:linksClickable="true"
             android:text="No comment content"
-            android:textSize="15sp"
-            android:textColor="#737373" />
+            android:textColor="#737373"
+            android:textSize="15sp" />
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/comment_layout_bottomline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"        
+        android:background="#d8d8d8" 
+        android:visibility="gone"/>
+
+</RelativeLayout>

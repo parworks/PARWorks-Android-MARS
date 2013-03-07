@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class CommentsViewManager {
 	private final TextView mCommentsTotalTextView;
 	private final List<SiteComment> mComments;
 	
+	private int mCommentCount;
+	
 	//TODO make this a function of screen size
 	private static final int PROFILE_PICTURE_WIDTH = 100;
 	private static final int PROFILE_PICTURE_HEIGHT = 100;
@@ -48,6 +51,8 @@ public class CommentsViewManager {
 	
 	public void setCommentsView(Cursor data) {
 		Log.d(Utilities.DEBUG_TAG_SYNC,"setCommentsView called: " + data.getCount());
+		mCommentsTotalTextView.setText("Comments");
+		mCommentCount = data.getCount();
 		mCommentsLayout.removeAllViews();
 		for(data.moveToFirst();!data.isAfterLast();data.moveToNext()) {
 			String commentText = data.getString(data.getColumnIndex(CommentsTable.COLUMN_COMMENT));
@@ -56,10 +61,10 @@ public class CommentsViewManager {
 			String siteId = data.getString(data.getColumnIndex(CommentsTable.COLUMN_SITE_ID));
 			long timeStamp = data.getLong(data.getColumnIndex(CommentsTable.COLUMN_TIMESTAMP));
 			SiteComment comment = new SiteComment(siteId, timeStamp, userId, userName, commentText);
-			addComment(comment);
+			addComment(comment, data.getPosition());
 
-			showCommentsView();
-			mCommentsTotalTextView.setText("Comments");
+//			showCommentsView();
+//			mCommentsTotalTextView.setText("Comments");
 //			setCommentTotalText(data.getCount());
 		}
 		showCommentsView();		
@@ -80,7 +85,7 @@ public class CommentsViewManager {
 		mCommentsTotalTextView.setText(commentTotal + commentTotalText);
 	}
 	
-	private void addComment(SiteComment siteComment) {
+	private void addComment(SiteComment siteComment, int position) {
 		LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
 			      (Context.LAYOUT_INFLATER_SERVICE);
 		View commentView = inflater.inflate(R.layout.comment_layout,mCommentsLayout,false);
@@ -99,6 +104,13 @@ public class CommentsViewManager {
 		setProfilePictureSize(Utilities.getDensityPixels(26, mContext), profilePicture);
 		Log.d(TAG,"Setting profile picture id " + siteComment.getUserId());
 		profilePicture.setProfileId(siteComment.getUserId());
+		
+		ImageView bottomLineImageView = (ImageView) commentView.findViewById(R.id.comment_layout_bottomline);
+		if(position == (mCommentCount - 1))
+			bottomLineImageView.setVisibility(View.VISIBLE);
+		else
+			bottomLineImageView.setVisibility(View.GONE);						
+		
 		mCommentsLayout.addView(commentView);
 	}	
 	

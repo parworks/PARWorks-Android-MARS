@@ -26,6 +26,7 @@
             android:shadowRadius="0.5"
             android:src="@drawable/button_default_selector"
             android:text="Cancel"
+            android:textColor="@drawable/text_leave_comment_selector"            
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -56,6 +57,7 @@
             android:shadowRadius="0.5"
             android:src="@drawable/button_default_selector"
             android:text="Post"
+            android:textColor="@drawable/text_leave_comment_selector"
             android:textSize="15sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -71,6 +73,6 @@
         android:background="@android:color/transparent"
         android:gravity="top|left"
         android:inputType="textCapSentences"
-        android:lineSpacingExtra="3dp"/>        
+        android:lineSpacingExtra="3dp" />
 
 </RelativeLayout>

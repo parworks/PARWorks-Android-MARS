@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parworks.mars.R;
+import com.parworks.mars.utils.User;
 
 public class LeaveCommentActivity extends Activity {
 
@@ -29,8 +29,8 @@ public class LeaveCommentActivity extends Activity {
 		setContentView(R.layout.activity_leave_comment);
 		mContext = this;
 						
-		mUserId = getIntent().getStringExtra("userId");
-		mUserName = getIntent().getStringExtra("userName");
+		mUserId = User.getUserId(mContext);
+		mUserName = User.getUserName(mContext);
 		
 		mSiteId = getIntent().getStringExtra("siteId");
 		

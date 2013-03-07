@@ -3,10 +3,12 @@ package com.parworks.mars.view.siteexplorer;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parworks.androidlibrary.response.SiteComment;
@@ -52,7 +54,7 @@ public class CommentsAdapter extends BaseAdapter {
 		
 		TextView commenterName = (TextView) convertView.findViewById(R.id.textViewCommenterName);
 		commenterName.setText(siteComment.getUserName());
-		
+						
 		return convertView;
 		
 		
