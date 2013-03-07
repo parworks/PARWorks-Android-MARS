@@ -26,15 +26,15 @@ public class AddCommentManager implements android.view.View.OnClickListener {
 	private final Activity mActivity;
 	private final String mSiteId;
 
-//	private ProgressDialog mProgressDialog;
+	private ProgressDialog mProgressDialog;
 
 	public AddCommentManager(Activity activity, String siteId) {
 		mActivity = activity;
 		mSiteId = siteId;
 
-//		mProgressDialog = new ProgressDialog(mActivity);
-//		mProgressDialog.setMessage("Loading...");
-//		mProgressDialog.setIndeterminate(true);
+		mProgressDialog = new ProgressDialog(mActivity);
+		mProgressDialog.setMessage("Loading...");
+		mProgressDialog.setIndeterminate(true);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class AddCommentManager implements android.view.View.OnClickListener {
 					LeaveCommentActivity.class).putExtra("siteId", mSiteId));
 		} else {
 			localView.setEnabled(false);
-//			mProgressDialog.show();
+			mProgressDialog.show();
 			Session.openActiveSession(mActivity, true,
 					new Session.StatusCallback() {
 
@@ -89,7 +89,7 @@ public class AddCommentManager implements android.view.View.OnClickListener {
 													Log.e(TAG, "User was null.");
 												}
 												localView.setEnabled(true);
-//												mProgressDialog.dismiss();
+												mProgressDialog.dismiss();
 											}
 										});
 							} else {
@@ -108,7 +108,7 @@ public class AddCommentManager implements android.view.View.OnClickListener {
 									Log.e(TAG, session.toString());
 								}
 								localView.setEnabled(true);
-//								mProgressDialog.dismiss();
+								mProgressDialog.dismiss();
 							}
 						}
 					});
