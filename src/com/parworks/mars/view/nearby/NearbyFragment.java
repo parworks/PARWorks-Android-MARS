@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -29,11 +29,12 @@ import com.parworks.androidlibrary.response.SiteInfo;
 import com.parworks.mars.MarsMenuFragment;
 import com.parworks.mars.R;
 import com.parworks.mars.view.nearby.GetLocation.GetLocationListener;
+import com.parworks.mars.view.nearby.MarsMapFragment.MarsMapCreatedListener;
 import com.parworks.mars.view.nearby.NearbySitesInfoFinder.NearbySitesInfoFinderListener;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class NearbyFragment extends MarsMenuFragment {
+public class NearbyFragment extends MarsMenuFragment implements MarsMapCreatedListener {
 	
 	public static final String TAG = NearbyFragment.class.getName();
 	public static final String TAG_LOAD_MARKERS = "LOADING MARKERS TAG";
@@ -48,7 +49,7 @@ public class NearbyFragment extends MarsMenuFragment {
 	private static final double DEFAULT_RADIUS_IN_METERS = 10000 ;//10km
 	private static final float DEFAULT_ZOOM_LEVEL = 14.0f;
 	
-	private SupportMapFragment mMapFragment;
+	private MarsMapFragment mMapFragment;
 	
 	private boolean isMapInitialized = false;
 	
@@ -70,18 +71,18 @@ public class NearbyFragment extends MarsMenuFragment {
 		super.onCreate(savedInstanceState);
 	}
 	
-//	@Override
-//	public void onDestroyView() {
-//		// TODO Auto-generated method stub
-//		super.onDestroyView();
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
 //        SupportMapFragment fragment = (SupportMapFragment) (getFragmentManager().findFragmentById(R.id.fragmentNearbySitesMap));  
 //        if(fragment == null) {
 //        	return;
 //        }
 //        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//        ft.remove(fragment);
+//        ft.remove(mMapFragment);
 //        ft.commitAllowingStateLoss();
-//	}
+	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -95,19 +96,7 @@ public class NearbyFragment extends MarsMenuFragment {
 		
 		View v = inflater.inflate(R.layout.fragment_nearby_test, null); 
 		mNearbySitesListFragment = new NearbySitesListFragment();
-		this.getActivity().getSupportFragmentManager()
-				.beginTransaction().replace(R.id.nearby_list_content_frame, mNearbySitesListFragment).commit();
-		
-		mMapFragment = new SupportMapFragment() {
-			@Override
-			public void onActivityCreated(Bundle savedInstanceState) {
-				// TODO Auto-generated method stub
-				super.onActivityCreated(savedInstanceState);
-				initializeMap();
-			}
-		};
-		this.getActivity().getSupportFragmentManager()
-				.beginTransaction().replace(R.id.nearby_map_containerasdf, mMapFragment).commit();
+				
 		mNearbyView = v;
 		return v;
 	}
@@ -155,20 +144,26 @@ public class NearbyFragment extends MarsMenuFragment {
 			
 			@Override
 			public void onClick(View v) {
-				hideNearbyList();
-				
+				hideNearbyList();				
 			}
-		});
-		
+		});		
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		System.out.println("YUSUN ONRESUME MAP");
+		searchForLocation();
 		ImageButton button = (ImageButton) ((SherlockFragmentActivity) this.getActivity())
 				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_reload);
-		searchForLocation();
+		
+		this.getActivity().getSupportFragmentManager()
+				.beginTransaction().replace(R.id.nearby_list_content_frame, mNearbySitesListFragment).commit();
+				
+		mMapFragment = new MarsMapFragment(this);
+		this.getActivity().getSupportFragmentManager()
+				.beginTransaction().replace(R.id.nearby_map_containerasdf, mMapFragment).commit();			
 	}
 	
 	public void rightBarButtonClicked(View v) {
@@ -221,11 +216,9 @@ public class NearbyFragment extends MarsMenuFragment {
 			return;
 		}
 		GetLocation getLocation = new GetLocation(getActivity(),new GetLocationListener() {
-
 			@Override
 			public void searchingForLocation() {
-			//	Toast.makeText(mContext, "Searching for gps location!", Toast.LENGTH_LONG).show();
-
+				//	Toast.makeText(mContext, "Searching for gps location!", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
@@ -286,5 +279,10 @@ public class NearbyFragment extends MarsMenuFragment {
 	
 	private void moveCamera(Location location, float zoom) {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom));
+	}
+
+	@Override
+	public void onInitialized() {
+		initializeMap();
 	}
 }

@@ -53,7 +53,6 @@ public class PopularSearchFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		System.out.println("YUSUNTEST: POP FR ID: " + this.getId());
 		View v = inflater.inflate(R.layout.fragment_popular_searches, null);
 		// config popular searches lists
 		final ListView popularSearchList = (ListView) v.findViewById(R.id.popularSearchesList);
@@ -70,12 +69,30 @@ public class PopularSearchFragment extends Fragment {
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		super.onDestroyView();
+		super.onDestroyView();		
 	}
 }

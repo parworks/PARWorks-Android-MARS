@@ -44,6 +44,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 		// init Loader for TrendingSites
 		this.getLoaderManager().initLoader(SEARCH_SITE_INFO_LOADER_ID, null, this);		
 	}

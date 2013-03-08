@@ -214,7 +214,7 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		Log.i(TAG, "Deleting all fragments");
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();		
 		if (ft != null && menuControlledFragments != null && menuControlledFragments.size() > 0) {
-			for(Entry<String, MarsMenuFragment> entry : menuControlledFragments.entrySet()) {				
+			for(Entry<String, MarsMenuFragment> entry : menuControlledFragments.entrySet()) {					
 				ft.remove(entry.getValue());
 			}
 			ft.commitAllowingStateLoss();

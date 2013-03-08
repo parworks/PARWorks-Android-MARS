@@ -68,8 +68,10 @@ public class SearchFragment extends MarsMenuFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		popularSearchFragment = new PopularSearchFragment(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -78,6 +80,13 @@ public class SearchFragment extends MarsMenuFragment {
 				((SherlockFragmentActivity) this.getActivity())
 						.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundDrawable(null);
+		
+		// hide search result view
+		if (searchResultFragment != null) {
+			switchToSearchResult(true);
+		} else {
+			switchToSearchResult(false);
+		}
 	}
 
 	@Override
@@ -128,11 +137,7 @@ public class SearchFragment extends MarsMenuFragment {
                 return false;
             }
         });
-
-		// hide search result view
-		System.out.println("YUSUNTEST: CREATINGFFFF");
-		popularSearchFragment = new PopularSearchFragment(this);
-		switchToSearchResult(false);
+		
 		return v;
 	}
 
@@ -193,14 +198,15 @@ public class SearchFragment extends MarsMenuFragment {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
+		super.onDestroy();	
+		FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();
 		if (popularSearchFragment != null) {
-			FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();
-			if (ft != null) {
-				ft.remove(popularSearchFragment);
-				ft.commitAllowingStateLoss();
-			}
+			ft.remove(popularSearchFragment);
 		}
+		if (searchResultFragment != null) {
+			ft.remove(searchResultFragment);
+		}
+		ft.commitAllowingStateLoss();
 	}
 
 	@Override
@@ -221,9 +227,9 @@ public class SearchFragment extends MarsMenuFragment {
 			this.getActivity().getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.search_content_frame, popularSearchFragment)
-					.commit();	
+					.commit();
 		}
-	}	
+	}
 	
 	public Fragment getPopularSearchFragment() {
 		return popularSearchFragment;
