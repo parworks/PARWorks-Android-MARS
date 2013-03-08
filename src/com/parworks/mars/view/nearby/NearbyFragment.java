@@ -3,10 +3,8 @@ package com.parworks.mars.view.nearby;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +14,8 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -37,18 +33,15 @@ import com.parworks.mars.view.nearby.NearbySitesInfoFinder.NearbySitesInfoFinder
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-@SuppressLint("ValidFragment")
 public class NearbyFragment extends MarsMenuFragment {
 	
 	public static final String TAG = NearbyFragment.class.getName();
 	public static final String TAG_LOAD_MARKERS = "LOADING MARKERS TAG";
-	private SlidingFragmentActivity mSlidingFragmentActivity;
 	
 	private NearbySitesListFragment mNearbySitesListFragment;
 	
 	private GoogleMap mMap;
 	private NearbySitesInfoFinder mInfoFinder;
-	private Location mCurrentLocation;
 	
 	private static final int DEFAULT_MAX_SITES = 10;
 	private static final float MIN_ZOOM_TO_SHOW_MARKERS = 0.0f;
@@ -70,10 +63,6 @@ public class NearbyFragment extends MarsMenuFragment {
 		super();
 	}
 
-	public NearbyFragment(SlidingFragmentActivity slidingFragmentActivity) {
-		super();
-		mSlidingFragmentActivity = slidingFragmentActivity;
-	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG,"onCreate");
@@ -106,7 +95,8 @@ public class NearbyFragment extends MarsMenuFragment {
 		
 		View v = inflater.inflate(R.layout.fragment_nearby_test, null); 
 		mNearbySitesListFragment = new NearbySitesListFragment();
-		mSlidingFragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.nearby_list_content_frame, mNearbySitesListFragment).commit();
+		this.getActivity().getSupportFragmentManager()
+				.beginTransaction().replace(R.id.nearby_list_content_frame, mNearbySitesListFragment).commit();
 		
 		mMapFragment = new SupportMapFragment() {
 			@Override
@@ -116,7 +106,8 @@ public class NearbyFragment extends MarsMenuFragment {
 				initializeMap();
 			}
 		};
-		mSlidingFragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.nearby_map_containerasdf, mMapFragment).commit();
+		this.getActivity().getSupportFragmentManager()
+				.beginTransaction().replace(R.id.nearby_map_containerasdf, mMapFragment).commit();
 		mNearbyView = v;
 		return v;
 	}
@@ -174,7 +165,8 @@ public class NearbyFragment extends MarsMenuFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		ImageButton button = (ImageButton) mSlidingFragmentActivity.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) ((SherlockFragmentActivity) this.getActivity())
+				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_reload);
 		searchForLocation();
 	}
@@ -195,26 +187,33 @@ public class NearbyFragment extends MarsMenuFragment {
 			removeAllSiteMarkers();
 		}
 	}
+	
 	private void makeMapFullScreen() {		
 		LayoutParams newParams = mMapFragment.getView().getLayoutParams();
 		newParams.height = LayoutParams.MATCH_PARENT;
 		mMapFragment.getView().setLayoutParams(newParams);
 	}
+	
 	private void hideNearbyList() {
 		mIsMapFullscreen = true;
-		ImageButton button = (ImageButton) mSlidingFragmentActivity.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) ((SherlockFragmentActivity) this.getActivity())
+				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_up);
 		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
 		frameLayout.setVisibility(View.GONE);		
-		mSlidingFragmentActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		((SlidingFragmentActivity) this.getActivity())
+				.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 	}
+	
 	private void showNearbyList() {
 		mIsMapFullscreen = false;
-		ImageButton button = (ImageButton) mSlidingFragmentActivity.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) ((SherlockFragmentActivity) this.getActivity())
+				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_reload);
 		FrameLayout frameLayout = (FrameLayout) mNearbyView.findViewById(R.id.nearby_list_content_frame);
 		frameLayout.setVisibility(View.VISIBLE);		
-		mSlidingFragmentActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		((SlidingFragmentActivity) this.getActivity())
+				.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	}
 
 	private void searchForLocation() {
@@ -222,8 +221,6 @@ public class NearbyFragment extends MarsMenuFragment {
 			return;
 		}
 		GetLocation getLocation = new GetLocation(getActivity(),new GetLocationListener() {
-
-			
 
 			@Override
 			public void searchingForLocation() {
@@ -236,25 +233,27 @@ public class NearbyFragment extends MarsMenuFragment {
 				if(location == null) {
 					return;
 				}
-				mCurrentLocation = location;
 				gotUserLocation(location);
 			}
 		});
+		
 		Location location = getLocation.start();
 		if(location == null) {
 			return;
 		}
 		gotUserLocation(location);
-
 	}
+	
 	private void gotUserLocation(Location location) {
 		LatLng latLon = new LatLng(location.getLatitude(), location.getLongitude());
 		mInfoFinder.getNearbySiteInfo(latLon, DEFAULT_MAX_SITES, DEFAULT_RADIUS_IN_METERS);
 		moveCamera(location,DEFAULT_ZOOM_LEVEL);
 	}
+	
 	private void gotNewSiteInfo(SiteInfo info) {
 		createSiteMarker(info);
 	}
+	
 	private void createSiteMarker(SiteInfo info) {
 		if(mMap.getCameraPosition().zoom < MIN_ZOOM_TO_SHOW_MARKERS) {
 			return;
@@ -270,10 +269,12 @@ public class NearbyFragment extends MarsMenuFragment {
 		Marker marker = mMap.addMarker(markerOptions);
 		mAllMarkers.put(info.getId(), marker);
 	}
+	
 	private void removeSiteMarker(String siteId) {
 		Log.d(TAG,"Removing site marker: " + siteId);
 		mAllMarkers.get(siteId).remove();
 	}
+	
 	private void removeAllSiteMarkers() {
 		Log.d(TAG,"Removing all site markers");
 		for(String key : mAllMarkers.keySet()) {
@@ -282,6 +283,7 @@ public class NearbyFragment extends MarsMenuFragment {
 		mAllMarkers.clear();
 		mMap.clear();
 	}
+	
 	private void moveCamera(Location location, float zoom) {
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom));
 	}

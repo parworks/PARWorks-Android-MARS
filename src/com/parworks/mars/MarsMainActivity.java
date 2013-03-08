@@ -2,6 +2,7 @@ package com.parworks.mars;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -146,18 +147,16 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 		menuControlledFragments = new HashMap<String, MarsMenuFragment>();
 
 		// 1. Add Trending Fragment
-		menuControlledFragments.put(FRAGMENT_TRENDING, new TrendingFragment(
-				this));
+		menuControlledFragments.put(FRAGMENT_TRENDING, new TrendingFragment());
 
 		// 2. Add Nearby Fragment
-		menuControlledFragments.put(FRAGMENT_NEARBY, new NearbyFragment(this));
+		menuControlledFragments.put(FRAGMENT_NEARBY, new NearbyFragment());
 
 		// 3. Add Search Fragment
-		menuControlledFragments.put(FRAGMENT_SEARCH, new SearchFragment(this));
+		menuControlledFragments.put(FRAGMENT_SEARCH, new SearchFragment());
 
 		// 4. Add Technology Fragment
-		menuControlledFragments.put(FRAGMENT_TECHNOLOGY,
-				new TechnologyFragment(this));
+		menuControlledFragments.put(FRAGMENT_TECHNOLOGY, new TechnologyFragment());
 
 		// Use Trending as the default view
 		switchContent(FRAGMENT_TRENDING);
@@ -207,5 +206,19 @@ public class MarsMainActivity extends SlidingFragmentActivity {
 					.getCustomView().findViewById(R.id.barTitle);
 			titleTextView.setText(fragmentName);
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub		
+		Log.i(TAG, "Deleting all fragments");
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();		
+		if (ft != null && menuControlledFragments != null && menuControlledFragments.size() > 0) {
+			for(Entry<String, MarsMenuFragment> entry : menuControlledFragments.entrySet()) {				
+				ft.remove(entry.getValue());
+			}
+			ft.commitAllowingStateLoss();
+		}
+		super.onDestroy();		
 	}
 }

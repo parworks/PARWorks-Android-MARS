@@ -3,7 +3,6 @@ package com.parworks.mars.view.search;
 import java.io.IOException;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.parworks.mars.R;
 import com.parworks.mars.utils.JsonMapper;
 
-@SuppressLint("ValidFragment")
 public class PopularSearchFragment extends Fragment {
 
 	private static final String TAG = "PopularSearchFragment";
@@ -28,6 +26,10 @@ public class PopularSearchFragment extends Fragment {
 	private List<String> suggestedTags;
 	private SearchFragment parentFragment;
 
+	public PopularSearchFragment() {
+		super();
+	}
+	
 	public PopularSearchFragment(SearchFragment parentFragment) {
 		super();
 		this.parentFragment = parentFragment;
@@ -36,6 +38,7 @@ public class PopularSearchFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		// retrieve the tags for search
 		SharedPreferences myPrefs = this.getActivity().getSharedPreferences("MARSTAGS", 0);
 		String suggestedTags = myPrefs.getString("suggestedTags", "[]");
@@ -50,6 +53,7 @@ public class PopularSearchFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		System.out.println("YUSUNTEST: POP FR ID: " + this.getId());
 		View v = inflater.inflate(R.layout.fragment_popular_searches, null);
 		// config popular searches lists
 		final ListView popularSearchList = (ListView) v.findViewById(R.id.popularSearchesList);
@@ -63,5 +67,15 @@ public class PopularSearchFragment extends Fragment {
 			}
 		});
 		return v;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
 	}
 }

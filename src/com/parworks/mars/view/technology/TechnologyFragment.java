@@ -1,8 +1,6 @@
 package com.parworks.mars.view.technology;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,22 +9,14 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.parworks.mars.MarsMenuFragment;
 import com.parworks.mars.R;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-@SuppressLint("ValidFragment")
 public class TechnologyFragment extends MarsMenuFragment {
-	
-	private SlidingFragmentActivity mContext;
 	
 	public TechnologyFragment() {
 		super();
-	}
-
-	public TechnologyFragment(SlidingFragmentActivity context) {
-		super();
-		mContext = context;
 	}
 	
 	@Override
@@ -49,12 +39,13 @@ public class TechnologyFragment extends MarsMenuFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) ((SherlockFragmentActivity) this.getActivity())
+				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_intro);		
 	}
 	
 	public void rightBarButtonClicked(View v) {
 		super.rightBarButtonClicked(v);
-		Toast.makeText(mContext, "Insert Intro", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this.getActivity(), "Insert Intro", Toast.LENGTH_SHORT).show();
 	}
 }

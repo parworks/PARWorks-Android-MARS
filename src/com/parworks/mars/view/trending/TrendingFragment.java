@@ -3,7 +3,6 @@ package com.parworks.mars.view.trending;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -40,13 +39,12 @@ import com.viewpagerindicator.CirclePageIndicator;
  * 
  * @author yusun
  */
-@SuppressLint("ValidFragment")
+
 public class TrendingFragment extends MarsMenuFragment implements LoaderCallbacks<Cursor> {	
 
 	private static final String TAG = "TrendingFragment";
 	private static final int TRENDING_SITES_LOADER_ID = 5;
 
-	private SlidingFragmentActivity mContext;
 	private ViewPager vp;
 	private TrendingPagerAdapter vpAdapter;
 
@@ -59,17 +57,12 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 
 	public TrendingFragment() {
 		super();
-		mContext = (SlidingFragmentActivity) this.getActivity();
-	}
-
-	public TrendingFragment(SlidingFragmentActivity context) {
-		super();
-		mContext = context;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		View v = inflater.inflate(R.layout.fragment_trending, null);
 		// init ViewPager
 		vp = (ViewPager) v.findViewById(R.id.trendingViewPager);
@@ -97,10 +90,12 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 			public void onPageSelected(int position) {	
 				switch (position) {
 				case 0:
-					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+					((SlidingFragmentActivity) TrendingFragment.this.getActivity())
+							.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 					break;
 				default:
-					mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+					((SlidingFragmentActivity) TrendingFragment.this.getActivity())
+							.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 					break;
 				}
 				currentPos = position;
@@ -114,7 +109,7 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 		backgroundImageView2 = (ImageView) v.findViewById(R.id.blurredBackground2);
 
 		// config SlidingMenu touch mode
-		mContext.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		((SlidingFragmentActivity) this.getActivity()).getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		return v;
 	}
 
@@ -132,13 +127,19 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 	@Override
 	public void onResume() {
 		super.onResume();
-		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) ((SlidingFragmentActivity) this.getActivity())
+				.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundResource(R.drawable.ic_bar_item_intro);		
+		if (currentPos != 0) {
+			((SlidingFragmentActivity) this.getActivity())
+					.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		}
 	}
 	
 	public void rightBarButtonClicked(View v) {
 		super.rightBarButtonClicked(v);
-		Toast.makeText(mContext, "Insert Intro", Toast.LENGTH_SHORT).show();
+		Toast.makeText(((SlidingFragmentActivity) this.getActivity()), 
+				"Insert Intro", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override

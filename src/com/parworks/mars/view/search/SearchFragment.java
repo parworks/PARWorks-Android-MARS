@@ -3,13 +3,11 @@ package com.parworks.mars.view.search;
 import java.io.IOException;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.parworks.androidlibrary.ar.ARErrorListener;
 import com.parworks.androidlibrary.ar.ARListener;
@@ -36,13 +35,10 @@ import com.parworks.mars.R;
 import com.parworks.mars.model.sync.SyncHandler;
 import com.parworks.mars.utils.JsonMapper;
 import com.parworks.mars.utils.User;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
-@SuppressLint("ValidFragment")
+
 public class SearchFragment extends MarsMenuFragment {
 
-	private static final String TAG = "SearchFragment";
-	
-	private SlidingFragmentActivity mContext;
+	private static final String TAG = "SearchFragment";	
 	
 	private AutoCompleteTextView autoCompleteView;
 	private Fragment popularSearchFragment;
@@ -54,15 +50,11 @@ public class SearchFragment extends MarsMenuFragment {
 		super();
 	}
 
-	public SearchFragment(SlidingFragmentActivity context) {
-		super();
-		mContext = context;
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// retrieve the tags for search
+		setRetainInstance(false);
 		SharedPreferences myPrefs = this.getActivity().getSharedPreferences("MARSTAGS", 0);
 		String allTags = myPrefs.getString("allTags", "[]");
 		try {
@@ -74,17 +66,24 @@ public class SearchFragment extends MarsMenuFragment {
 	}
 		
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		ImageButton button = (ImageButton) mContext.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
+		ImageButton button = (ImageButton) 
+				((SherlockFragmentActivity) this.getActivity())
+						.getSupportActionBar().getCustomView().findViewById(R.id.rightBarButton);
 		button.setBackgroundDrawable(null);
-		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		View v = inflater.inflate(R.layout.fragment_search, null);	
 
 		// config search text box
@@ -131,6 +130,7 @@ public class SearchFragment extends MarsMenuFragment {
         });
 
 		// hide search result view
+		System.out.println("YUSUNTEST: CREATINGFFFF");
 		popularSearchFragment = new PopularSearchFragment(this);
 		switchToSearchResult(false);
 		return v;
@@ -173,13 +173,14 @@ public class SearchFragment extends MarsMenuFragment {
 			// show the result view fragment
 			switchToSearchResult(true);
 		} else {
-			Toast.makeText(mContext, "No results found.", Toast.LENGTH_LONG).show();
+			Toast.makeText(this.getActivity(), "No results found.", Toast.LENGTH_LONG).show();
 		}
 	}
 	
 	private void hideKeyBoard() {
 		// close key board
-		InputMethodManager in = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+		InputMethodManager in = (InputMethodManager) this.getActivity()
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(autoCompleteView.getApplicationWindowToken(),
         InputMethodManager.HIDE_NOT_ALWAYS);
 	}
@@ -190,20 +191,45 @@ public class SearchFragment extends MarsMenuFragment {
 		hideKeyBoard();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (popularSearchFragment != null) {
+			FragmentTransaction ft = this.getActivity().getSupportFragmentManager().beginTransaction();
+			if (ft != null) {
+				ft.remove(popularSearchFragment);
+				ft.commitAllowingStateLoss();
+			}
+		}
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+	}
+
 	/**
 	 * Change the Fragment component in the main activity 
 	 */
 	public void switchToSearchResult(boolean showResult) {		
 		if (showResult) {
-			mContext.getSupportFragmentManager()
+			this.getActivity().getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.search_content_frame, searchResultFragment)
 					.commit();
 		} else {
-			mContext.getSupportFragmentManager()
+			this.getActivity().getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.search_content_frame, popularSearchFragment)
 					.commit();	
 		}
 	}	
+	
+	public Fragment getPopularSearchFragment() {
+		return popularSearchFragment;
+	}
+	
+	public Fragment getSearchResulFragment() {
+		return searchResultFragment;
+	}
 }

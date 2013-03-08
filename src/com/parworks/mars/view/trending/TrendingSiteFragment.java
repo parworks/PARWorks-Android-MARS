@@ -20,6 +20,7 @@ import com.parworks.mars.cache.BitmapWorkerTask;
 import com.parworks.mars.cache.BitmapWorkerTask.BitmapWorkerListener;
 import com.parworks.mars.utils.ImageHelper;
 import com.parworks.mars.view.siteexplorer.ExploreActivity;
+import com.parworks.mars.view.siteexplorer.ViewDimensionCalculator;
 
 @SuppressLint("ValidFragment")
 public class TrendingSiteFragment extends Fragment implements OnClickListener {
@@ -52,11 +53,12 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {						
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
+		ViewDimensionCalculator caculator = new ViewDimensionCalculator(this.getActivity());
 		RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_trending_site, null);
 		// handle poster image
 		final MiniARViewer miniARViewer = (MiniARViewer) v.findViewById(R.id.trendingSitePosterImageViewer);
-		int imageWidth = (int) (container.getWidth() * 0.8);
+		int imageWidth = (int) (caculator.getScreenWidth() * 0.8);
 		miniARViewer.setSize(imageWidth, imageWidth);		
 		if (posterImageUrl != null) {
 			Bitmap posterImageBitmap = BitmapCache.get().getBitmap(
@@ -79,7 +81,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		
 		// setup ShingleBoard
 		ShingleBoard sb = (ShingleBoard) v.findViewById(R.id.shingleBoard);
-		int boardWidth = (int) (container.getWidth() * 0.7);		
+		int boardWidth = (int) (caculator.getScreenWidth() * 0.7);		
 		sb.getLayoutParams().width = boardWidth;
 		sb.updateText(displayName, numAugmentedImages);		
 		
