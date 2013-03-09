@@ -54,6 +54,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
+		
 		ViewDimensionCalculator caculator = new ViewDimensionCalculator(this.getActivity());
 		RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.fragment_trending_site, null);
 		// handle poster image
@@ -88,7 +89,7 @@ public class TrendingSiteFragment extends Fragment implements OnClickListener {
 		// add click action
 		miniARViewer.setOnClickListener(this);
 		sb.setOnClickListener(this);
-		
+
 		return v;
 	}	
 

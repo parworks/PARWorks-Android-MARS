@@ -151,6 +151,10 @@ public class BitmapCache {
 		return bitmap;
 	}
 	
+	public void clearCache() {
+		this.mMemoryCache.evictAll();		
+	}
+	
 	public static String getImageKeyFromURL(String imageUrl) {
 		String key = Integer.toString(imageUrl.hashCode());
 		key = key.replaceAll("-", "_");

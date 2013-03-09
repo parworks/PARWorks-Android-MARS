@@ -66,7 +66,7 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 		View v = inflater.inflate(R.layout.fragment_trending, null);
 		// init ViewPager
 		vp = (ViewPager) v.findViewById(R.id.trendingViewPager);
-		vp.setId("VP".hashCode());		
+		vp.setId(this.hashCode());	// this ID needs to be unique if you want the view to be refreshed after activity destroyed	
 		// Bind the title indicator to the adapter
 		circlePageIndicator = (CirclePageIndicator) v.findViewById(R.id.pageIndicatorTitle);	
 		circlePageIndicator.setOnPageChangeListener(new OnPageChangeListener() {			
@@ -115,13 +115,19 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// init adapter			
+		super.onCreate(savedInstanceState);				
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		// init adapter	
 		if (vpAdapter == null) {
 			vpAdapter = new TrendingPagerAdapter(this.getActivity().getSupportFragmentManager());
 		}
 		// init Loader for TrendingSites
-		this.getLoaderManager().initLoader(TRENDING_SITES_LOADER_ID, null, this);		
+		this.getLoaderManager().initLoader(TRENDING_SITES_LOADER_ID, null, this);
 	}
 
 	@Override
@@ -182,16 +188,17 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 			// add fragment for site
 			sitesFragments.add(new TrendingSiteFragment(siteId, siteName, siteNum, posterUrl, 
 					posterContent, width, height));
-			
+	
 			// add blurred image for background
 			backgroundImageUrls.add(blurredUrl);
 			data.moveToNext();
 		}	
 
-		// update vp adapter
+		// update vp adapter		
 		vpAdapter.updateFragments(sitesFragments);	
 		vp.setAdapter(vpAdapter);
-		circlePageIndicator.setViewPager(vp);		
+		circlePageIndicator.setViewPager(vp);	
+		vpAdapter.notifyDataSetChanged();
 
 		if (currentPos < sitesFragments.size()) {
 			circlePageIndicator.setCurrentItem(currentPos);
@@ -227,12 +234,10 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 			imageView.setTag(imageUrl);
 			ImageViewManager imageViewManager = new ImageViewManager();
 			if (imageUrl != null) {
-				ImageLoadedListener listener = new ImageLoadedListener() {
-					
+				ImageLoadedListener listener = new ImageLoadedListener() {					
 					@Override
 					public void onImageLoaded(Bitmap bitmap) {
-						imageView.setAlpha((int) (255 * scale));
-						
+						imageView.setAlpha((int) (255 * scale));						
 					}
 				};
 				imageViewManager.setImageView(imageUrl, imageView, listener);
@@ -255,6 +260,9 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 
 		@Override
 		public int getCount() {
+			if (mFragments == null) {
+				return 0;
+			}
 			return mFragments.size();
 		}
 
@@ -265,6 +273,9 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 
 		@Override
 		public int getItemPosition(Object item) {
+			if (mFragments == null) {
+				return POSITION_NONE;
+			}
 			int position = mFragments.indexOf(item);
 			if (position < 0) {
 				position = POSITION_NONE;
@@ -272,18 +283,30 @@ public class TrendingFragment extends MarsMenuFragment implements LoaderCallback
 			return position;
 		}
 
-		public void updateFragments(ArrayList<TrendingSiteFragment> fragments) {
+		public synchronized void updateFragments(ArrayList<TrendingSiteFragment> fragments) {
 			if (mFragments != null) {
 				FragmentTransaction ft = fm.beginTransaction();
 				for (Fragment f : mFragments){
 					ft.remove(f);
 				}
 				ft.commitAllowingStateLoss();
+				mFragments.clear();
 				ft = null;
 				fm.executePendingTransactions();
 			}
+			
 			mFragments = fragments;
 			notifyDataSetChanged();
 		}
+	}
+
+	@Override
+	public void onDestroy() {		
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
 	}
 }
