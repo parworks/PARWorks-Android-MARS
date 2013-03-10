@@ -44,7 +44,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		
 		// init Loader for TrendingSites
 		this.getLoaderManager().initLoader(SEARCH_SITE_INFO_LOADER_ID, null, this);		
 	}
@@ -65,9 +65,11 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 			}
 		});				
 		
-		newAdapter = new SearchResultAdapter(this.getActivity());			  	
-		for(String id : siteIds) {			  
-		    newAdapter.add(new SearchResultItem(id, null));			  	
+		newAdapter = new SearchResultAdapter(this.getActivity());	
+		if (siteIds != null) {
+			for(String id : siteIds) {
+			    newAdapter.add(new SearchResultItem(id, null));			  	
+			}
 		}
 		lv.setAdapter(newAdapter);
 		
