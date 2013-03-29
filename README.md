@@ -15,7 +15,7 @@ The app allows you to view trending MARS-enabled places and objects, find things
 
 
 ####Compiling
-To compile the PARWorks MARS application, check out the git repository and then pull in submodules. You will need:
+To compile the PARWorks MARS application, check out this git repository, the PARWorks Android SDK, and the PARWorks Android external library.
 
 PARWorks Android SDK: https://github.com/parworks/PARWorks-Android-Java
 
