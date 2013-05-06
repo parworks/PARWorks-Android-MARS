@@ -4,6 +4,13 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical">
+	        <Button
+        android:id="@+id/buttonAugmentAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WHITE"
+        android:visibility="gone"
+        android:text="Augment Sites Listed Below" />
         
         <ListView 
             android:id="@+id/searchResultList"

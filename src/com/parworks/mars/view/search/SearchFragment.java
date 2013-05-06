@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,7 @@ public class SearchFragment extends MarsMenuFragment {
 	private AutoCompleteTextView autoCompleteView;
 	private Fragment popularSearchFragment;
 	private Fragment searchResultFragment;
+	
 
 	private List<String> allTags;
 
@@ -109,6 +111,7 @@ public class SearchFragment extends MarsMenuFragment {
 			Bundle savedInstanceState) {
 		
 		View v = inflater.inflate(R.layout.fragment_search, null);	
+		
 
 		// config search text box
 		autoCompleteView = (AutoCompleteTextView) v.findViewById(R.id.searchText);

@@ -35,6 +35,7 @@
         android:singleLine="true"
         tools:ignore="HardcodedText" />
 
+
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/search_content_frame"

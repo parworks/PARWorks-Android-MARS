@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.parworks.mars.view.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -28,11 +29,14 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.parworks.arcameraview.CaptureImageActivity;
 import com.parworks.mars.R;
 import com.parworks.mars.model.db.SiteInfoTable;
 import com.parworks.mars.model.provider.MarsContentProvider;
@@ -47,6 +51,7 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	
 	private List<String> siteIds;
 	private SearchResultAdapter newAdapter;	
+	private Button mAugmentAllButton;
 
 	public SearchResultFragment() {
 		super();
@@ -68,6 +73,22 @@ public class SearchResultFragment extends Fragment implements LoaderCallbacks<Cu
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_search_result, null);
+		mAugmentAllButton = (Button) v.findViewById(R.id.buttonAugmentAll);
+		mAugmentAllButton.setVisibility(View.VISIBLE);
+		mAugmentAllButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(),
+						CaptureImageActivity.class);
+				ArrayList<String> siteIdArrayList = new ArrayList<String>();
+				siteIdArrayList.addAll(siteIds);
+				intent.putStringArrayListExtra(CaptureImageActivity.SITE_LIST, siteIdArrayList);
+				intent.putExtra(CaptureImageActivity.IS_AUGMENT_ATTR, true);
+				startActivity(intent);
+				
+			}
+		});
 		
 		// initialize search result		
 		final ListView lv = (ListView) v.findViewById(R.id.searchResultList);
