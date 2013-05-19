@@ -148,6 +148,7 @@ public class ExploreActivity extends SherlockFragmentActivity {
 				CaptureImageActivity.class);
 		intent.putExtra(CaptureImageActivity.SITE_ID_KEY, mSiteId);
 		intent.putExtra(CaptureImageActivity.IS_AUGMENT_ATTR, true);
+		intent.putExtra(CaptureImageActivity.IS_CHANGE_DETECTION_ATTR, true);
 		startActivity(intent);
 	}
 
